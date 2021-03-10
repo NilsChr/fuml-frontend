@@ -1,28 +1,48 @@
 <template>
-  <v-card class="pa-1">
-    <v-layout wrap class="pa-1">
-      <v-flex xs12>
-        <v-text-field
-          label="Project name"
-          v-model="projectTitle"
-          dense
-          outlined
-        ></v-text-field>
+  <v-card id="card-project-list" class="pa-2" style="max-height: 100%">
+    <v-layout fill-height column>
+      <v-flex xs1>
+        <v-layout wrap>
+          <v-flex xs12>
+            <v-text-field
+              label="Search"
+              v-model="projectSearch"
+              dense
+              outlined
+              :hide-details="true"
+            >
+            </v-text-field>
+          </v-flex>
+          <v-flex xs12>
+            <v-text-field
+              label="New project name"
+              v-model="projectTitle"
+              dense
+              outlined
+              :hide-details="true"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs6>
+            <v-btn text color="primary" @click="createProject">Create</v-btn>
+          </v-flex>
+          <v-flex xs6>
+            <v-btn text color="warning" @click="editMode = !editMode"
+              >Edit</v-btn
+            >
+          </v-flex>
+          <v-flex xs12>
+            <v-subheader>Projects</v-subheader>
+          </v-flex>
+        </v-layout>
       </v-flex>
-      <v-flex xs6>
-        <v-btn text color="primary" @click="createProject">Create</v-btn>
-      </v-flex>
-      <v-flex xs6>
-        <v-btn text color="warning" @click="editMode = !editMode">Edit</v-btn>
-      </v-flex>
-      <v-divider></v-divider>
-      <v-flex xs12>
-        <v-list>
+      <v-flex xs11 style="overflow: hidden" class="bordered">
+        <v-list style="overflow-y: scroll">
           <v-list-item
-            v-for="project in projects"
+            v-for="project in filteredProjects"
             :key="project.id"
             v-bind:class="{ selected: selectedProject == project.id }"
             style="min-height: 56px"
+            @click.stop
           >
             <v-list-item-content @click="selectProject(project)" ripple>
               <v-list-item-title>{{ project.name }}</v-list-item-title>
@@ -51,6 +71,7 @@
 export default {
   data() {
     return {
+      projectSearch: "",
       projectTitle: "",
       editMode: false,
     };
@@ -72,7 +93,7 @@ export default {
       this.$store.dispatch("CREATE_PROJECT", project);
       this.projectTitle = "";
     },
-        update() {
+    update() {
       this.$store.dispatch("PARSE_UML");
     },
   },
@@ -83,12 +104,26 @@ export default {
     selectedProject() {
       return this.$store.state.projects.selectedProject;
     },
+    filteredProjects() {
+      if (this.projectSearch == "") return this.projects;
+      else
+        return this.projects.filter((e) =>
+          e.name.toLowerCase().includes(this.projectSearch.toLowerCase())
+        );
+    },
   },
 };
 </script>
 
 <style scoped>
+#card-project-list {
+  height: 100%;
+}
 .selected {
   border-left: 10px solid rgb(102, 199, 102);
+}
+.bordered {
+  border: 1px solid rgb(208, 208, 208);
+  border-radius: 5px;
 }
 </style>

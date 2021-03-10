@@ -2,7 +2,6 @@ import * as plantumlEncoder from "plantuml-encoder";
 import db from "../../services/database/dbDelegate";
 import entityUtil from "../../util/entity.util";
 
-
 const uml = {
   state: {
     url: null,
@@ -21,8 +20,26 @@ const uml = {
 
       // Add entities
       let code = "";
-      code += 'skinparam linetype polyline\n';
-      code += 'skinparam linetype ortho\n';
+      code += "skinparam useBetaStyle true\n";
+      code += "skinparam roundCorner 5\n";
+      code += "skinparam linetype polyline\n";
+      code += "skinparam linetype ortho\n";
+
+      code += `
+            <style>
+            class {
+              FontSize 10
+              BackGroundColor #fff
+              LineColor #000
+            }
+
+            arrow {
+                LineColor #000000
+            }
+
+            </style>
+            hide circle
+      `;
 
       for (let i = 0; i < project.entities.length; i++) {
         let entity = project.entities[i];
@@ -40,16 +57,16 @@ const uml = {
       // Add relations
       let relPairs = [];
       relPairs = entityUtil.createEntityPairs(project);
-      relPairs.forEach(p => {
+      relPairs.forEach((p) => {
         let s = entityUtil.createRelationString(p);
         code += s;
-      })
-  
+      });
+
       const encoded = plantumlEncoder.encode(code);
-      if(encoded == '0m00') {
+      if (encoded == "0m00") {
         commit("SET_URL", null);
         return;
-      } 
+      }
       const plantImg = "http://www.plantuml.com/plantuml/svg/" + encoded;
 
       commit("SET_URL", plantImg);

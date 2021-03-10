@@ -1,30 +1,52 @@
 <template>
-  <v-card id="card-entity-list" class="pa-1">
-    <v-layout wrap class="pa-1">
-      <v-flex xs12>
-        <v-text-field
-          label="Entity name"
-          v-model="entityTitle"
-          dense
-          outlined
-        ></v-text-field>
+  <v-card id="card-entity-list" class="pa-2" style="max-height: 100%">
+    <v-layout fill-height column>
+      <v-flex xs1>
+        <v-layout wrap>
+          <v-flex xs12>
+            <v-text-field
+              label="Search"
+              v-model="entitySearch"
+              dense
+              outlined
+              :hide-details="true"
+            >
+            </v-text-field>
+          </v-flex>
+          <v-flex xs12>
+            <v-text-field
+              label="New entity name"
+              v-model="entityTitle"
+              dense
+              outlined
+              :hide-details="true"
+            >
+            </v-text-field>
+          </v-flex>
+          <v-flex xs6>
+            <v-btn block text color="primary" @click="createEntity"
+              >Create</v-btn
+            >
+          </v-flex>
+          <v-flex xs6>
+            <v-btn block text color="warning" @click="editMode = !editMode"
+              >Edit</v-btn
+            >
+          </v-flex>
+          <v-flex xs12>
+            <v-subheader>Entities</v-subheader>
+          </v-flex>
+        </v-layout>
       </v-flex>
-      <v-flex xs6>
-        <v-btn block text color="primary" @click="createEntity">Create</v-btn>
-      </v-flex>
-      <v-flex xs6>
-        <v-btn block text color="warning" @click="editMode = !editMode"
-          >Edit</v-btn
-        >
-      </v-flex>
-      <v-divider></v-divider>
-      <v-flex xs12>
-        <v-list style="max-height: 72%; overflow-y: auto">
+      <v-flex xs11 style="overflow: hidden" class="bordered">
+        <v-list class="card-list" dense>
           <v-list-item
-            v-for="entity in project.entities"
+            dense
+            v-for="entity in filteredProjects"
             :key="entity.id"
-            style="min-height: 56px"
             v-bind:class="{ selected: selectedEntity == entity }"
+            @click.stop
+            class="list-item"
           >
             <v-list-item-content @click="setSelectedEntity(entity)">
               <v-layout>
@@ -58,9 +80,9 @@ export default {
   props: ["project"],
   data() {
     return {
+      entitySearch: "",
       entityTitle: "",
       editMode: false,
-      /*selectedEntity: null,*/
     };
   },
   methods: {
@@ -94,6 +116,13 @@ export default {
     selectedEntity() {
       return this.$store.state.entities.selectedEntity;
     },
+    filteredProjects() {
+      if (this.entitySearch == "") return this.project.entities;
+      else
+        return this.project.entities.filter((e) =>
+          e.name.toLowerCase().includes(this.entitySearch.toLowerCase())
+        );
+    },
   },
 };
 </script>
@@ -104,8 +133,13 @@ export default {
 }
 
 #card-entity-list {
-  max-height: 77%;
-  min-height: 77%;
-  overflow-y: hidden;
+  height: 100%;
+}
+.card-list {
+  overflow-y: scroll;
+}
+.bordered {
+  border: 1px solid rgb(208, 208, 208);
+  border-radius: 5px;
 }
 </style>
