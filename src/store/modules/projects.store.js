@@ -1,37 +1,42 @@
-import uniqid from "uniqid";
 import db from "../../services/database/dbDelegate";
+import projectFactory from "../../services/factories/project.factory";
+import storeActions from "../storeActions";
 
 const projects = {
   state: {
     projects: [],
+    modalCreateProject: false,
     selectedProject: null,
   },
   mutations: {
     SET_PROJECTS(state, projects) {
       state.projects = projects;
     },
+    SET_MODAL_CREATE_PROJECT(state, modalCreateProject) {
+      state.modalCreateProject = modalCreateProject;
+    },
     SET_SELECTED_PROJECT(state, selectedProject) {
       state.selectedProject = selectedProject;
     },
   },
   actions: {
-    async LOAD_PROJECTS({ state, commit }) {
-      console.log('LOOAD')
+    async LOAD_PROJECTS({ commit }) {
       let data = await db.loadData();
-      commit('SET_PROJECTS',data);
+      commit(storeActions.SET_PROJECTS,data);
     },
     CREATE_PROJECT({ state, commit }, payload) {
-      let project = {
-        id: uniqid(),
-        name: payload.name,
-        entities: []
-      };
-      let projects = [...state.projects, project];
-      commit("SET_PROJECTS", projects);
+      return new Promise((resolve) => {
+        const title = payload.title;
+        const project = projectFactory.createProject(title);
+        const projects = [...state.projects, project];
+        commit(storeActions.SET_PROJECTS, projects);
+        resolve(project);
+      })
+
     },
     DELETE_PROJECT({ state, commit }, payload) {
       if (state.selectedProject == payload.id) {
-        commit("SET_SELECTED_PROJECT", null);
+        commit(storeActions.SET_SELECTED_PROJECT, null);
       }
       for (let i = 0; i < state.projects.length; i++) {
         if (state.projects[i].id == payload.id) {
@@ -39,7 +44,7 @@ const projects = {
           break;
         }
       }
-      commit("SET_PROJECTS", state.projects);
+      commit(storeActions.SET_PROJECTS, state.projects);
     },
   },
 };

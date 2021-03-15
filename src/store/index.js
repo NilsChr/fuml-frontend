@@ -1,25 +1,22 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 
-import projects from './modules/projects.store';
-import entities from './modules/entities.store';
-import uml from './modules/uml.store';
+import projects from "./modules/projects.store";
+import entities from "./modules/entities.store";
+import documents from "./modules/documents.store";
 
-Vue.use(Vuex)
+import uml from "./modules/uml.store";
+
+Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-
-  },
-  mutations: {
-  
-  },
-  actions: {
-   
-  },
+  state: {},
+  mutations: {},
+  actions: {},
   modules: {
     projects,
     entities,
-    uml
-  }
-})
+    uml,
+    documents,
+  },
+});

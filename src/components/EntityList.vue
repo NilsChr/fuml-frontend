@@ -42,7 +42,7 @@
         <v-list class="card-list" dense>
           <v-list-item
             dense
-            v-for="entity in filteredProjects"
+            v-for="entity in filteredDocuments"
             :key="entity.id"
             v-bind:class="{ selected: selectedEntity == entity }"
             @click.stop
@@ -74,10 +74,11 @@
 </template>
 
 <script>
-import uniqid from "uniqid";
+import entityFactory from "../services/factories/entity.factory";
+import storeActions from '../store/storeActions';
 
 export default {
-  props: ["project"],
+  props: ["document"],
   data() {
     return {
       entitySearch: "",
@@ -88,38 +89,32 @@ export default {
   methods: {
     createEntity() {
       if (this.entityTitle == "") return;
-      let entity = {
-        id: uniqid(),
-        name: this.entityTitle,
-        properties: [],
-        relations: [],
-        body: "",
-      };
-      this.$store.dispatch("CREATE_ENTITY", entity);
+      const entity = entityFactory.createEntity(this.entityTitle);
+      this.$store.dispatch(storeActions.CREATE_ENTITY, entity); 
       this.entityTitle = "";
       this.update();
     },
     deleteEntity(entity) {
-      let index = this.project.entities.indexOf(entity);
-      this.project.entities.splice(index, 1);
-      this.$store.commit("SET_SELECTED_ENTITY", null);
+      let index = this.document.entities.indexOf(entity);
+      this.document.entities.splice(index, 1);
+      this.$store.commit(storeActions.SET_SELECTED_ENTITY, null);
       this.update();
     },
     setSelectedEntity(entity) {
-      this.$store.commit("SET_SELECTED_ENTITY", entity);
+      this.$store.commit(storeActions.SET_SELECTED_ENTITY, entity);
     },
     update() {
-      this.$store.dispatch("PARSE_UML");
+      this.$store.dispatch(storeActions.PARSE_UML);
     },
   },
   computed: {
     selectedEntity() {
       return this.$store.state.entities.selectedEntity;
     },
-    filteredProjects() {
-      if (this.entitySearch == "") return this.project.entities;
+    filteredDocuments() {
+      if (this.entitySearch == "") return this.document.entities;
       else
-        return this.project.entities.filter((e) =>
+        return this.document.entities.filter((e) =>
           e.name.toLowerCase().includes(this.entitySearch.toLowerCase())
         );
     },

@@ -1,0 +1,17 @@
+{
+    "projects": [
+        { project }
+    ]
+}
+
+// PROJECT
+{
+    title: string
+    documents: document[]
+}
+
+// DOCUMENT
+{
+    title: string
+    type: ENTITY_DIAGRAM, SEQUENCE_DIAGRAM, DOCUMENT
+}

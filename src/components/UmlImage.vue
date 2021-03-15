@@ -2,13 +2,6 @@
   <v-card id="card-uml-image" class="pa-2" style="max-height: 100%">
     <v-layout fill-height column>
       <v-flex xs12 style="overflow: hidden">
-        <!--
-        <v-img id="uml-img" :src="img" :style="imgTransform" width="300"/>
-        -->
-
-        <!--
-        <canvas id="img-canvas"></canvas>
-        -->
         <div id="uml-img2" :style="imgTransform2"></div>
       </v-flex>
       <v-card dark id="card-uml-image-zoom" @click.stop="">

@@ -1,0 +1,7 @@
+add layouts for each document type / in layouts4
+
+
+add sequence diagrams
+add normal documents ( quill? )
+
+

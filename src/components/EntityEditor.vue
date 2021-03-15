@@ -4,11 +4,6 @@
       <v-btn fab text absolute right x-small @click="close"
         ><v-icon>mdi-close</v-icon></v-btn
       >
-      <!--
-      <v-flex xs12>
-        <v-textarea v-model="entity.body" @input="update"></v-textarea>
-      </v-flex>
-      -->
       <!-- SET ENTITY -->
       <v-flex xs12 class="pt-5">
         <v-layout wrap justify-space-around class="pt-5">
@@ -17,6 +12,7 @@
               label="prop"
               dense
               v-model="newPropTitle"
+              ref="newProptitle"
             ></v-text-field>
           </v-flex>
           <v-flex xs12>
@@ -24,6 +20,7 @@
               label="type"
               dense
               v-model="newPropType"
+              @keydown.enter="addProperty(true)"
             ></v-text-field>
           </v-flex>
           <v-flex xs12>
@@ -65,7 +62,7 @@
       <!-- ENTITY LIST -->
       <v-flex xs12>
         <v-list>
-                          <v-subheader>Properties</v-subheader>
+          <v-subheader>Properties</v-subheader>
 
           <v-list-item
             v-for="(prop, index) in entity.properties"
@@ -86,14 +83,14 @@
       <!-- Relations LIST -->
       <v-flex xs12>
         <v-list>
-                <v-subheader>Relations</v-subheader>
+          <v-subheader>Relations</v-subheader>
 
           <v-list-item
             v-for="(prop, index) in entity.relations"
             :key="`${index}-prop`"
           >
             <v-list-item-title>
-              {{relationTypeValue(prop.type) }} {{ prop.entity }}
+              {{ relationTypeValue(prop.type) }} {{ prop.entity }}
             </v-list-item-title>
             <v-list-item-action>
               <v-btn fab x-small text @click="deleteRelation(index)">
@@ -130,7 +127,7 @@ export default {
     close() {
       this.$store.commit("SET_SELECTED_ENTITY", null);
     },
-    addProperty() {
+    addProperty(resetCarret) {
       if (this.newPropType == "" || this.newPropTitle == "") return;
 
       let prop = {
@@ -142,6 +139,13 @@ export default {
       this.newPropTitle = "";
       this.newPropType = "";
       this.update();
+
+      if(resetCarret) {
+
+          let inputEl = this.$refs.newProptitle.$el.querySelector('input')
+ 
+            inputEl.select()
+      }
     },
     deleteProperty(index) {
       this.entity.properties.splice(index, 1);
@@ -172,17 +176,13 @@ export default {
       this.$store.dispatch("PARSE_UML");
     },
     relationTypeValue(rel) {
-      return this.relationTypes.filter(f => f.value == rel)[0].text;
-    }
+      return this.relationTypes.filter((f) => f.value == rel)[0].text;
+    },
   },
   computed: {
     entityNames() {
-      let id = this.$store.state.projects.selectedProject;
-      let project = this.$store.state.projects.projects.filter(
-        (p) => p.id == id
-      )[0];
-
-      let list = project.entities
+      let document = this.$store.state.documents.selectedDocument;
+      let list = document.entities
         .filter((n) => n.name != this.entity.name)
         .map((e) => {
           return e.name;
@@ -196,7 +196,7 @@ export default {
 <style scoped>
 #card-entity-editor {
   max-height: 77%;
-    min-height: 77%;
+  min-height: 77%;
 
   overflow-y: auto;
 }

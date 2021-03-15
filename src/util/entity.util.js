@@ -58,6 +58,7 @@ const entityUtil = {
           type1: relation.type,
           ent2: match.entity,
           type2: match.type,
+          // This hash will be unique for each entity combination, working as a fingerprint
           hash: this.hashCode(relation.entity) + this.hashCode(match.entity),
         };
       }
@@ -71,17 +72,17 @@ const entityUtil = {
     };
   },
   createRelationString(relationPair) {
-      let out = '';
+    let out = "";
 
-      //{ ent1: 'e2', type1: '|o', ent2: 'e1', type2: '|o', hash: 6361 }
-      out += relationPair.ent1 + ' ';
-      out += relationPair.type1 + '--';
-      if(relationPair.type2 != null) {
-          out += this.mirrorRel(relationPair.type2);
-      }
-      out += ' ' + relationPair.ent2 + '\n';
-      return out;
-  }
+    //{ ent1: 'e2', type1: '|o', ent2: 'e1', type2: '|o', hash: 6361 }
+    out += relationPair.ent1 + " ";
+    out += relationPair.type1 + "--";
+    if (relationPair.type2 != null) {
+      out += this.mirrorRel(relationPair.type2);
+    }
+    out += " " + relationPair.ent2 + "\n";
+    return out;
+  },
 };
 
 export default entityUtil;

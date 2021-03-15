@@ -1,22 +1,10 @@
 <template>
-  <v-container fill-height fluid>
-    <v-layout style="">
+  <v-container fluid class="pa-0 ma-0" fill-height>
+    <v-layout class="pa-0 ma-0">
       <v-flex xs2 class="mr-1">
         <v-layout fill-height style="" column>
           <v-flex xs12>
-            <!--
-            <projects-list />
-            
-            <ProjectsTreeList />
-
-            -->
-          </v-flex>
-        </v-layout>
-      </v-flex>
-      <v-flex xs2 class="mr-1">
-        <v-layout fill-height style="" column>
-          <v-flex xs12>
-            <entity-list v-if="selectedProject" :project="selectedProject" />
+            <entity-list :document="selectedDocument" />
           </v-flex>
         </v-layout>
       </v-flex>
@@ -30,8 +18,8 @@
 
       <v-flex
         v-if="img"
-        :xs6="selectedEntity != null"
-        :xs8="selectedEntity == null"
+        :xs8="selectedEntity != null"
+        :xs10="selectedEntity == null"
       >
         <uml-image />
       </v-flex>
@@ -40,11 +28,11 @@
 </template>
 
 <script>
-import EntityEditor from "../EntityEditor.vue";
-import EntityList from "../EntityList.vue";
-import ProjectsList from "../ProjectsList.vue";
+import EntityEditor from "../../EntityEditor.vue";
+import EntityList from "../../EntityList.vue";
+import ProjectsList from "../../ProjectsList.vue";
 
-import UmlImage from "../UmlImage.vue";
+import UmlImage from "../../UmlImage.vue";
 
 export default {
   components: {
@@ -61,6 +49,9 @@ export default {
     },
     selectedEntity() {
       return this.$store.state.entities.selectedEntity;
+    },
+    selectedDocument() {
+      return this.$store.state.documents.selectedDocument;
     },
     img() {
       return this.$store.state.uml.url;

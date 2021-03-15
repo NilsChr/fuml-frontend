@@ -1,4 +1,4 @@
-import uniqid from "uniqid";
+import storeActions from "../storeActions";
 
 const entities = {
   state: {
@@ -10,26 +10,14 @@ const entities = {
     },
   },
   actions: {
-    CREATE_ENTITY({ state, commit, rootState }, payload) {
-      const project = rootState.projects.projects.filter(p => p.id == rootState.projects.selectedProject)[0];
-      project.entities.push(payload);
-      commit('SET_PROJECTS', rootState.projects.projects);
-      
+    CREATE_ENTITY({ commit, rootState }, payload) {
+      const document = rootState.documents.selectedDocument;
+      document.entities.push(payload);
+      commit(storeActions.SET_SELECTED_DOCUMENT,document);
     },
     DELETE_ENTITY({ state, commit }, payload) {
       console.log("NOT IMPLEMENTED");
-      /*
-      if (state.selectedProject == payload.id) {
-        commit("SET_SELECTED_PROJECT", null);
-      }
-      for (let i = 0; i < state.projects.length; i++) {
-        if (state.projects[i].id == payload.id) {
-          state.projects.splice(i, 1);
-          break;
-        }
-      }
-      commit("SET_PROJECTS", state.projects);
-      */
+      
     },
   },
 };

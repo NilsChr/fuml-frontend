@@ -1,8 +1,9 @@
 <template>
   <v-app >
-    <v-app-bar app color="black" dark>
+    <v-app-bar app color="grey darken-4" dark>
       <div class="d-flex align-center">
         <label style="font-family: 'Montserrat'; font-size: 26px; color: #639bff;"><strong>FU</strong>ml</label>
+        <project-menu />
         <!--
         <v-img
           alt="Vuetify Logo"
@@ -37,7 +38,7 @@
     </v-app-bar>
 
     <v-main id="app-main" v-bind:style="{maxHeight: appHeight+'px'}">
-      <EditorLayout3 />
+      <EditorLayout4 />
     </v-main>
   </v-app>
 </template>
@@ -46,6 +47,9 @@
 import HelloEditor from "./components/HelloEditor";
 import EditorLayout from "./components/EditorLayout";
 import EditorLayout3 from "./components/layouts/EditorLayout3";
+import EditorLayout4 from "./components/layouts/EditorLayout4";
+
+import ProjectMenu from './components/menuBar/projectMenu.vue';
 
 export default {
   name: "App",
@@ -54,6 +58,8 @@ export default {
     HelloEditor,
     EditorLayout,
     EditorLayout3,
+    EditorLayout4,
+    ProjectMenu,
   },
 
   data: () => ({
@@ -101,5 +107,8 @@ body {
 }
 ::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.0);
+}
+.fill-height {
+  height: 100%;
 }
 </style>

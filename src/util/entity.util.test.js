@@ -43,12 +43,12 @@ test("should flip relation type", () => {
 });
 
 test("should find find an entity pair", () => {
-    const mock = createMockProject();
-    const entity = mock.entities[0];
-    const rel = mock.entities[0].relations[0];
-    let result = entityUtil.findRelationPair(entity,rel, mock);
+  const mock = createMockProject();
+  const entity = mock.entities[0];
+  const rel = mock.entities[0].relations[0];
+  let result = entityUtil.findRelationPair(entity, rel, mock);
 
-    expect(result).not.toBeNull();
+  expect(result).not.toBeNull();
 });
 
 test("should create entity pairs", () => {
@@ -58,15 +58,15 @@ test("should create entity pairs", () => {
 });
 
 test("it should create propper plantuml relation text", () => {
-    let input = { ent1: 'e2', type1: '|o', ent2: 'e1', type2: '|o', hash: 6361 }
-    let result = entityUtil.createRelationString(input);
-    let expected = 'e2 |o--o| e1\n';
-    expect(result).toBe(expected);
-})
+  let input = { ent1: "e2", type1: "|o", ent2: "e1", type2: "|o", hash: 6361 };
+  let result = entityUtil.createRelationString(input);
+  let expected = "e2 |o--o| e1\n";
+  expect(result).toBe(expected);
+});
 
 test("it should create propper plantuml relation text with one side relation", () => {
-    let input = { ent1: 'e2', type1: '|o', ent2: 'e1', type2: null, hash: 6361 }
-    let result = entityUtil.createRelationString(input);
-    let expected = 'e2 |o-- e1\n';
-    expect(result).toBe(expected);
-})
+  let input = { ent1: "e2", type1: "|o", ent2: "e1", type2: null, hash: 6361 };
+  let result = entityUtil.createRelationString(input);
+  let expected = "e2 |o-- e1\n";
+  expect(result).toBe(expected);
+});
