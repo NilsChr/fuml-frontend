@@ -1,9 +1,10 @@
 import uniqid from "uniqid";
 import store from "../../store/index";
+import sequenceFactory from "./sequence.factory";
 
 export const documentTypes = {
   ENTITY: "entity",
-  SEQUENCE: "sequece",
+  SEQUENCE: "sequence",
 };
 
 function createEntityDocument(title) {
@@ -17,23 +18,33 @@ function createEntityDocument(title) {
     created: new Date().getTime(),
   };
 }
-
+/*
 function createSequenceDocument(title) {
-  throw "Not implemented";
   return {
     id: uniqid(),
+    projectId: store.state.projects.selectedProject.id,
+    type: documentTypes.SEQUENCE,
     title: title,
-    entities: [],
+    participants: [
+        {title: 'test1'},
+        {title: 'test2'},
+        {title: 'test3'},
+        {title: 'test4'},
+
+    ],
+    parts: [],
+    created: new Date().getTime(),
   };
 }
-
+*/
 const documentFactory = {
   createDocument: function(title, type) {
+      console.log(' CREATE', title, type)
     switch (type) {
       case documentTypes.ENTITY:
         return createEntityDocument(title);
       case documentTypes.SEQUENCE:
-        return createSequenceDocument(title);
+        return sequenceFactory.createSequence(title); //createSequenceDocument(title);
     }
     throw "Invalid type";
   },

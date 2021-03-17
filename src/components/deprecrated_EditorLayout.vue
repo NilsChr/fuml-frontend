@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import ProjectList from "./ProjectsList";
+import ProjectList from "./deprecrated_ProjectsList.vue";
 import EntityList from "./EntityList";
 import EntityEditor from "./EntityEditor";
 

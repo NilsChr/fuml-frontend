@@ -45,8 +45,8 @@
 
 <script>
 import HelloEditor from "./components/HelloEditor";
-import EditorLayout from "./components/EditorLayout";
-import EditorLayout3 from "./components/layouts/EditorLayout3";
+//import EditorLayout from "./components/EditorLayout";
+//import EditorLayout3 from "./components/layouts/EditorLayout3";
 import EditorLayout4 from "./components/layouts/EditorLayout4";
 
 import ProjectMenu from './components/menuBar/projectMenu.vue';
@@ -56,8 +56,8 @@ export default {
 
   components: {
     HelloEditor,
-    EditorLayout,
-    EditorLayout3,
+    //EditorLayout,
+    //EditorLayout3,
     EditorLayout4,
     ProjectMenu,
   },

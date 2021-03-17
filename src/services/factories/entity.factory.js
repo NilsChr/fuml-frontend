@@ -2,14 +2,14 @@ import uniqid from "uniqid";
 
 const entityFactory = {
   createEntity: function(title) {
-    let project = {
+    let entity = {
       id: uniqid(),
       name: title,
       properties: [],
       relations: [],
       created: new Date().getTime(),
     };
-    return project;
+    return entity;
   },
 };
 

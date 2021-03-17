@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import Vue from "vue";
 import storeActions from "../../../store/storeActions";
 import modalCreateDocument from "./modalCreateDocument.vue";
 
@@ -66,6 +67,12 @@ export default {
     },
     setSelectedDocument(document) {
       this.$store.commit(storeActions.SET_SELECTED_DOCUMENT, document);
+
+      Vue.nextTick(
+        function () {
+          this.$store.dispatch(storeActions.PARSE_UML);
+        }.bind(this)
+      );
     },
   },
   computed: {

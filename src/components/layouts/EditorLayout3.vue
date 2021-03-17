@@ -42,13 +42,13 @@
 <script>
 import EntityEditor from "../EntityEditor.vue";
 import EntityList from "../EntityList.vue";
-import ProjectsList from "../ProjectsList.vue";
+//import ProjectsList from "../ProjectsList.vue";
 
 import UmlImage from "../UmlImage.vue";
 
 export default {
   components: {
-    ProjectsList,
+   // ProjectsList,
     EntityList,
     EntityEditor,
     UmlImage,

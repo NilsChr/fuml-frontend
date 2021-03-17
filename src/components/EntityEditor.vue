@@ -61,12 +61,14 @@
 
       <!-- ENTITY LIST -->
       <v-flex xs12>
-        <v-list>
+        <v-list dense>
           <v-subheader>Properties</v-subheader>
 
           <v-list-item
             v-for="(prop, index) in entity.properties"
             :key="`${index}-prop`"
+            dense
+            class="super-dense"
           >
             <v-list-item-title>
               {{ prop.title }}: {{ prop.type }}
@@ -82,12 +84,14 @@
 
       <!-- Relations LIST -->
       <v-flex xs12>
-        <v-list>
+        <v-list dense>
           <v-subheader>Relations</v-subheader>
 
           <v-list-item
             v-for="(prop, index) in entity.relations"
             :key="`${index}-prop`"
+            dense
+            class="super-dense"
           >
             <v-list-item-title>
               {{ relationTypeValue(prop.type) }} {{ prop.entity }}
@@ -199,5 +203,9 @@ export default {
   min-height: 77%;
 
   overflow-y: auto;
+}
+
+.super-dense {
+  max-height: 20px;
 }
 </style>

@@ -75,12 +75,12 @@ const entityUtil = {
     let out = "";
 
     //{ ent1: 'e2', type1: '|o', ent2: 'e1', type2: '|o', hash: 6361 }
-    out += relationPair.ent1 + " ";
+    out += '\"' + relationPair.ent1 + "\" ";
     out += relationPair.type1 + "--";
     if (relationPair.type2 != null) {
       out += this.mirrorRel(relationPair.type2);
     }
-    out += " " + relationPair.ent2 + "\n";
+    out += " \"" + relationPair.ent2 + "\"\n";
     return out;
   },
 };

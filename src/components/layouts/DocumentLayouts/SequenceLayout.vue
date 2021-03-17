@@ -2,6 +2,17 @@
   <v-container fluid class="pa-0 ma-0" fill-height>
     <v-layout class="pa-0 ma-0">
       <v-flex xs2 class="mr-1">
+        <sequence-document />
+      </v-flex>
+      <v-flex xs2 class="mr-1">
+        <sequence-document-parts />
+      </v-flex>
+      <!--
+      SEQUENCE
+      {{ selectedDocument }}
+      -->
+      <!--
+      <v-flex xs2 class="mr-1">
         <v-layout fill-height style="" column>
           <v-flex xs12>
             <entity-list :document="selectedDocument" />
@@ -15,11 +26,9 @@
           </v-flex>
         </v-layout>
       </v-flex>
+      -->
 
-      <v-flex
-        v-if="img"
-        :xs10="selectedEntity == null"
-      >
+      <v-flex v-if="img" :xs10="selectedDocument == null">
         <uml-image />
       </v-flex>
     </v-layout>
@@ -27,26 +36,17 @@
 </template>
 
 <script>
-import EntityEditor from "../../EntityEditor.vue";
-import EntityList from "../../EntityList.vue";
-
+import SequenceDocument from "../../lists/sequenceDocument/sequenceDocument.vue";
+import SequenceDocumentParts from '../../lists/sequenceDocument/sequenceDocumentParts.vue';
 import UmlImage from "../../UmlImage.vue";
 
 export default {
   components: {
-    EntityList,
-    EntityEditor,
     UmlImage,
+    SequenceDocument,
+    SequenceDocumentParts,
   },
   computed: {
-    selectedProject() {
-      return this.$store.state.projects.projects.filter(
-        (p) => p.id == this.$store.state.projects.selectedProject
-      )[0];
-    },
-    selectedEntity() {
-      return this.$store.state.entities.selectedEntity;
-    },
     selectedDocument() {
       return this.$store.state.documents.selectedDocument;
     },
