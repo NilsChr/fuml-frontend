@@ -1,28 +1,12 @@
 <template>
-  <v-app >
+  <v-app>
     <v-app-bar app color="grey darken-4" dark>
       <div class="d-flex align-center">
-        <label style="font-family: 'Montserrat'; font-size: 26px; color: #639bff;"><strong>FU</strong>ml</label>
+        <label
+          style="font-family: 'Montserrat'; font-size: 26px; color: #639bff"
+          ><strong>FU</strong>ml</label
+        >
         <project-menu />
-        <!--
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-        -->
       </div>
 
       <v-spacer></v-spacer>
@@ -37,7 +21,7 @@
       </v-btn>
     </v-app-bar>
 
-    <v-main id="app-main" v-bind:style="{maxHeight: appHeight+'px'}">
+    <v-main id="app-main" v-bind:style="{ maxHeight: appHeight + 'px' }">
       <EditorLayout4 />
     </v-main>
   </v-app>
@@ -45,39 +29,27 @@
 
 <script>
 import HelloEditor from "./components/HelloEditor";
-//import EditorLayout from "./components/EditorLayout";
-//import EditorLayout3 from "./components/layouts/EditorLayout3";
 import EditorLayout4 from "./components/layouts/EditorLayout4";
 
-import ProjectMenu from './components/menuBar/projectMenu.vue';
+import ProjectMenu from "./components/menuBar/projectMenu.vue";
 
 export default {
   name: "App",
 
   components: {
     HelloEditor,
-    //EditorLayout,
-    //EditorLayout3,
     EditorLayout4,
     ProjectMenu,
   },
 
   data: () => ({
-    appHeight: 0
+    appHeight: 0,
   }),
   created() {
     this.$store.dispatch("LOAD_PROJECTS");
-
-    /*
-    function noScroll() {
-      window.scrollTo(0, 0);
-    }
-    window.addEventListener("scroll", noScroll);
-    */
-
-   let height = window.innerHeight;
-   this.appHeight = height;
-   console.log('app height', height);
+    let height = window.innerHeight;
+    this.appHeight = height;
+    console.log("app height", height);
   },
 };
 </script>
@@ -89,12 +61,11 @@ body {
 }
 #app-main {
   overflow: hidden;
-      background-color: #2b2b2b;
-
+  background-color: #2b2b2b;
 }
 
 #app-main * {
-    max-height: 100%;
+  max-height: 100%;
 }
 ::-webkit-scrollbar {
   width: 5px;
@@ -106,7 +77,7 @@ body {
   border-radius: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.0);
+  background: rgba(0, 0, 0, 0);
 }
 .fill-height {
   height: 100%;

@@ -4,6 +4,7 @@ import Vuex from "vuex";
 import projects from "./modules/projects.store";
 import entities from "./modules/entities.store";
 import documents from "./modules/documents.store";
+import documentSequence from "./modules/documentSequence.store";
 
 import uml from "./modules/uml.store";
 
@@ -18,5 +19,6 @@ export default new Vuex.Store({
     entities,
     uml,
     documents,
+    documentSequence
   },
 });

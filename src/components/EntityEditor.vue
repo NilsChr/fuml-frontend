@@ -144,11 +144,10 @@ export default {
       this.newPropType = "";
       this.update();
 
-      if(resetCarret) {
+      if (resetCarret) {
+        let inputEl = this.$refs.newProptitle.$el.querySelector("input");
 
-          let inputEl = this.$refs.newProptitle.$el.querySelector('input')
- 
-            inputEl.select()
+        inputEl.select();
       }
     },
     deleteProperty(index) {

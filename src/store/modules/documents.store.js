@@ -21,8 +21,6 @@ const documents = {
   actions: {
     async LOAD_DOCUMENTS({ state, commit }) {
       console.log("LOAD DOCUMENTS");
-      //let data = await db.loadData();
-      //commit('SET_PROJECTS',data);
     },
     CREATE_DOCUMENT({ state, commit, rootState }, payload) {
       return new Promise((resolve) => {
