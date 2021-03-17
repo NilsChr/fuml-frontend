@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Landing from '../views/Landing.vue'
+import Auth from '../views/Auth.vue'
+import Dashboard from '../views/Dashboard.vue'
+
 import EditorLayout from "../components/layouts/EditorLayout.vue";
 import store from '../store';
 import storeActions from '../store/storeActions';
@@ -10,9 +13,21 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    name: 'Landing',
+    component: Landing,
     meta: { showBar: false}
+  },
+  {
+    path: '/auth',
+    name: 'auth',
+    component: Auth,
+    meta: { showBar: false}
+  },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: Dashboard,
+    meta: { showBar: true}
   },
   {
     path: '/editor',
@@ -27,6 +42,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
+  base: "/fuml",
+  mode: "history",
   routes
 })
 
@@ -39,6 +56,7 @@ router.beforeEach((route) => {
 
 // GOOD
 router.beforeEach((to, from, next) => {
+  console.log(to);
   //if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' });
   store.commit(storeActions.SET_SHOW_APP_BAR, to.meta.showBar);
   next();

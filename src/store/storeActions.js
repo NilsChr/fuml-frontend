@@ -1,3 +1,5 @@
+import { userActions } from "./modules/user.store";
+
 export default {
 
   SET_SHOW_APP_BAR: 'SET_SHOW_APP_BAR',
@@ -16,5 +18,7 @@ export default {
 
   PARSE_UML: "PARSE_UML",
 
-  SET_EDIT_INDEX: "SET_EDIT_INDEX"
+  SET_EDIT_INDEX: "SET_EDIT_INDEX",
+
+  user: userActions
 };

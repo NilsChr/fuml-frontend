@@ -1,6 +1,5 @@
 <template>
   <v-app>
-    
     <v-app-bar app color="grey darken-4" dark v-if="showAppBar">
       <div class="d-flex align-center">
         <label
@@ -8,27 +7,17 @@
           ><strong>FU</strong>ml</label
         >
         <project-menu />
+        <!--
         <tabs />
+        -->
       </div>
 
       <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+      <account />
     </v-app-bar>
-    <!--
+
     <v-main id="app-main" v-bind:style="{ maxHeight: appHeight + 'px' }">
-      <EditorLayout />
-    </v-main>
-    -->
-        <v-main id="app-main" v-bind:style="{ maxHeight: appHeight + 'px' }">
-          <router-view />
+      <router-view />
     </v-main>
   </v-app>
 </template>
@@ -36,9 +25,10 @@
 <script>
 import HelloEditor from "./components/HelloEditor";
 import EditorLayout from "./components/layouts/EditorLayout";
+import Account from "./components/menuBar/account.vue";
 
 import ProjectMenu from "./components/menuBar/projectMenu.vue";
-import Tabs from './components/menuBar/tabs.vue';
+import Tabs from "./components/menuBar/tabs.vue";
 
 export default {
   name: "App",
@@ -47,15 +37,16 @@ export default {
     HelloEditor,
     EditorLayout,
     ProjectMenu,
-    Tabs
+    Tabs,
+    Account,
   },
   data: () => ({
     appHeight: 0,
   }),
   computed: {
     showAppBar() {
-      return this.$store.state.site.showAppBar
-    }
+      return this.$store.state.site.showAppBar;
+    },
   },
   created() {
     this.$store.dispatch("LOAD_PROJECTS");

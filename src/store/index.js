@@ -6,6 +6,7 @@ import entities from "./modules/entities.store";
 import documents from "./modules/documents.store";
 import documentSequence from "./modules/documentSequence.store";
 import site from "./modules/site.store";
+import user from "./modules/user.store";
 
 import uml from "./modules/uml.store";
 
@@ -21,6 +22,7 @@ export default new Vuex.Store({
     uml,
     documents,
     documentSequence,
-    site
+    site,
+    user
   },
 });
