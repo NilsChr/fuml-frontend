@@ -2,7 +2,7 @@ import firebase from "firebase/app";
 import "firebase/firebase-auth";
 import * as firebaseui from "firebaseui";
 import storeActions from "./store/storeActions";
-//import DBConnecter from "./services/dbConnector";
+import DBConnector from "./services/database/dbConnector";
 
 import router from "./router";
 
@@ -42,7 +42,7 @@ const auth = {
       try {
         if (!user) throw "Not logged in";
         
-        let currentProfile = await DBConnecter.getAccount();
+        let currentProfile = await DBConnector.getAccount();
         this.context.$store.commit(storeActions.user.SET_CURRENT_USER, currentProfile);
 
       } catch (e) {

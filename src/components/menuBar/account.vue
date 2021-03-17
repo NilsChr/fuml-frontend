@@ -34,7 +34,6 @@ export default {
   },
   methods: {
     logout() {
-      console.log("logout");
       auth.logout();
     },
   },
