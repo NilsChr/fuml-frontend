@@ -25,7 +25,7 @@ import DocumentsList from "../lists/documents/documentsList";
 import EntityLayout from "./DocumentLayouts/EntityLayout";
 import SequenceLayout from "./DocumentLayouts/SequenceLayout";
 
-import UmlImage from "../UmlImage.vue";
+import UmlImage from "../uml/UmlImage.vue";
 
 export default {
   components: {

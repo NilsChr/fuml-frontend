@@ -38,7 +38,7 @@
 <script>
 import SequenceDocument from "../../lists/sequenceDocument/sequenceDocument.vue";
 import SequenceDocumentParts from '../../lists/sequenceDocument/sequenceDocumentParts.vue';
-import UmlImage from "../../UmlImage.vue";
+import UmlImage from "../../uml/UmlImage.vue";
 
 export default {
   components: {

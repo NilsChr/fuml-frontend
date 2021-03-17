@@ -6,6 +6,7 @@
       </v-flex>
       <v-card dark id="card-uml-image-zoom" @click.stop="">
         <v-layout justify-space-around class="pt-1">
+          <btn-uml-download />
           <v-btn fab small text @click="resetPosition">
             <v-icon dark>control_camera</v-icon></v-btn
           >
@@ -29,7 +30,9 @@
 </template>
 
 <script>
+import BtnUmlDownload from "./BtnUmlDownload.vue";
 export default {
+  components: { BtnUmlDownload },
   data() {
     return {
       canvasCtx: null,
@@ -42,10 +45,10 @@ export default {
   },
   methods: {
     zoomOut() {
-        this.zoomLevel--;
+      this.zoomLevel--;
     },
     zoomIn() {
-        this.zoomLevel++;
+      this.zoomLevel++;
     },
     resetPosition() {
       this.panX = 0;

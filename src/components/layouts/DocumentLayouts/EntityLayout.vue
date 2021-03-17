@@ -30,7 +30,7 @@
 import EntityEditor from "../../EntityEditor.vue";
 import EntityList from "../../EntityList.vue";
 
-import UmlImage from "../../UmlImage.vue";
+import UmlImage from "../../uml/UmlImage.vue";
 
 export default {
   components: {
