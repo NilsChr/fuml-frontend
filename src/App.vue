@@ -1,12 +1,14 @@
 <template>
   <v-app>
-    <v-app-bar app color="grey darken-4" dark>
+    
+    <v-app-bar app color="grey darken-4" dark v-if="showAppBar">
       <div class="d-flex align-center">
         <label
           style="font-family: 'Montserrat'; font-size: 26px; color: #639bff"
           ><strong>FU</strong>ml</label
         >
         <project-menu />
+        <tabs />
       </div>
 
       <v-spacer></v-spacer>
@@ -20,31 +22,41 @@
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
     </v-app-bar>
-
+    <!--
     <v-main id="app-main" v-bind:style="{ maxHeight: appHeight + 'px' }">
-      <EditorLayout4 />
+      <EditorLayout />
+    </v-main>
+    -->
+        <v-main id="app-main" v-bind:style="{ maxHeight: appHeight + 'px' }">
+          <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script>
 import HelloEditor from "./components/HelloEditor";
-import EditorLayout4 from "./components/layouts/EditorLayout4";
+import EditorLayout from "./components/layouts/EditorLayout";
 
 import ProjectMenu from "./components/menuBar/projectMenu.vue";
+import Tabs from './components/menuBar/tabs.vue';
 
 export default {
   name: "App",
 
   components: {
     HelloEditor,
-    EditorLayout4,
+    EditorLayout,
     ProjectMenu,
+    Tabs
   },
-
   data: () => ({
     appHeight: 0,
   }),
+  computed: {
+    showAppBar() {
+      return this.$store.state.site.showAppBar
+    }
+  },
   created() {
     this.$store.dispatch("LOAD_PROJECTS");
     let height = window.innerHeight;

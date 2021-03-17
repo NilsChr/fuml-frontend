@@ -1,5 +1,5 @@
 <template>
-  <v-menu :nudge-width="50" v-model="menu">
+  <v-menu :nudge-width="50" v-model="menu" offset-y>
     <template v-slot:activator="{ on }">
       <v-layout class="ml-5">
         <v-flex xs12 class="ml-5">
