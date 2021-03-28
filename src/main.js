@@ -6,10 +6,6 @@ import vuetify from './plugins/vuetify';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import auth from '@/auth'
 
-//import VueDraggable from 'vue-draggable'
-
-//Vue.use(VueDraggable);
-
 Vue.config.productionTip = false
 
 new Vue({

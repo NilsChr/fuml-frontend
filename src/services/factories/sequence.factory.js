@@ -22,11 +22,18 @@ const sequenceFactory = {
     return sequence;
   },
   addParticipantToSequence(title) {
+    if(!store.state.documents.selectedDocument.participants) {
+      store.state.documents.selectedDocument.participants = [];
+    }
     store.state.documents.selectedDocument.participants.push({
         title: 'untitled'
     });
   },
   addPartToSequence(title) {
+    if(!store.state.documents.selectedDocument.parts) {
+      store.state.documents.selectedDocument.parts = [];
+    }
+    
     const part = {
         title: 'untitled',
         editorOpen: true,

@@ -1,4 +1,5 @@
 import * as plantumlEncoder from "plantuml-encoder";
+import DBConnector from "../../services/database/dbConnector";
 import db from "../../services/database/dbDelegate";
 import UMLParser from "../../services/umlParser/uml.parser";
 
@@ -13,9 +14,11 @@ const uml = {
   },
   actions: {
     PARSE_UML({ commit, rootState }) {
-      db.saveData();
+      //db.saveData();
 
       const document = rootState.documents.selectedDocument;
+      DBConnector.updateDocument(document)
+
       const code = UMLParser(document);
       const encoded = plantumlEncoder.encode(code);
       

@@ -20,7 +20,7 @@
           class="pl-1 pr-1"
         >
           <v-flex xs12>
-            <sequence-document-parts-edit :part="part" :index="i"/>
+            <sequence-document-parts-edit :part="part" :index="i" @deletePart="_handleDeletePart" />
           </v-flex>
         </v-layout>
       </v-flex>
@@ -30,10 +30,10 @@
 
 <script>
 import sequenceFactory from "../../../services/factories/sequence.factory";
-import SequenceDocumentPartsEdit from './sequenceDocumentPartsEdit.vue';
+import SequenceDocumentPartsEdit from "./sequenceDocumentPartsEdit.vue";
 
 export default {
-  components: {SequenceDocumentPartsEdit},
+  components: { SequenceDocumentPartsEdit },
   data() {
     return {
       options: null,
@@ -76,6 +76,7 @@ export default {
       this.editIndex = index;
 
       let id = "part-" + index;
+
       setTimeout(() => {
         let el = document.getElementById(id);
         el.focus();
@@ -85,6 +86,12 @@ export default {
     update() {
       this.$store.dispatch("PARSE_UML");
     },
+    _handleDeletePart(part) {
+      console.log('DELETE', part)
+      const index = this.selectedDocument.parts.indexOf(part);
+      this.selectedDocument.parts.splice(index,1);
+      this.update();
+    }
   },
   computed: {
     selectedDocument() {

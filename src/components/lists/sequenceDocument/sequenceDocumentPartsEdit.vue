@@ -1,6 +1,6 @@
 <template>
   <v-layout justify-space-between wrap>
-    <v-flex xs9>
+    <v-flex xs8>
       <v-subheader
         style="margin-top: -6px; font-weight: bold"
         v-if="!editTitle || editIndex != index"
@@ -8,6 +8,7 @@
         v-html="part.title"
         v-on:dblclick="toggleEditTitle(index)"
         hide-details
+        v-bind:class="{ hasError: hasError }"
       >
       </v-subheader>
       <v-text-field
@@ -50,6 +51,9 @@
         >edit_off</v-icon
       >
     </v-flex>
+    <v-flex xs1 dense>
+      <v-icon size="15" @click="deletePart(part, false)">delete</v-icon>
+    </v-flex>
     <v-flex xs12 v-if="part.editorOpen">
       <v-textarea
         outlined
@@ -61,6 +65,19 @@
         :error-messages="errorMessages"
       ></v-textarea>
     </v-flex>
+
+    <v-dialog v-model="deleteDialog" max-width="190">
+      <v-card>
+        <v-card-title>Confirm delete</v-card-title>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-btn text @click="closeDeleteDialog(false)">No</v-btn>
+                  <v-spacer></v-spacer>
+
+          <v-btn color="warning" text @click="closeDeleteDialog(true)">Yes</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-layout>
 </template>
 
@@ -71,7 +88,10 @@ export default {
   data() {
     return {
       editTitle: false,
+      hasError: false,
       errorMessages: [],
+      deleteDialog: false,
+      partToDelete: null,
     };
   },
   methods: {
@@ -91,6 +111,7 @@ export default {
         if (this.part.title == "") {
           this.part.title = "untitled";
         }
+
         this.editTitle = false;
         this.editIndex = -1;
         this.update();
@@ -108,10 +129,12 @@ export default {
       this.update();
     },
     update() {
-      if(!this.verifyInput()) return;
+      if (!this.verifyInput()) return;
       this.$store.dispatch("PARSE_UML");
     },
     verifyInput() {
+      console.log("verify");
+      this.hasError = false;
       let lines = this.part.code.split("\n");
       let errors = [];
       for (let i = 0; i < lines.length; i++) {
@@ -119,7 +142,7 @@ export default {
         let regPairs = /(\w+)->(\w+)/;
         let matchPairs = lines[i].match(regPairs);
         if (!matchPairs) {
-          errors.push("No entity pair on line " + (i+1));
+          errors.push("No entity pair on line " + (i + 1));
           continue;
         }
         let p1 = matchPairs[1];
@@ -127,10 +150,10 @@ export default {
         let comment = null;
 
         if (!this.participants.includes(p1)) {
-          errors.push(p1 + " is not a defined entity on line " + (i+1));
+          errors.push(p1 + " is not a defined entity on line " + (i + 1));
         }
         if (!this.participants.includes(p2)) {
-          errors.push(p2 + " is not a defined entity on line " + (i+1));
+          errors.push(p2 + " is not a defined entity on line " + (i + 1));
         }
 
         let regComment = /\w+->\w+:(.*)/;
@@ -142,7 +165,22 @@ export default {
       }
 
       this.errorMessages = errors;
+      this.hasError = this.errorMessages.length > 0;
+
       return errors.length == 0;
+    },
+    deletePart(part) {
+      this.deleteDialog = true;
+      this.partToDelete = part;
+    },
+    closeDeleteDialog(shouldDelete) {
+      if (!shouldDelete) {
+        this.deleteDialog = false;
+        this.partToDelete = null;
+        return;
+      }
+
+      this.$emit('deletePart', this.partToDelete);
     },
   },
   computed: {
@@ -162,9 +200,12 @@ export default {
         return m.title;
       });
     },
-  },
+  }
 };
 </script>
 
-<style>
+<style scoped>
+.hasError {
+  color: red;
+}
 </style>

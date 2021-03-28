@@ -55,6 +55,7 @@
 <script>
 import draggable from "vuedraggable";
 import sequenceFactory from "../../../services/factories/sequence.factory";
+import storeActions from "../../../store/storeActions";
 
 export default {
   components: {
@@ -65,6 +66,7 @@ export default {
       options: null,
       editTitle: false,
       editIndex: -1,
+      titleBeforeEdit: "",
     };
   },
   methods: {
@@ -74,16 +76,29 @@ export default {
     },
     deleteParticipant(i) {
       this.selectedDocument.participants.splice(i, 1);
+      this.update();
     },
     toggleEditTitle(index) {
       if (this.editTitle) {
         if (this.selectedDocument.participants[index].title == "") {
           this.selectedDocument.participants[index].title = "untitled";
         }
+       
+       //if(this.selectedDocument.participants[index].title.indexOf(" ") > 0)
+        //this.selectedDocument.participants[index].title = "\"" + this.selectedDocument.participants[index].title + "\"";
+
+        // Update code
+        this.refactorAllCodeOnRename(
+          this.titleBeforeEdit,
+          this.selectedDocument.participants[index].title
+        );
+
         this.editTitle = false;
         this.editIndex = -1;
+        this.update();
         return;
       }
+      this.titleBeforeEdit = this.selectedDocument.participants[index].title;
       this.editTitle = true;
       this.editIndex = index;
       let id = "participant-" + index;
@@ -92,13 +107,29 @@ export default {
         el.focus();
       }, 1);
     },
+    refactorAllCodeOnRename(prevParticipant, newParticipant) {
+      this.selectedDocument.parts.forEach((part) => {
+        part.code = part.code.replace(prevParticipant, newParticipant);
+      });
+      this.update();
+    },
     update() {
       this.$store.dispatch("PARSE_UML");
+      // this.selectedDocument = this.selectedDocument;
+      this.$store.commit(
+        storeActions.SET_SELECTED_DOCUMENT,
+        this.selectedDocument
+      );
     },
   },
   computed: {
-    selectedDocument() {
-      return this.$store.state.documents.selectedDocument;
+    selectedDocument: {
+      get() {
+        return this.$store.state.documents.selectedDocument;
+      },
+      set(val) {
+        this.$store.commit(storeActions.SET_SELECTED_DOCUMENT, val);
+      },
     },
     img() {
       return this.$store.state.uml.url;

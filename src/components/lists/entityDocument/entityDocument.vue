@@ -50,7 +50,7 @@
           >
             <v-list-item-content @click="setSelectedEntity(entity)">
               <v-layout>
-                <v-flex xs12>{{ entity.name }}</v-flex>
+                <v-flex xs12>{{ entity.title }}</v-flex>
               </v-layout>
             </v-list-item-content>
             <v-list-item-action>
@@ -74,11 +74,11 @@
 </template>
 
 <script>
-import entityFactory from "../services/factories/entity.factory";
-import storeActions from '../store/storeActions';
+import entityFactory from "../../../services/factories/entity.factory";
+import storeActions from "../../../store/storeActions";
 
 export default {
-  props: ["document"],
+  //props: ["document"],
   data() {
     return {
       entitySearch: "",
@@ -90,7 +90,7 @@ export default {
     createEntity() {
       if (this.entityTitle == "") return;
       const entity = entityFactory.createEntity(this.entityTitle);
-      this.$store.dispatch(storeActions.CREATE_ENTITY, entity); 
+      this.$store.dispatch(storeActions.CREATE_ENTITY, entity);
       this.entityTitle = "";
       this.update();
     },
@@ -108,6 +108,9 @@ export default {
     },
   },
   computed: {
+    document() {
+      return this.$store.state.documents.selectedDocument;
+    },
     selectedEntity() {
       return this.$store.state.entities.selectedEntity;
     },
@@ -115,7 +118,7 @@ export default {
       if (this.entitySearch == "") return this.document.entities;
       else
         return this.document.entities.filter((e) =>
-          e.name.toLowerCase().includes(this.entitySearch.toLowerCase())
+          e.title.toLowerCase().includes(this.entitySearch.toLowerCase())
         );
     },
   },

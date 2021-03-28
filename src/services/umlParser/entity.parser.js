@@ -25,7 +25,7 @@ function entityUMLParser(document) {
       `;
   for (let i = 0; i < document.entities.length; i++) {
     let entity = document.entities[i];
-    let header = 'entity "' + entity.name + '" {\n';
+    let header = 'entity "' + entity.title + '" {\n';
     code += header;
     for (let j = 0; j < entity.properties.length; j++) {
       let prop = entity.properties[j];
@@ -39,6 +39,7 @@ function entityUMLParser(document) {
   // Add relations
   let relPairs = [];
   relPairs = entityUtil.createEntityPairs(document);
+
   relPairs.forEach((p) => {
     let s = entityUtil.createRelationString(p);
     code += s;

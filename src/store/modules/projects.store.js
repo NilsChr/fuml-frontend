@@ -1,3 +1,4 @@
+import DBConnector from "../../services/database/dbConnector";
 import db from "../../services/database/dbDelegate";
 import projectFactory from "../../services/factories/project.factory";
 import storeActions from "../storeActions";
@@ -20,14 +21,20 @@ const projects = {
     },
   },
   actions: {
+    async LOAD_SELECTED_PROJECT({state, commit}, payload) {
+      const docs = await DBConnector.loadProjectDocuments(payload);
+      commit(storeActions.SET_SELECTED_PROJECT, payload);
+      commit(storeActions.SET_DOCUMENTS, docs);
+    },
     async LOAD_PROJECTS({ commit }) {
-      let data = await db.loadData();
+      //let data = await db.loadData();
+      const data = await DBConnector.getProjects();
       commit(storeActions.SET_PROJECTS,data);
     },
     CREATE_PROJECT({ state, commit }, payload) {
-      return new Promise((resolve) => {
+      return new Promise(async (resolve) => {
         const title = payload.title;
-        const project = projectFactory.createProject(title);
+        const project = await DBConnector.createProject(title); //projectFactory.createProject(title);
         const projects = [...state.projects, project];
         commit(storeActions.SET_PROJECTS, projects);
         resolve(project);

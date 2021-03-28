@@ -186,9 +186,9 @@ export default {
     entityNames() {
       let document = this.$store.state.documents.selectedDocument;
       let list = document.entities
-        .filter((n) => n.name != this.entity.name)
+        .filter((n) => n.title != this.entity.title)
         .map((e) => {
-          return e.name;
+          return e.title;
         });
       return list;
     },

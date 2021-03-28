@@ -4,7 +4,7 @@ import Landing from '../views/Landing.vue'
 import Auth from '../views/Auth.vue'
 import Dashboard from '../views/Dashboard.vue'
 
-import EditorLayout from "../components/layouts/EditorLayout.vue";
+import Layout from "../components/layouts/Layout.vue";
 import store from '../store';
 import storeActions from '../store/storeActions';
 
@@ -32,7 +32,7 @@ const routes = [
   {
     path: '/editor',
     name: 'editor',
-    component: EditorLayout,
+    component: Layout,
     meta: { showBar: true}
   },
   {

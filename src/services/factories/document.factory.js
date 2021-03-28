@@ -3,8 +3,8 @@ import store from "../../store/index";
 import sequenceFactory from "./sequence.factory";
 
 export const documentTypes = {
-  ENTITY: "entity",
-  SEQUENCE: "sequence",
+  ENTITY: "ENTITY",
+  SEQUENCE: "SEQUENCE",
 };
 
 function createEntityDocument(title) {

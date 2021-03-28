@@ -3,11 +3,11 @@ import uniqid from "uniqid";
 const entityFactory = {
   createEntity: function(title) {
     let entity = {
-      id: uniqid(),
-      name: title,
+      //id: uniqid(),
+      title: title,
       properties: [],
       relations: [],
-      created: new Date().getTime(),
+      //created: new Date().getTime(),
     };
     return entity;
   },

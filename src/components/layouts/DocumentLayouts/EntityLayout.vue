@@ -27,8 +27,10 @@
 </template>
 
 <script>
-import EntityEditor from "../../EntityEditor.vue";
-import EntityList from "../../EntityList.vue";
+//import EntityEditor from "../../EntityEditor.vue";
+import EntityEditor from "../../lists/entityDocument/entityDocumentEditor";
+//import EntityList from "../../EntityList.vue";
+import EntityList from "../../lists/entityDocument/entityDocument";
 
 import UmlImage from "../../uml/UmlImage.vue";
 

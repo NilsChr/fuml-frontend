@@ -1,3 +1,4 @@
+import DBConnector from "../../services/database/dbConnector";
 import documentFactory from "../../services/factories/document.factory";
 import storeActions from "../storeActions";
 
@@ -22,11 +23,21 @@ const documents = {
     async LOAD_DOCUMENTS({ state, commit }) {
       console.log("LOAD DOCUMENTS");
     },
+    async UPDATE_DOCUMENT({state}, payload) {
+      await DBConnector.updateDocument(payload);
+    },
     CREATE_DOCUMENT({ state, commit, rootState }, payload) {
-      return new Promise((resolve) => {
+      return new Promise(async (resolve) => {
         const title = payload.title;
         const type = payload.type;
-        const document = documentFactory.createDocument(title, type);
+        //const document = documentFactory.createDocument(title, type);
+
+        console.log(rootState.projects)
+        const project = rootState.projects.selectedProject;
+        // CALL DB HERE
+        const document = await DBConnector.createDocument(type, title, project._id);
+       // console.log("GOT", document);
+
         const documents = [...state.documents, document];
         commit(storeActions.SET_DOCUMENTS, documents);
         resolve(document);

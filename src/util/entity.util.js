@@ -3,6 +3,8 @@ const entityUtil = {
     var hash = 0,
       i,
       chr;
+
+    if (!str || str == "") return hash;
     if (str.length === 0) return hash;
     for (i = 0; i < str.length; i++) {
       chr = str.charCodeAt(i);
@@ -23,13 +25,12 @@ const entityUtil = {
         return "|{";
     }
   },
-  createEntityPairs(project) {
+  createEntityPairs(document) {
     let pairs = [];
-    for (let i = 0; i < project.entities.length; i++) {
-      let entity = project.entities[i];
-
+    for (let i = 0; i < document.entities.length; i++) {
+      let entity = document.entities[i];
       entity.relations.forEach((r) => {
-        let pair = entityUtil.findRelationPair(entity, r, project);
+        let pair = entityUtil.findRelationPair(entity, r, document);
         if (pair) {
           pairs.push(pair);
         }
@@ -43,14 +44,14 @@ const entityUtil = {
     );
     return uniquePairs;
   },
-  findRelationPair(lookingEntity, relation, project) {
-    for (let i = 0; i < project.entities.length; i++) {
-      let entity = project.entities[i];
+  findRelationPair(lookingEntity, relation, document) {
+    for (let i = 0; i < document.entities.length; i++) {
+      let entity = document.entities[i];
 
-      if (entity.name == lookingEntity.name) continue;
+      if (entity.title == lookingEntity.title) continue;
 
       let match = entity.relations.filter(
-        (r) => r.entity == lookingEntity.name
+        (r) => r.entity == lookingEntity.title
       )[0];
       if (match) {
         return {
@@ -64,23 +65,23 @@ const entityUtil = {
       }
     }
     return {
-      ent1: lookingEntity.name,
+      ent1: lookingEntity.title,
       type1: relation.type,
       ent2: relation.entity,
       type2: null,
-      hash: this.hashCode(lookingEntity.name),
+      hash: this.hashCode(lookingEntity.title),
     };
   },
   createRelationString(relationPair) {
     let out = "";
 
     //{ ent1: 'e2', type1: '|o', ent2: 'e1', type2: '|o', hash: 6361 }
-    out += '\"' + relationPair.ent1 + "\" ";
+    out += '"' + relationPair.ent1 + '" ';
     out += relationPair.type1 + "--";
     if (relationPair.type2 != null) {
       out += this.mirrorRel(relationPair.type2);
     }
-    out += " \"" + relationPair.ent2 + "\"\n";
+    out += ' "' + relationPair.ent2 + '"\n';
     return out;
   },
 };

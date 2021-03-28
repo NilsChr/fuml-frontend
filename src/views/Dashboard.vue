@@ -1,13 +1,18 @@
 <template>
-  <EditorLayout />
+  <layout />
 </template>
 
 <script>
-import EditorLayout from "../components/layouts/EditorLayout";
+import Layout from "../components/layouts/Layout.vue";
+
 export default {
-    components: {
-        EditorLayout
-    }
+  name: "dashboard",
+  components: {
+    Layout,
+  },
+  mounted() {},
+  created() {
+  },
 };
 </script>
 

@@ -77,13 +77,14 @@ export default {
   },
   computed: {
     projectDocuments() {
-      const projectId = this.$store.state.projects.selectedProject.id;
+      const projectId = this.$store.state.projects.selectedProject._id;
       return this.$store.state.documents.documents.filter(
         (d) => d.projectId == projectId
       );
     },
     filteredDocuments() {
       const documents = this.projectDocuments;
+      if (!this.documentsSearch) return documents;
       if (this.documentsSearch == "") return documents;
       return documents.filter((f) =>
         f.title.toLowerCase().includes(this.documentsSearch.toLowerCase())

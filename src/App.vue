@@ -23,10 +23,7 @@
 </template>
 
 <script>
-import HelloEditor from "./components/HelloEditor";
-import EditorLayout from "./components/layouts/EditorLayout";
 import Account from "./components/menuBar/account.vue";
-
 import ProjectMenu from "./components/menuBar/projectMenu.vue";
 import Tabs from "./components/menuBar/tabs.vue";
 
@@ -34,8 +31,6 @@ export default {
   name: "App",
 
   components: {
-    HelloEditor,
-    EditorLayout,
     ProjectMenu,
     Tabs,
     Account,
@@ -49,7 +44,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("LOAD_PROJECTS");
+//    this.$store.dispatch("LOAD_PROJECTS");
     let height = window.innerHeight;
     this.appHeight = height;
     console.log("app height", height);

@@ -18,8 +18,8 @@
 
 <script>
 import { documentTypes } from "../../services/factories/document.factory";
-import EntityEditor from "../EntityEditor.vue";
-import EntityList from "../EntityList.vue";
+//import EntityEditor from "../EntityEditor.vue";
+//import EntityList from "../EntityList.vue";
 import DocumentsList from "../lists/documents/documentsList";
 //import ProjectsList from "../ProjectsList.vue";
 import EntityLayout from "./DocumentLayouts/EntityLayout";
@@ -28,14 +28,15 @@ import SequenceLayout from "./DocumentLayouts/SequenceLayout";
 import UmlImage from "../uml/UmlImage.vue";
 
 export default {
+  name: "layout",
   components: {
-//    ProjectsList,
-    EntityList,
-    EntityEditor,
+    //    ProjectsList,
+    //EntityList,
+    //EntityEditor,
     UmlImage,
     DocumentsList,
     EntityLayout,
-    SequenceLayout
+    SequenceLayout,
   },
   computed: {
     selectedProject() {

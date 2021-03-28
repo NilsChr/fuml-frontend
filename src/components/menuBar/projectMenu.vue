@@ -46,7 +46,8 @@ export default {
   },
   methods: {
     setSelectedProject(project) {
-      this.$store.commit(actions.SET_SELECTED_PROJECT, project);
+      //this.$store.commit(actions.SET_SELECTED_PROJECT, project);
+      this.$store.dispatch(actions.LOAD_SELECTED_PROJECT, project);
     },
     openCreateProjectDialog() {
       this.menu = false;
