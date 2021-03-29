@@ -47,6 +47,10 @@ export default {
   methods: {
     setSelectedProject(project) {
       this.$store.dispatch(actions.LOAD_SELECTED_PROJECT, project);
+      this.$router.replace({
+        name: "dashboard",
+        query: { projectId: project._id },
+      });
     },
     openCreateProjectDialog() {
       this.menu = false;

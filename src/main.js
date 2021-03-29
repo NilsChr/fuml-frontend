@@ -7,7 +7,6 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import auth from '@/auth'
 
 Vue.config.productionTip = false
-
 new Vue({
   router,
   store,

@@ -10,7 +10,9 @@ export default {
   components: {
     Layout,
   },
-  mounted() {},
+  mounted() {
+
+  },
   created() {},
 };
 </script>

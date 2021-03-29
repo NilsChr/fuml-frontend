@@ -5,3 +5,4 @@ add sequence diagrams
 add normal documents ( quill? )
 
 
+      router.replace({ name: "dashboard", query: { projectId: payload._id } });

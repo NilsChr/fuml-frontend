@@ -67,6 +67,13 @@ export default {
     },
     setSelectedDocument(document) {
       this.$store.commit(storeActions.SET_SELECTED_DOCUMENT, document);
+      this.$router.replace({
+        name: "dashboard",
+        query: {
+          projectId: this.selectedProject._id,
+          documentId: this.selectedDocument._id,
+        },
+      });
 
       Vue.nextTick(
         function () {
@@ -92,6 +99,9 @@ export default {
     },
     selectedDocument() {
       return this.$store.state.documents.selectedDocument;
+    },
+    selectedProject() {
+      return this.$store.state.projects.selectedProject;
     },
   },
 };
