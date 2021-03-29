@@ -47,7 +47,7 @@ export default {
       )[0];
     },
     selectedEntity() {
-      return this.$store.state.entities.selectedEntity;
+      return this.$store.state.documentEntities.selectedEntity;
     },
     selectedDocument() {
       return this.$store.state.documents.selectedDocument;

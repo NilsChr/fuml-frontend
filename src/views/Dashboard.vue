@@ -11,8 +11,7 @@ export default {
     Layout,
   },
   mounted() {},
-  created() {
-  },
+  created() {},
 };
 </script>
 

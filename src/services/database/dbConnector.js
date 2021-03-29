@@ -1,17 +1,54 @@
 import auth from "../../auth";
 import axios from "axios";
-import documents, { documentTypes } from "../../store/modules/documents.store";
+import { documentTypes } from "../../store/modules/documents.store";
 
 const DBConnector = {
   url: "http://localhost:3000/api",
-
-  getAccount: function() {
-  
+  setToken() {
+    return new Promise(async (resolve) => {
+      const token = await auth.user().getIdToken();
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      resolve();
+    });
+  },
+  post: function(path, payload) {
     return new Promise(async (resolve, reject) => {
       try {
-        const token = await auth.user().getIdToken();
-        axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-        const profile = await axios.get(this.url + "/account");
+        await this.setToken();
+        const response = await axios.post(this.url + path, payload);
+        resolve(response);
+      } catch (e) {
+        return reject(e);
+      }
+    });
+  },
+  get: function(path) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await this.setToken();
+        const response = await axios.get(this.url + path);
+        resolve(response);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+  put: function(path, payload) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await this.setToken();
+        const response = await axios.put(this.url + path, payload);
+        resolve(response);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
+  getAccount: function() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const profile = await this.get("/account");
         resolve(profile.data);
       } catch (e) {
         reject(e);
@@ -22,10 +59,7 @@ const DBConnector = {
     return new Promise(async (resolve, reject) => {
       try {
         if (title === "") title = "untitled";
-
-        const token = await auth.user().getIdToken();
-        axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-        const projects = await axios.post(this.url + "/projects", {
+        const projects = await this.post("/projects", {
           title: title,
         });
         resolve(projects.data);
@@ -37,9 +71,7 @@ const DBConnector = {
   getProjects: function() {
     return new Promise(async (resolve, reject) => {
       try {
-        const token = await auth.user().getIdToken();
-        axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-        const projects = await axios.get(this.url + "/projects");
+        const projects = await this.get("/projects");
         resolve(projects.data);
       } catch (e) {
         reject(e);
@@ -49,9 +81,6 @@ const DBConnector = {
   createDocument: function(type, title, projectId) {
     return new Promise(async (resolve, reject) => {
       try {
-        const token = await auth.user().getIdToken();
-        axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-
         let endpoint = "";
         if (type === documentTypes.ENTITY) {
           endpoint = "entitydocuments";
@@ -68,7 +97,7 @@ const DBConnector = {
           projectId: projectId,
           title: title,
         };
-        const repsonse = await axios.post(this.url + "/" + endpoint, payload);
+        const repsonse = await this.post("/" + endpoint, payload);
         resolve(repsonse.data);
       } catch (e) {
         reject(e);
@@ -78,9 +107,6 @@ const DBConnector = {
   updateDocument: function(document) {
     return new Promise(async (resolve, reject) => {
       try {
-        const token = await auth.user().getIdToken();
-        axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-
         let endpoint = "";
         if (document.type === documentTypes.ENTITY) {
           endpoint = "entitydocuments";
@@ -92,8 +118,7 @@ const DBConnector = {
         if (endpoint === "") {
           return reject("Invalid document type");
         }
-
-        await axios.put(this.url + "/"+ endpoint + "/" + document._id, document);
+        await this.put("/" + endpoint + "/" + document._id, document);
         resolve();
       } catch (e) {
         reject(e);
@@ -103,15 +128,15 @@ const DBConnector = {
   loadProjectDocuments: function(document) {
     return new Promise(async (resolve, reject) => {
       try {
-        const token = await auth.user().getIdToken();
-        axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-        const response = await axios.get(this.url + "/projects/" + document._id + "/documents");
+        const response = await this.get(
+          "/projects/" + document._id + "/documents"
+        );
         resolve(response.data);
       } catch (e) {
         reject(e);
       }
     });
-  }
+  },
 };
 
 export default DBConnector;

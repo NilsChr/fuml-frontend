@@ -109,7 +109,7 @@ export default {
       return this.$store.state.documents.selectedDocument;
     },
     selectedEntity() {
-      return this.$store.state.entities.selectedEntity;
+      return this.$store.state.documentEntities.selectedEntity;
     },
     filteredDocuments() {
       if (this.entitySearch == "") return this.document.entities;

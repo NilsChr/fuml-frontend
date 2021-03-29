@@ -42,7 +42,6 @@ export default {
 @import "../../node_modules/firebaseui/dist/firebaseui.css";
 
 #firebaseui-auth-container > div > div.firebaseui-card-content > form > ul {
-        padding-left: 0px !important;
+  padding-left: 0px !important;
 }
-
 </style>

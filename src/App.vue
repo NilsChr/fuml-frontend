@@ -44,10 +44,8 @@ export default {
     },
   },
   created() {
-//    this.$store.dispatch("LOAD_PROJECTS");
     let height = window.innerHeight;
     this.appHeight = height;
-    console.log("app height", height);
   },
 };
 </script>

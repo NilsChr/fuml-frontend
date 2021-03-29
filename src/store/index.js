@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Vuex from "vuex";
-
 import projects from "./modules/projects.store";
 import documentEntities from "./modules/documentEntities.store";
 import documents from "./modules/documents.store";

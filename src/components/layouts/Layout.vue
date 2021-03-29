@@ -40,7 +40,7 @@ export default {
       return this.$store.state.documents.selectedDocument;
     },
     selectedEntity() {
-      return this.$store.state.entities.selectedEntity;
+      return this.$store.state.documentEntities.selectedEntity;
     },
     img() {
       return this.$store.state.uml.url;

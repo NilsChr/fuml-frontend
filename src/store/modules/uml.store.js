@@ -1,6 +1,5 @@
 import * as plantumlEncoder from "plantuml-encoder";
 import DBConnector from "../../services/database/dbConnector";
-import db from "../../services/database/dbDelegate";
 import UMLParser from "../../services/umlParser/uml.parser";
 
 const uml = {
