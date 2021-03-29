@@ -43,17 +43,19 @@ const documents = {
         resolve(document);
       });
     },
-    DELETE_DOCUMENT({ state, commit }, documentId) {
-      if (state.selectedDocument == documentId) {
+    async DELETE_DOCUMENT({ state, commit }, document) {
+      if (state.selectedDocument && state.selectedDocument._id == document._id) {
         commit(storeActions.SET_SELECTED_DOCUMENT, null);
       }
+      
       for (let i = 0; i < state.documents.length; i++) {
-        if (state.documents[i].id == documentId) {
+        if (state.documents[i]._id == document._id) {
           state.documents.splice(i, 1);
           break;
         }
       }
-      commit(storeActions.SET_PROJECTS, state.projects);
+      await DBConnector.deleteDocument(document);
+      commit(storeActions.SET_DOCUMENTS, state.documents);
     },
   },
 };

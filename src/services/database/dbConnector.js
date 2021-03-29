@@ -44,6 +44,17 @@ const DBConnector = {
       }
     });
   },
+  delete: function(path) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await this.setToken();
+        const response = await axios.delete(this.url + path);
+        resolve(response);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
 
   getAccount: function() {
     return new Promise(async (resolve, reject) => {
@@ -119,6 +130,27 @@ const DBConnector = {
           return reject("Invalid document type");
         }
         await this.put("/" + endpoint + "/" + document._id, document);
+        resolve();
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+  deleteDocument: function(document) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let endpoint = "";
+        if (document.type === documentTypes.ENTITY) {
+          endpoint = "entitydocuments";
+        }
+        if (document.type === documentTypes.SEQUENCE) {
+          endpoint = "sequencedocuments";
+        }
+
+        if (endpoint === "") {
+          return reject("Invalid document type");
+        }
+        await this.delete("/" + endpoint + "/" + document._id, document);
         resolve();
       } catch (e) {
         reject(e);

@@ -37,7 +37,7 @@ const projects = {
     },
   },
   actions: {
-    async LOAD_SELECTED_PROJECT({ state, commit, rootState }, payload) {
+    async LOAD_SELECTED_PROJECT({ state,dispatch, commit, rootState }, payload) {
       commit(projectActions.SET_LOADING, true);
       const docs = await DBConnector.loadProjectDocuments(payload);
       commit(storeActions.SET_SELECTED_PROJECT, payload);
@@ -51,6 +51,7 @@ const projects = {
         )[0];
         commit(storeActions.SET_SELECTED_DOCUMENT, document);
         commit(projectActions.SET_QUEUED_FOR_LOADING_DOCUMENT, null);
+        dispatch(storeActions.PARSE_UML);
       }
     },
     async LOAD_PROJECTS({ state, commit, dispatch }) {
@@ -79,7 +80,7 @@ const projects = {
         resolve(project);
       });
     },
-    DELETE_PROJECT({ state, commit }, payload) {
+    DELETE_PROJECT({ state, commit,dispatch }, payload) {
       if (state.selectedProject == payload.id) {
         commit(storeActions.SET_SELECTED_PROJECT, null);
       }

@@ -4,7 +4,9 @@
       <template v-slot:activator="{ on }">
         <v-layout align-end justify-end>
           <v-flex xs3>
-            <v-icon dark v-on="on">arrow_drop_down</v-icon>
+            <v-avatar size="33">
+            <v-img :src="currentUser.avatarUrl" v-on="on"/>
+            </v-avatar>
           </v-flex>
         </v-layout>
       </template>
@@ -37,6 +39,11 @@ export default {
       auth.logout();
     },
   },
+  computed: {
+    currentUser() {
+      return this.$store.state.user.currentUser
+    }
+  }
 };
 </script>
 

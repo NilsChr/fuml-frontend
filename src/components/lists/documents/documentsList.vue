@@ -14,15 +14,30 @@
           </v-flex>
 
           <v-flex xs12>
-            <v-text-field
-              v-model="documentsSearch"
-              dense
-              outlined
-              :hide-details="true"
-              label="Search"
-              clearable
-            >
-            </v-text-field>
+            <v-layout>
+              <v-flex xs10>
+                <v-text-field
+                  v-model="documentsSearch"
+                  dense
+                  outlined
+                  :hide-details="true"
+                  label="Search"
+                  clearable
+                >
+                </v-text-field>
+              </v-flex>
+              <v-flex xs2>
+                <v-btn
+                  fab
+                  x-small
+                  text
+                  class="mt-1"
+                  @click="edit = !edit"
+                  v-bind:class="{ edit: edit }"
+                  ><v-icon>mdi-cog-outline</v-icon></v-btn
+                >
+              </v-flex>
+            </v-layout>
           </v-flex>
         </v-layout>
       </v-flex>
@@ -42,10 +57,29 @@
               <v-list-item-title>{{ document.title }}</v-list-item-title>
               <v-list-item-subtitle>{{ document.type }}</v-list-item-subtitle>
             </v-list-item-content>
+            <v-slide-x-transition>
+              <v-list-item-action v-if="edit">
+                <v-btn
+                  fab
+                  x-small
+                  text
+                  class="mt-1"
+                  @click="deleteDocument($event, document)"
+                  ><v-icon>mdi-delete</v-icon></v-btn
+                >
+              </v-list-item-action>
+            </v-slide-x-transition>
           </v-list-item>
         </v-list>
       </v-flex>
     </v-layout>
+    <confirm-dialog
+      :dialog="deleteDialog"
+      :width="190"
+      title="Confirm Delete"
+      @no="_handleDeleteDialogNo"
+      @yes="_handleDeleteDialogYes"
+    ></confirm-dialog>
   </v-card>
 </template>
 
@@ -53,12 +87,16 @@
 import Vue from "vue";
 import storeActions from "../../../store/storeActions";
 import modalCreateDocument from "./modalCreateDocument.vue";
+import ConfirmDialog from "../../common/confirmDialog.vue";
 
 export default {
-  components: { modalCreateDocument },
+  components: { modalCreateDocument, ConfirmDialog },
   data() {
     return {
       documentsSearch: "",
+      edit: false,
+      deleteDialog: false,
+      documentToDelete: null,
     };
   },
   methods: {
@@ -67,19 +105,44 @@ export default {
     },
     setSelectedDocument(document) {
       this.$store.commit(storeActions.SET_SELECTED_DOCUMENT, document);
-      this.$router.replace({
-        name: "dashboard",
-        query: {
-          projectId: this.selectedProject._id,
-          documentId: this.selectedDocument._id,
-        },
-      }).catch((e) => {});
+      this.$router
+        .replace({
+          name: "dashboard",
+          query: {
+            projectId: this.selectedProject._id,
+            documentId: this.selectedDocument._id,
+          },
+        })
+        .catch((e) => {});
 
       Vue.nextTick(
         function () {
           this.$store.dispatch(storeActions.PARSE_UML);
         }.bind(this)
       );
+    },
+    deleteDocument(e, document) {
+      e.stopPropagation();
+      this.deleteDialog = true;
+      this.documentToDelete = document;
+    },
+    _handleDeleteDialogNo() {
+      this.deleteDialog = false;
+      this.documentToDelete = null;
+    },
+    _handleDeleteDialogYes() {
+      // DELETE HERE
+      this.$router
+        .replace({
+          name: "dashboard",
+          query: {
+            projectId: this.selectedProject._id,
+          },
+        })
+        .catch((e) => {});
+      this.$store.dispatch(storeActions.DELETE_DOCUMENT, this.documentToDelete);
+      this.deleteDialog = false;
+      this.documentToDelete = null;
     },
   },
   computed: {
@@ -119,5 +182,9 @@ export default {
   max-height: 20px;
   border-bottom: 1px solid rgb(177, 177, 177);
   border-top: 1px solid rgb(218, 218, 218);
+}
+
+.edit {
+  transform: rotate(90deg);
 }
 </style>
