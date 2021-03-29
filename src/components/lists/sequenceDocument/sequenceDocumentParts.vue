@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import sequenceFactory from "../../../services/factories/sequence.factory";
+import storeActions from '../../../store/storeActions';
 import SequenceDocumentPartsEdit from "./sequenceDocumentPartsEdit.vue";
 
 export default {
@@ -43,9 +43,7 @@ export default {
   },
   methods: {
     addPart() {
-      sequenceFactory.addPartToSequence();
-
-      console.log(this.selectedDocument);
+      this.$store.dispatch(storeActions.documentSequence.ADD_PART_TO_SEQUENCE);
     },
     toggleVisible(part, b) {
       part.visible = b;

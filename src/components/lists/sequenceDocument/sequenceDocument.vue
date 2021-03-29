@@ -54,7 +54,6 @@
 
 <script>
 import draggable from "vuedraggable";
-import sequenceFactory from "../../../services/factories/sequence.factory";
 import storeActions from "../../../store/storeActions";
 
 export default {
@@ -71,7 +70,7 @@ export default {
   },
   methods: {
     addParticipant() {
-      sequenceFactory.addParticipantToSequence();
+      this.$store.dispatch(storeActions.documentSequence.ADD_PARTICIPANT_TO_SEQUENCE);
       this.update();
     },
     deleteParticipant(i) {

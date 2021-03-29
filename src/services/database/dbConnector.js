@@ -1,12 +1,12 @@
 import auth from "../../auth";
 import axios from "axios";
-import { documentTypes } from "../factories/document.factory";
-import documents from "../../store/modules/documents.store";
+import documents, { documentTypes } from "../../store/modules/documents.store";
 
 const DBConnector = {
   url: "http://localhost:3000/api",
 
   getAccount: function() {
+  
     return new Promise(async (resolve, reject) => {
       try {
         const token = await auth.user().getIdToken();

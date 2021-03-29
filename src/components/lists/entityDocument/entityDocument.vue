@@ -74,11 +74,9 @@
 </template>
 
 <script>
-import entityFactory from "../../../services/factories/entity.factory";
 import storeActions from "../../../store/storeActions";
 
 export default {
-  //props: ["document"],
   data() {
     return {
       entitySearch: "",
@@ -89,8 +87,7 @@ export default {
   methods: {
     createEntity() {
       if (this.entityTitle == "") return;
-      const entity = entityFactory.createEntity(this.entityTitle);
-      this.$store.dispatch(storeActions.CREATE_ENTITY, entity);
+      this.$store.dispatch(storeActions.CREATE_ENTITY, {title: this.entityTitle});
       this.entityTitle = "";
       this.update();
     },

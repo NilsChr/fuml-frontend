@@ -1,9 +1,8 @@
-import { documentTypes } from "../factories/document.factory";
+import { documentTypes } from "../../store/modules/documents.store";
 import entityUMLParser from "./entity.parser";
 import sequenceUMLParser from "./sequence.parser";
 
 function UMLParser(document) {
-
   switch (document.type) {
     case documentTypes.ENTITY:
       return entityUMLParser(document);

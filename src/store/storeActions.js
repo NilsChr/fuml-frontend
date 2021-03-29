@@ -1,3 +1,4 @@
+import { documentSequenceActions } from "./modules/documentSequence.store";
 import { userActions } from "./modules/user.store";
 
 export default {
@@ -22,5 +23,6 @@ export default {
 
   SET_EDIT_INDEX: "SET_EDIT_INDEX",
 
-  user: userActions
+  user: userActions,
+  documentSequence: documentSequenceActions
 };

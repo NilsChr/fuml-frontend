@@ -1,6 +1,10 @@
 import DBConnector from "../../services/database/dbConnector";
-import documentFactory from "../../services/factories/document.factory";
 import storeActions from "../storeActions";
+
+export const documentTypes = {
+  ENTITY: "ENTITY",
+  SEQUENCE: "SEQUENCE",
+};
 
 const documents = {
   state: {
@@ -30,13 +34,9 @@ const documents = {
       return new Promise(async (resolve) => {
         const title = payload.title;
         const type = payload.type;
-        //const document = documentFactory.createDocument(title, type);
 
-        console.log(rootState.projects)
         const project = rootState.projects.selectedProject;
-        // CALL DB HERE
         const document = await DBConnector.createDocument(type, title, project._id);
-       // console.log("GOT", document);
 
         const documents = [...state.documents, document];
         commit(storeActions.SET_DOCUMENTS, documents);

@@ -1,5 +1,3 @@
-import entityUtil from "../../util/entity.util";
-
 function sequenceUMLParser(document) {
   let code = "";
 

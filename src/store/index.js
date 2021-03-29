@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 import projects from "./modules/projects.store";
-import entities from "./modules/entities.store";
+import documentEntities from "./modules/documentEntities.store";
 import documents from "./modules/documents.store";
 import documentSequence from "./modules/documentSequence.store";
 import site from "./modules/site.store";
@@ -18,10 +18,10 @@ export default new Vuex.Store({
   actions: {},
   modules: {
     projects,
-    entities,
     uml,
     documents,
     documentSequence,
+    documentEntities,
     site,
     user
   },

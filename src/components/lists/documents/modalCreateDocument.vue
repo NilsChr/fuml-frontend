@@ -29,8 +29,9 @@
 </template>
 
 <script>
+import { documentTypes } from '../../../store/modules/documents.store';
 import storeActions from "../../../store/storeActions";
-import { documentTypes } from "../../../services/factories/document.factory";
+//import { documentTypes } from "../../../services/factories/document.factory";
 
 export default {
   data() {
@@ -45,7 +46,6 @@ export default {
         this.dialog = false;
         return;
       }
-
       if (this.documentTitle == "") return;
       const payload = {
         title: this.documentTitle,

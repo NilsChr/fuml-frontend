@@ -1,6 +1,4 @@
 import DBConnector from "../../services/database/dbConnector";
-import db from "../../services/database/dbDelegate";
-import projectFactory from "../../services/factories/project.factory";
 import storeActions from "../storeActions";
 
 const projects = {

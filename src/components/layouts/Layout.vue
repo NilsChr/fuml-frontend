@@ -17,22 +17,16 @@
 </template>
 
 <script>
-import { documentTypes } from "../../services/factories/document.factory";
-//import EntityEditor from "../EntityEditor.vue";
-//import EntityList from "../EntityList.vue";
+
 import DocumentsList from "../lists/documents/documentsList";
-//import ProjectsList from "../ProjectsList.vue";
 import EntityLayout from "./DocumentLayouts/EntityLayout";
 import SequenceLayout from "./DocumentLayouts/SequenceLayout";
-
 import UmlImage from "../uml/UmlImage.vue";
+import { documentTypes } from '../../store/modules/documents.store';
 
 export default {
   name: "layout",
   components: {
-    //    ProjectsList,
-    //EntityList,
-    //EntityEditor,
     UmlImage,
     DocumentsList,
     EntityLayout,
