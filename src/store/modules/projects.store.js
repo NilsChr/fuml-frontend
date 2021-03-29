@@ -2,9 +2,14 @@ import DBConnector from "../../services/database/dbConnector";
 import storeActions from "../storeActions";
 
 export const projectActions = {
+  SET_PROJECTS: "SET_PROJECTS",
   SET_LOADING: "SET_LOADING",
   SET_QUEUED_FOR_LOADING: "SET_QUEUED_FOR_LOADING",
   SET_QUEUED_FOR_LOADING_DOCUMENT: "SET_QUEUED_FOR_LOADING_DOCUMENT",
+  UPDATE_PROJECT_TITLE: "UPDATE_PROJECT_TITLE",
+  SET_SELECTED_PROJECT: "SET_SELECTED_PROJECT",
+  SET_SELECTED_PROJECT_COLLABORATORS: "SET_SELECTED_PROJECT_COLLABORATORS",
+  LOAD_SELECTED_PROJECT_COLLABORATORS: "LOAD_SELECTED_PROJECT_COLLABORATORS",
 };
 
 const projects = {
@@ -12,6 +17,7 @@ const projects = {
     projects: [],
     modalCreateProject: false,
     selectedProject: null,
+    selectedProjectCollaborators: [],
     queuedForLoading: null,
     queuedForLoadingDocument: null,
     loading: false,
@@ -29,6 +35,9 @@ const projects = {
     SET_SELECTED_PROJECT(state, selectedProject) {
       state.selectedProject = selectedProject;
     },
+    SET_SELECTED_PROJECT_COLLABORATORS(state, selectedProjectCollaborators) {
+      state.selectedProjectCollaborators = selectedProjectCollaborators;
+    },
     SET_QUEUED_FOR_LOADING(state, queuedForLoading) {
       state.queuedForLoading = queuedForLoading;
     },
@@ -37,14 +46,24 @@ const projects = {
     },
   },
   actions: {
-    async LOAD_SELECTED_PROJECT({ state,dispatch, commit, rootState }, payload) {
+    async LOAD_SELECTED_PROJECT_COLLABORATORS({ commit, state, dispatch }) {
+      const collabs = await DBConnector.get(
+        "/projects/" + state.selectedProject._id + "/collaborators"
+      );
+      commit(projectActions.SET_SELECTED_PROJECT_COLLABORATORS, collabs.data);
+    },
+    async LOAD_SELECTED_PROJECT(
+      { state, dispatch, commit, rootState },
+      payload
+    ) {
       commit(projectActions.SET_LOADING, true);
       const docs = await DBConnector.loadProjectDocuments(payload);
       commit(storeActions.SET_SELECTED_PROJECT, payload);
       commit(storeActions.SET_DOCUMENTS, docs);
       commit(projectActions.SET_LOADING, false);
 
-      // Queued For Loading Document is the value set from router if queryParam documentId != null
+      dispatch(projectActions.LOAD_SELECTED_PROJECT_COLLABORATORS);
+
       if (state.queuedForLoadingDocument != null) {
         const document = rootState.documents.documents.filter(
           (p) => p._id == state.queuedForLoadingDocument
@@ -74,13 +93,13 @@ const projects = {
     CREATE_PROJECT({ state, commit }, payload) {
       return new Promise(async (resolve) => {
         const title = payload.title;
-        const project = await DBConnector.createProject(title); 
+        const project = await DBConnector.createProject(title);
         const projects = [...state.projects, project];
         commit(storeActions.SET_PROJECTS, projects);
         resolve(project);
       });
     },
-    DELETE_PROJECT({ state, commit,dispatch }, payload) {
+    DELETE_PROJECT({ state, commit }, payload) {
       if (state.selectedProject == payload.id) {
         commit(storeActions.SET_SELECTED_PROJECT, null);
       }
@@ -91,6 +110,19 @@ const projects = {
         }
       }
       commit(storeActions.SET_PROJECTS, state.projects);
+    },
+    UPDATE_PROJECT_TITLE({ state, commit }, payload) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          console.log(state.selectedProject);
+          state.selectedProject.title = payload;
+          await DBConnector.updateProject(state.selectedProject);
+          commit(projectActions.SET_PROJECTS, state.projects);
+          resolve();
+        } catch (e) {
+          reject(e);
+        }
+      });
     },
   },
 };

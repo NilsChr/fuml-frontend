@@ -7,9 +7,8 @@
           ><strong>FU</strong>ml</label
         >
         <project-menu />
-        <!--
+
         <tabs />
-        -->
       </div>
 
       <v-spacer></v-spacer>

@@ -53,7 +53,7 @@ router.beforeEach((to, from, next) => {
   }
 
   //if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' });
-  store.commit(storeActions.SET_SHOW_APP_BAR, to.meta.showBar);
+  store.commit(storeActions.site.SET_SHOW_APP_BAR, to.meta.showBar);
   next();
   //else next()
 });

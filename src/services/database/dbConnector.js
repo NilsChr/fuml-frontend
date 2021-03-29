@@ -89,6 +89,16 @@ const DBConnector = {
       }
     });
   },
+  updateProject: function(project) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await this.put("/projects/" + project._id, project);
+        resolve();
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
   createDocument: function(type, title, projectId) {
     return new Promise(async (resolve, reject) => {
       try {
@@ -163,6 +173,48 @@ const DBConnector = {
         const response = await this.get(
           "/projects/" + document._id + "/documents"
         );
+        resolve(response.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+  addCollaborator: function(project, collaborator) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await this.post(
+          "/projects/" + project._id + "/collaborators",
+          collaborator
+        );
+        resolve(response.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
+  removeCollaborator: function(project, collaborator) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        console.log(project, collaborator)
+        const url =
+          "/projects/" + project._id + "/collaborators/" + collaborator._id;
+          console.log(url);
+        const response = await this.delete(url);
+        resolve(response.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
+
+  // Services
+  searchUser: function(username) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await this.post("/services/usersearch", {
+          search: username,
+        });
         resolve(response.data);
       } catch (e) {
         reject(e);

@@ -38,6 +38,7 @@ export default {
             }
 
             if(this.projectTitle == '') return;
+            if(this.projectTitle.length > 32) return;
             let project = await this.$store.dispatch('CREATE_PROJECT',{title: this.projectTitle});
             this.dialog = false;
             this.$emit('created', project);

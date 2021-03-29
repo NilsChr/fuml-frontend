@@ -1,10 +1,11 @@
 import { documentSequenceActions } from "./modules/documentSequence.store";
 import { projectActions } from "./modules/projects.store";
+import { siteActions } from "./modules/site.store";
 import { userActions } from "./modules/user.store";
 
 export default {
-
-  SET_SHOW_APP_BAR: 'SET_SHOW_APP_BAR',
+  site: siteActions,
+ // SET_SHOW_APP_BAR: 'SET_SHOW_APP_BAR',
 
   SET_PROJECTS: "SET_PROJECTS",
   SET_MODAL_CREATE_PROJECT: "SET_MODAL_CREATE_PROJECT",

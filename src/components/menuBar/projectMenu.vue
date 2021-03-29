@@ -50,7 +50,7 @@ export default {
       this.$router.replace({
         name: "dashboard",
         query: { projectId: project._id },
-      });
+      }).catch((e) => {});
     },
     openCreateProjectDialog() {
       this.menu = false;
