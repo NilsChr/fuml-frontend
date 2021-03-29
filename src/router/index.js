@@ -47,22 +47,19 @@ const router = new VueRouter({
   routes,
 });
 
-/*
-router.beforeEach((route) => {
-  store.commit(storeActions.SET_SHOW_APP_BAR, route.meta.showBar);
-  console.log(route);
-})
-*/
-
-// Project 1
-//http://localhost:8081/fuml/dashboard?projectId=6060bf92356fb5760e9ef673
-
-// GOOD
 router.beforeEach((to, from, next) => {
-  console.log(to);
-
   if (to.name === "dashboard") {
-    const projectId = to.query.projectId;
+    handleDashboardLink(to);  
+  }
+
+  //if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' });
+  store.commit(storeActions.SET_SHOW_APP_BAR, to.meta.showBar);
+  next();
+  //else next()
+});
+
+function handleDashboardLink(to) {
+  const projectId = to.query.projectId;
     if (projectId) {
       const project = store.state.projects.projects.filter(
         (p) => p._id == projectId
@@ -85,12 +82,6 @@ router.beforeEach((to, from, next) => {
         store.commit(storeActions.project.SET_QUEUED_FOR_LOADING_DOCUMENT, documentId);
       }
     }
-  }
-
-  //if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' });
-  store.commit(storeActions.SET_SHOW_APP_BAR, to.meta.showBar);
-  next();
-  //else next()
-});
+}
 
 export default router;

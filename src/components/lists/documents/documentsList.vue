@@ -73,7 +73,7 @@ export default {
           projectId: this.selectedProject._id,
           documentId: this.selectedDocument._id,
         },
-      });
+      }).catch((e) => {});
 
       Vue.nextTick(
         function () {
