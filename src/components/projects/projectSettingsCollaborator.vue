@@ -167,17 +167,17 @@ export default {
     ownerIsColab(colab) {
       if (!this.selectedProject) return false;
       if (!colab) return false;
-      return selectedProject.ownerId == colab._id;
+      return this.selectedProject.ownerId == colab._id;
     },
     projectOwnerIsCurrentUser() {
       if (!this.selectedProject) return false;
       if (!this.currentUser) return false;
-      return selectedProject.ownerId == currentUser._id;
+      return this.selectedProject.ownerId == this.currentUser._id;
     },
     colabIsCurrentUser(colab) {
       if (!this.currentUser) return false;
       if (!colab) return false;
-      return colab._id == currentUser._id;
+      return colab._id == this.currentUser._id;
     },
     triggerDeleteCollaborator(e, colab) {
       e.stopPropagation();

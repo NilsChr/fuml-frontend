@@ -48,17 +48,19 @@ const projects = {
   },
   actions: {
     async LOAD_SELECTED_PROJECT_COLLABORATORS({ commit, state, dispatch }) {
-      const collabs = await DBConnector.get(
+      const collabs = await DBConnector.projects.getCollaborators(state.selectedProject);/*await DBConnector.get(
         "/projects/" + state.selectedProject._id + "/collaborators"
-      );
-      commit(projectActions.SET_SELECTED_PROJECT_COLLABORATORS, collabs.data);
+      );*/
+//      console.log('COLLABS', collabs)
+      commit(projectActions.SET_SELECTED_PROJECT_COLLABORATORS, collabs);
     },
     async LOAD_SELECTED_PROJECT(
       { state, dispatch, commit, rootState },
       payload
     ) {
       commit(projectActions.SET_LOADING, true);
-      const docs = await DBConnector.loadProjectDocuments(payload);
+      //const docs = await DBConnector.loadProjectDocuments(payload);
+      const docs = await DBConnector.projects.loadProjectDocuments(payload);
       commit(storeActions.SET_SELECTED_PROJECT, payload);
       commit(storeActions.SET_DOCUMENTS, docs);
       commit(projectActions.SET_LOADING, false);
@@ -77,7 +79,7 @@ const projects = {
     async LOAD_PROJECTS({ state, commit, dispatch }) {
       commit(projectActions.SET_LOADING, true);
 
-      const data = await DBConnector.getProjects();
+      const data = await DBConnector.projects.get();
       commit(storeActions.SET_PROJECTS, data);
       commit(projectActions.SET_LOADING, false);
 
@@ -94,7 +96,7 @@ const projects = {
     CREATE_PROJECT({ state, commit }, payload) {
       return new Promise(async (resolve) => {
         const title = payload.title;
-        const project = await DBConnector.createProject(title);
+        const project = await DBConnector.projects.create(title);
         const projects = [...state.projects, project];
         commit(storeActions.SET_PROJECTS, projects);
         resolve(project);
@@ -113,7 +115,7 @@ const projects = {
             }
           }
           commit(storeActions.SET_PROJECTS, state.projects);
-          await DBConnector.deleteProject(payload);
+          await DBConnector.projects.delete(payload);
           resolve();
         } catch (e) {
           reject(e);
@@ -125,7 +127,7 @@ const projects = {
         try {
           console.log(state.selectedProject);
           state.selectedProject.title = payload;
-          await DBConnector.updateProject(state.selectedProject);
+          await DBConnector.projects.update(state.selectedProject);
           commit(projectActions.SET_PROJECTS, state.projects);
           resolve();
         } catch (e) {

@@ -1,8 +1,10 @@
 import auth from "../../auth";
 import axios from "axios";
 import { documentTypes } from "../../store/modules/documents.store";
+import projectsDb from "./projects.db";
+import documentsDb from "./documents.db";
 
-const DBConnector = {
+export const HTTP = {
   url: "http://localhost:3000/api",
   setToken() {
     return new Promise(async (resolve) => {
@@ -55,144 +57,25 @@ const DBConnector = {
       }
     });
   },
+};
 
+const DBConnector = {
   getAccount: function() {
     return new Promise(async (resolve, reject) => {
       try {
-        const profile = await this.get("/account");
+        const profile = await HTTP.get("/account");
         resolve(profile.data);
       } catch (e) {
         reject(e);
       }
     });
   },
-  createProject: function(title) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        if (title === "") title = "untitled";
-        const projects = await this.post("/projects", {
-          title: title,
-        });
-        resolve(projects.data);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  },
-  getProjects: function() {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const projects = await this.get("/projects");
-        resolve(projects.data);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  },
-  updateProject: function(project) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        await this.put("/projects/" + project._id, project);
-        resolve();
-      } catch (e) {
-        reject(e);
-      }
-    });
-  },
-  deleteProject: function(project) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        await this.delete("/projects/" + project._id);
-        resolve();
-      } catch (e) {
-        reject(e);
-      }
-    });
-  },
-  createDocument: function(type, title, projectId) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        let endpoint = "";
-        if (type === documentTypes.ENTITY) {
-          endpoint = "entitydocuments";
-        }
-        if (type === documentTypes.SEQUENCE) {
-          endpoint = "sequencedocuments";
-        }
-
-        if (endpoint === "") {
-          return reject("Invalid document type");
-        }
-
-        const payload = {
-          projectId: projectId,
-          title: title,
-        };
-        const repsonse = await this.post("/" + endpoint, payload);
-        resolve(repsonse.data);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  },
-  updateDocument: function(document) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        let endpoint = "";
-        if (document.type === documentTypes.ENTITY) {
-          endpoint = "entitydocuments";
-        }
-        if (document.type === documentTypes.SEQUENCE) {
-          endpoint = "sequencedocuments";
-        }
-
-        if (endpoint === "") {
-          return reject("Invalid document type");
-        }
-        await this.put("/" + endpoint + "/" + document._id, document);
-        resolve();
-      } catch (e) {
-        reject(e);
-      }
-    });
-  },
-  deleteDocument: function(document) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        let endpoint = "";
-        if (document.type === documentTypes.ENTITY) {
-          endpoint = "entitydocuments";
-        }
-        if (document.type === documentTypes.SEQUENCE) {
-          endpoint = "sequencedocuments";
-        }
-
-        if (endpoint === "") {
-          return reject("Invalid document type");
-        }
-        await this.delete("/" + endpoint + "/" + document._id, document);
-        resolve();
-      } catch (e) {
-        reject(e);
-      }
-    });
-  },
-  loadProjectDocuments: function(document) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const response = await this.get(
-          "/projects/" + document._id + "/documents"
-        );
-        resolve(response.data);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  },
+  projects: projectsDb,
+  documents: documentsDb,
   addCollaborator: function(project, collaborator) {
     return new Promise(async (resolve, reject) => {
       try {
-        const response = await this.post(
+        const response = await HTTP.post(
           "/projects/" + project._id + "/collaborators",
           collaborator
         );
@@ -210,7 +93,7 @@ const DBConnector = {
         const url =
           "/projects/" + project._id + "/collaborators/" + collaborator._id;
         console.log(url);
-        const response = await this.delete(url);
+        const response = await HTTP.delete(url);
         resolve(response.data);
       } catch (e) {
         reject(e);
@@ -222,7 +105,7 @@ const DBConnector = {
   searchUser: function(username) {
     return new Promise(async (resolve, reject) => {
       try {
-        const response = await this.post("/services/usersearch", {
+        const response = await HTTP.post("/services/usersearch", {
           search: username,
         });
         resolve(response.data);

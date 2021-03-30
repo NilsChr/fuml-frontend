@@ -16,7 +16,8 @@ const uml = {
       //db.saveData();
 
       const document = rootState.documents.selectedDocument;
-      DBConnector.updateDocument(document)
+      //DBConnector.updateDocument(document)
+      DBConnector.documents.update(document);
 
       const code = UMLParser(document);
       const encoded = plantumlEncoder.encode(code);

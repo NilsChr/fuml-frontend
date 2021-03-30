@@ -28,7 +28,8 @@ const documents = {
       console.log("LOAD DOCUMENTS");
     },
     async UPDATE_DOCUMENT({state}, payload) {
-      await DBConnector.updateDocument(payload);
+      //await DBConnector.updateDocument(payload);
+      await DBConnector.documents.update(payload);
     },
     CREATE_DOCUMENT({ state, commit, rootState }, payload) {
       return new Promise(async (resolve) => {
@@ -36,7 +37,8 @@ const documents = {
         const type = payload.type;
 
         const project = rootState.projects.selectedProject;
-        const document = await DBConnector.createDocument(type, title, project._id);
+        //const document = await DBConnector.createDocument(type, title, project._id);
+        const document = await DBConnector.documents.create(type, title, project._id);
 
         const documents = [...state.documents, document];
         commit(storeActions.SET_DOCUMENTS, documents);
@@ -54,7 +56,8 @@ const documents = {
           break;
         }
       }
-      await DBConnector.deleteDocument(document);
+      //await DBConnector.deleteDocument(document);
+      await DBConnector.documents.delete(document);
       commit(storeActions.SET_DOCUMENTS, state.documents);
     },
   },
