@@ -70,10 +70,12 @@
             ></v-text-field>
           </v-flex>
           <v-flex xs10>
-            <v-list two-line>
+            <v-list two-line dense>
+              <v-subheader>Users</v-subheader>
               <v-list-item
                 v-for="colab in filteredCollaborators"
                 :key="colab._id"
+                dense
               >
                 <v-list-item-avatar>
                   <v-img :src="colab.avatarUrl"> </v-img>
@@ -82,15 +84,18 @@
                   <v-list-item-title>
                     {{ colab.nickName }}
                   </v-list-item-title>
-                  <v-list-item-subtitle
-                    v-if="selectedProject.ownerId == colab._id"
+                  <v-list-item-subtitle v-if="ownerIsColab(colab)"
                     >Owner</v-list-item-subtitle
                   >
                   <v-list-item-subtitle v-else
                     >Collaborator</v-list-item-subtitle
                   >
                 </v-list-item-content>
-                <v-list-item-action v-if="selectedProject.ownerId == currentUser._id && colab._id != currentUser._id">
+                <v-list-item-action
+                  v-if="
+                    projectOwnerIsCurrentUser() && !colabIsCurrentUser(colab)
+                  "
+                >
                   <v-btn
                     fab
                     x-small
@@ -159,6 +164,21 @@ export default {
         storeActions.project.LOAD_SELECTED_PROJECT_COLLABORATORS
       );
     },
+    ownerIsColab(colab) {
+      if (!this.selectedProject) return false;
+      if (!colab) return false;
+      return selectedProject.ownerId == colab._id;
+    },
+    projectOwnerIsCurrentUser() {
+      if (!this.selectedProject) return false;
+      if (!this.currentUser) return false;
+      return selectedProject.ownerId == currentUser._id;
+    },
+    colabIsCurrentUser(colab) {
+      if (!this.currentUser) return false;
+      if (!colab) return false;
+      return colab._id == currentUser._id;
+    },
     triggerDeleteCollaborator(e, colab) {
       e.stopPropagation();
       this.deleteColabDialog = true;
@@ -169,7 +189,10 @@ export default {
       this.colabToDelete = null;
     },
     async _handleDeleteDialogYes() {
-      await DBConnector.removeCollaborator(this.selectedProject, this.colabToDelete);
+      await DBConnector.removeCollaborator(
+        this.selectedProject,
+        this.colabToDelete
+      );
       this.$store.dispatch(
         storeActions.project.LOAD_SELECTED_PROJECT_COLLABORATORS
       );
@@ -191,10 +214,9 @@ export default {
         c.nickName.toLowerCase().includes(this.filterSearch.toLowerCase())
       );
     },
-    currentUser() {
-              return this.$store.state.user.currentUser;
-
-    }
+    currentUser() {
+      return this.$store.state.user.currentUser;
+    },
   },
 };
 </script>

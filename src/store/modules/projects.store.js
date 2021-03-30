@@ -2,6 +2,7 @@ import DBConnector from "../../services/database/dbConnector";
 import storeActions from "../storeActions";
 
 export const projectActions = {
+  DELETE_PROJECT: "DELETE_PROJECT",
   SET_PROJECTS: "SET_PROJECTS",
   SET_LOADING: "SET_LOADING",
   SET_QUEUED_FOR_LOADING: "SET_QUEUED_FOR_LOADING",
@@ -100,16 +101,24 @@ const projects = {
       });
     },
     DELETE_PROJECT({ state, commit }, payload) {
-      if (state.selectedProject == payload.id) {
-        commit(storeActions.SET_SELECTED_PROJECT, null);
-      }
-      for (let i = 0; i < state.projects.length; i++) {
-        if (state.projects[i].id == payload.id) {
-          state.projects.splice(i, 1);
-          break;
+      return new Promise(async (resolve, reject) => {
+        try {
+          if (state.selectedProject == payload.id) {
+            commit(storeActions.SET_SELECTED_PROJECT, null);
+          }
+          for (let i = 0; i < state.projects.length; i++) {
+            if (state.projects[i].id == payload.id) {
+              state.projects.splice(i, 1);
+              break;
+            }
+          }
+          commit(storeActions.SET_PROJECTS, state.projects);
+          await DBConnector.deleteProject(payload);
+          resolve();
+        } catch (e) {
+          reject(e);
         }
-      }
-      commit(storeActions.SET_PROJECTS, state.projects);
+      });
     },
     UPDATE_PROJECT_TITLE({ state, commit }, payload) {
       return new Promise(async (resolve, reject) => {

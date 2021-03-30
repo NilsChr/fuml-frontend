@@ -99,6 +99,16 @@ const DBConnector = {
       }
     });
   },
+  deleteProject: function(project) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await this.delete("/projects/" + project._id);
+        resolve();
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
   createDocument: function(type, title, projectId) {
     return new Promise(async (resolve, reject) => {
       try {
@@ -196,10 +206,10 @@ const DBConnector = {
   removeCollaborator: function(project, collaborator) {
     return new Promise(async (resolve, reject) => {
       try {
-        console.log(project, collaborator)
+        console.log(project, collaborator);
         const url =
           "/projects/" + project._id + "/collaborators/" + collaborator._id;
-          console.log(url);
+        console.log(url);
         const response = await this.delete(url);
         resolve(response.data);
       } catch (e) {

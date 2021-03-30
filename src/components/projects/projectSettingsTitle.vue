@@ -51,6 +51,13 @@ export default {
       this.loading = false;
     },
     cancel() {
+      this.setTempTitle();
+    },
+    setTempTitle() {
+      if (!this.selectedProject) {
+        this.tempTitle = "";
+        return;
+      }
       this.tempTitle = this.selectedProject.title;
     },
   },
@@ -61,15 +68,12 @@ export default {
   },
   watch: {
     selectedProject() {
-      this.tempTitle = this.selectedProject.title;
+      this.setTempTitle();
     },
   },
   mounted() {
-    this.tempTitle = this.selectedProject.title;
+    this.setTempTitle();
   },
-  //watch: {
-  //  this.tempTitle = this.selectedProject.title;
-  //},
 };
 </script>
 
