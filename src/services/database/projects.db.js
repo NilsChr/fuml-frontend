@@ -14,7 +14,9 @@ export default {
   getCollaborators: function(project) {
     return new Promise(async (resolve, reject) => {
       try {
+          console.log("COOLABS")
         const projects = await HTTP.get("/projects/" + project._id + "/collaborators");
+        console.log(projects.data);
         resolve(projects.data);
       } catch (e) {
         reject(e);

@@ -93,12 +93,13 @@ const projects = {
         commit(projectActions.SET_QUEUED_FOR_LOADING, null);
       }
     },
-    CREATE_PROJECT({ state, commit }, payload) {
+    CREATE_PROJECT({ state, commit, dispatch }, payload) {
       return new Promise(async (resolve) => {
         const title = payload.title;
         const project = await DBConnector.projects.create(title);
         const projects = [...state.projects, project];
         commit(storeActions.SET_PROJECTS, projects);
+        dispatch(storeActions.LOAD_SELECTED_PROJECT, project);
         resolve(project);
       });
     },
@@ -109,7 +110,7 @@ const projects = {
             commit(storeActions.SET_SELECTED_PROJECT, null);
           }
           for (let i = 0; i < state.projects.length; i++) {
-            if (state.projects[i].id == payload.id) {
+            if (state.projects[i]._id == payload._id) {
               state.projects.splice(i, 1);
               break;
             }
