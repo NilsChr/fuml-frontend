@@ -3,6 +3,7 @@ import axios from "axios";
 import { documentTypes } from "../../store/modules/documents.store";
 import projectsDb from "./projects.db";
 import documentsDb from "./documents.db";
+import kanbanBoardDb from "./kanbanBoard.db";
 
 export const HTTP = {
   url: "http://localhost:3000/api",
@@ -72,6 +73,8 @@ const DBConnector = {
   },
   projects: projectsDb,
   documents: documentsDb,
+  kanbanBoards: kanbanBoardDb,
+
   addCollaborator: function(project, collaborator) {
     return new Promise(async (resolve, reject) => {
       try {

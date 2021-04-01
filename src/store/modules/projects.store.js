@@ -48,10 +48,12 @@ const projects = {
   },
   actions: {
     async LOAD_SELECTED_PROJECT_COLLABORATORS({ commit, state, dispatch }) {
-      const collabs = await DBConnector.projects.getCollaborators(state.selectedProject);/*await DBConnector.get(
+      const collabs = await DBConnector.projects.getCollaborators(
+        state.selectedProject
+      ); /*await DBConnector.get(
         "/projects/" + state.selectedProject._id + "/collaborators"
       );*/
-//      console.log('COLLABS', collabs)
+      //      console.log('COLLABS', collabs)
       commit(projectActions.SET_SELECTED_PROJECT_COLLABORATORS, collabs);
     },
     async LOAD_SELECTED_PROJECT(
@@ -64,7 +66,6 @@ const projects = {
       commit(storeActions.SET_SELECTED_PROJECT, payload);
       commit(storeActions.SET_DOCUMENTS, docs);
       commit(projectActions.SET_LOADING, false);
-
       dispatch(projectActions.LOAD_SELECTED_PROJECT_COLLABORATORS);
 
       if (state.queuedForLoadingDocument != null) {
@@ -75,6 +76,12 @@ const projects = {
         commit(projectActions.SET_QUEUED_FOR_LOADING_DOCUMENT, null);
         dispatch(storeActions.PARSE_UML);
       }
+
+      // LOAD BOARDS
+      const boards = await DBConnector.projects.loadProjectBoards(payload);
+      commit(storeActions.kanban.SET_BOARDS, boards);
+      dispatch(storeActions.kanban.LOAD_BOARDS, boards);
+
     },
     async LOAD_PROJECTS({ state, commit, dispatch }) {
       commit(projectActions.SET_LOADING, true);

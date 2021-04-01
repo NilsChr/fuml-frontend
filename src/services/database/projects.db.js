@@ -35,6 +35,18 @@ export default {
       }
     });
   },
+  loadProjectBoards: function(project) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await HTTP.get(
+          "/projects/" + project._id + "/boards"
+        );
+        resolve(response.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  },
   create: function(title) {
     return new Promise(async (resolve, reject) => {
       try {
