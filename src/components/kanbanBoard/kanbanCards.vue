@@ -38,11 +38,38 @@
             :key="item._id"
             draggable=""
             @dragstart="dragStart($event, item)"
-            @mouseup="selectCard($event,item)"
+            @mouseup="selectCard($event, item)"
             v-bind:class="{ ghost: item == dragItem }"
             class="ma-1 pa-1"
           >
-            {{ item.title }}
+            <v-layout wrap>
+              <v-flex xs12 v-if="displayLabelTitle">
+                <v-btn
+                  @mouseup.stop="toggleLabelTitles($event)"
+                  v-for="(label, i) in item.labels"
+                  :key="i"
+                  depressed
+                  x-small
+                  :color="getLabelColor(label)"
+                  dark
+                  >{{ getLabelTitle(label) }}</v-btn
+                >
+              </v-flex>
+              <v-flex xs12 v-if="!displayLabelTitle">
+                <v-btn
+                  @mouseup.stop="toggleLabelTitles($event)"
+                  v-for="(label, i) in item.labels"
+                  :key="i"
+                  depressed
+                  x-small
+                  :color="getLabelColor(label)"
+                  style="max-height:10px;"
+                ></v-btn>
+              </v-flex>
+              <v-flex xs12>
+                {{ item.title }}
+              </v-flex>
+            </v-layout>
           </v-card>
         </v-scroll-y-transition>
       </v-card>
@@ -75,10 +102,11 @@ export default {
         { id: 3, status: 1 },
         { id: 4, status: 1 },
       ],
+      displayLabelTitle: true,
     };
   },
   methods: {
-    selectCard(ev,card) {
+    selectCard(ev, card) {
       this.$store.commit(storeActions.kanbanCards.SET_SELECTED_CARD, card);
     },
     archiveList(zone) {
@@ -101,12 +129,6 @@ export default {
         cardId: this.dragItem._id,
         newStatus: zone.id,
       };
-      /*
-      this.$store.dispatch(
-        storeActions.kanbanCards.UPDATE_CARD_STATUS,
-        payload
-      );
-      */
       this.$store.dispatch(
         storeActions.kanbanCards.UPDATE_CARD,
         this.dragItem._id
@@ -122,6 +144,20 @@ export default {
         (c) => c.status === zone.id && c.boardId == this.selectedBoard._id
       );
       return filteredCards;
+    },
+    getLabel(id) {
+      return this.selectedBoard.labels.find((l) => l._id == id);
+    },
+    getLabelColor(id) {
+      return this.getLabel(id)?.color || "transparent";
+    },
+    getLabelTitle(id) {
+      return this.getLabel(id)?.title || "";
+    },
+    toggleLabelTitles(ev) {
+      ev.stopPropagation();
+      console.log(ev);
+      this.displayLabelTitle = !this.displayLabelTitle;
     },
   },
   computed: {

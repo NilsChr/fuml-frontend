@@ -88,16 +88,18 @@ const site = {
       });
     },
     TOGGLE_LABEL({ state, rootState, commit }, labelId) {
+        console.log('TOGGLE_LABEL', labelId)
       return new Promise(async (resolve) => {
           const card = state.selectedCard;
           const labelExists = card.labels.indexOf(labelId);
 
+          console.log(card.labels);
           if(labelExists >= 0) {
               card.labels.splice(labelExists,1);
           } else {
               card.labels.push(labelId);
           }
-
+          console.log(card.labels);
           const board = rootState.kanban.selectedBoard;    
           await DBConnector.kanbanBoardCards.update(board, card);
 

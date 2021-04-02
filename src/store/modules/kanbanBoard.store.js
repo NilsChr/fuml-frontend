@@ -87,7 +87,9 @@ const site = {
         if (!exists) {
           selectedBoard.labels.push(newLabel);
 
-          await DBConnector.kanbanBoards.update(selectedBoard);
+          const updatedBoard = await DBConnector.kanbanBoards.update(selectedBoard);
+          //commit(storeActions.kanban.SET_SELECTED_BOARD, updatedBoard);
+          selectedBoard.labels = updatedBoard.labels;
         }
         resolve();
       });

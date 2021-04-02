@@ -29,8 +29,8 @@ export default {
     return new Promise(async (resolve, reject) => {
       try {
 
-        await HTTP.put("/kanbanboards/" + board._id, board);
-        resolve();
+        let response = await HTTP.put("/kanbanboards/" + board._id, board);
+        resolve(response.data);
       } catch (e) {
         reject(e);
       }
