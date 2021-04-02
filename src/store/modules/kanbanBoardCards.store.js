@@ -7,6 +7,7 @@ export const kanbanCardActions = {
 
   CREATE_CARD: "CREATE_CARD",
   UPDATE_CARD_STATUS: "UPDATE_CARD_STATUS",
+  TOGGLE_LABEL: 'TOGGLE_LABEL',
 };
 
 const site = {
@@ -75,6 +76,23 @@ const site = {
         commit(kanbanActions.SET_BOARDS, updatedBoard);
         resolve(deletedBoard);
         */
+      });
+    },
+    TOGGLE_LABEL({ state, rootState, commit }, labelId) {
+      return new Promise(async (resolve) => {
+          const card = state.selectedCard;
+          const labelExists = card.labels.indexOf(labelId);
+
+          if(labelExists >= 0) {
+              card.labels.splice(labelExists,1);
+          } else {
+              card.labels.push(labelId);
+          }
+
+          const board = rootState.kanban.selectedBoard;    
+          await DBConnector.kanbanBoardCards.update(board, card);
+
+          resolve();
       });
     },
   },

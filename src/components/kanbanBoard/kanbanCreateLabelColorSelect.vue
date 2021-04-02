@@ -1,8 +1,16 @@
 <template>
   <v-layout justify-space-between class="pa-2 pb-0">
     <v-flex xs10>
-      <v-btn dark block depressed :color="label.color" small>
+      <v-btn
+        dark
+        block
+        depressed
+        :color="label.color"
+        small
+        @click="selectLabel"
+      >
         {{ label.title }}
+        <v-icon right size="12" v-if="hasLabel">check</v-icon>
       </v-btn>
     </v-flex>
     <v-flex xs2>
@@ -49,10 +57,16 @@ export default {
   data() {
     return {
       menu: false,
-      tempTitle: "",
+      tempTitle: ""
     };
   },
   methods: {
+    async selectLabel() {
+      await this.$store.dispatch(
+        storeActions.kanbanCards.TOGGLE_LABEL,
+        this.label._id
+      );
+    },
     async updateLabel() {
       const data = {
         old: this.label,
@@ -64,6 +78,13 @@ export default {
     async deleteLabel() {
       await this.$store.dispatch(storeActions.kanban.DELETE_LABEL, this.label);
       this.menu = false;
+    },
+  },
+  computed: {
+    hasLabel() {
+      return this.$store.state.kanbanCards.selectedCard.labels.includes(
+        this.label._id
+      );
     },
   },
   watch: {

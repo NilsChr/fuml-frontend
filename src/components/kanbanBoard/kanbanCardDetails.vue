@@ -29,7 +29,16 @@
               <label><strong>LABELS</strong></label>
             </v-flex>
             <v-flex xs12>
-              <v-btn depressed small class="mr-2" color="error"> BUG </v-btn>
+              <v-btn
+                class="ma-1"
+                v-for="(label, i) in selectedCard.labels"
+                :key="i"
+                small
+                depressed
+                :color="getLabel(label).color"
+                dark
+                >{{ getLabel(label).title }}</v-btn
+              >
               <v-btn
                 depressed
                 color="grey lighten-3"
@@ -64,7 +73,10 @@
         </v-flex>
       </v-layout>
     </v-card>
-    <kanban-create-label :dialog="createLabelDialog" v-on:close="_handleCloseCreateLabel" />
+    <kanban-create-label
+      :dialog="createLabelDialog"
+      v-on:close="_handleCloseCreateLabel"
+    />
   </v-dialog>
 </template>
 
@@ -91,7 +103,10 @@ export default {
     },
     createLabel() {
       this.createLabelDialog = true;
-     // this.$store.commit(storeActions.kanban.SET_DIALOG_CREATE_LABEL, true);
+      // this.$store.commit(storeActions.kanban.SET_DIALOG_CREATE_LABEL, true);
+    },
+    getLabel(id) {
+      return this.selectedBoard.labels.find((l) => l._id == id);
     },
     _handleCloseCreateLabel() {
       this.createLabelDialog = false;
@@ -116,6 +131,10 @@ export default {
         this.$store.commit(storeActions.kanbanCards.SET_SELECTED_CARD, null);
       },
     },
+    selectedBoard() {
+                return this.$store.state.kanban.selectedBoard;
+
+    }
   },
   watch: {
     selectedCard() {
