@@ -1,5 +1,6 @@
 import { documentSequenceActions } from "./modules/documentSequence.store";
 import { kanbanActions } from "./modules/kanbanBoard.store";
+import { kanbanCardActions } from "./modules/kanbanBoardCards.store";
 import { projectActions } from "./modules/projects.store";
 import { siteActions } from "./modules/site.store";
 import { userActions } from "./modules/user.store";
@@ -30,5 +31,6 @@ export default {
   user: userActions,
   documentSequence: documentSequenceActions,
   project: projectActions,
-  kanban: kanbanActions
+  kanban: kanbanActions,
+  kanbanCards: kanbanCardActions
 };

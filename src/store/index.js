@@ -7,6 +7,7 @@ import documentSequence from "./modules/documentSequence.store";
 import site from "./modules/site.store";
 import user from "./modules/user.store";
 import kanban from "./modules/kanbanBoard.store";
+import kanbanCards from "./modules/kanbanBoardCards.store";
 
 import uml from "./modules/uml.store";
 
@@ -24,6 +25,7 @@ export default new Vuex.Store({
     documentEntities,
     site,
     user,
-    kanban
+    kanban,
+    kanbanCards
   },
 });

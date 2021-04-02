@@ -77,4 +77,9 @@ body {
 .fill-height {
   height: 100%;
 }
+
+.bordered {
+  border: 1px solid rgb(208, 208, 208);
+  border-radius: 5px;
+}
 </style>

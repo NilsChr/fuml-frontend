@@ -1,9 +1,9 @@
 import auth from "../../auth";
 import axios from "axios";
-import { documentTypes } from "../../store/modules/documents.store";
 import projectsDb from "./projects.db";
 import documentsDb from "./documents.db";
 import kanbanBoardDb from "./kanbanBoard.db";
+import kanbanBoardCardDb from "./kanbanBoardCard.db";
 
 export const HTTP = {
   url: "http://localhost:3000/api",
@@ -67,6 +67,7 @@ const DBConnector = {
         const profile = await HTTP.get("/account");
         resolve(profile.data);
       } catch (e) {
+        console.log(e);
         reject(e);
       }
     });
@@ -74,6 +75,7 @@ const DBConnector = {
   projects: projectsDb,
   documents: documentsDb,
   kanbanBoards: kanbanBoardDb,
+  kanbanBoardCards: kanbanBoardCardDb,
 
   addCollaborator: function(project, collaborator) {
     return new Promise(async (resolve, reject) => {
