@@ -22,7 +22,6 @@ export default {
   },
   methods: {
     async createCard() {
-      console.log(this.column, this.newCardTitle);
       if(this.newCardTitle == '') return;
       const payload = {
           title: this.newCardTitle,

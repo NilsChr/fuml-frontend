@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import storeActions from "../../store/storeActions";
+import storeActions from "../../../store/storeActions";
 export default {
   props: ["label"],
   data() {

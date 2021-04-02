@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import storeActions from "../../store/storeActions";
+import storeActions from "../../../store/storeActions";
 import KanbanCreateLabelColorSelect from "./kanbanCreateLabelColorSelect.vue";
 export default {
   props: ["dialog"],

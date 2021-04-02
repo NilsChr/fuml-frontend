@@ -4,6 +4,7 @@ import projectsDb from "./projects.db";
 import documentsDb from "./documents.db";
 import kanbanBoardDb from "./kanbanBoard.db";
 import kanbanBoardCardDb from "./kanbanBoardCard.db";
+import kanbanBoardCardCommentDb from "./kanbanBoardCardComment.db";
 
 export const HTTP = {
   url: "http://localhost:3000/api",
@@ -76,6 +77,7 @@ const DBConnector = {
   documents: documentsDb,
   kanbanBoards: kanbanBoardDb,
   kanbanBoardCards: kanbanBoardCardDb,
+  kanbanBoardCardComments: kanbanBoardCardCommentDb,
 
   addCollaborator: function(project, collaborator) {
     return new Promise(async (resolve, reject) => {

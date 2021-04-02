@@ -36,16 +36,14 @@ import kanbanBoardList from "./kanbanBoardList.vue";
 import draggable from "vuedraggable";
 import KanbanAddNewCard from "./kanbanAddNewCard.vue";
 import storeActions from "../../store/storeActions";
-import Dragdroptest from "./dragdroptest.vue";
-import KanbanCards from "./kanbanCards.vue";
-import KanbanCardDetails from "./kanbanCardDetails.vue";
+import KanbanCards from "./card/kanbanCards.vue";
+import KanbanCardDetails from "./card/kanbanCardDetails.vue";
 
 export default {
   components: {
     kanbanBoardList,
     draggable,
     KanbanAddNewCard,
-    Dragdroptest,
     KanbanCards,
     KanbanCardDetails,
   },

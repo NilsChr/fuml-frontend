@@ -52,6 +52,7 @@
                   x-small
                   :color="getLabelColor(label)"
                   dark
+                  class="mr-1"
                   >{{ getLabelTitle(label) }}</v-btn
                 >
               </v-flex>
@@ -63,7 +64,8 @@
                   depressed
                   x-small
                   :color="getLabelColor(label)"
-                  style="max-height:10px;"
+                  style="max-height: 10px"
+                  class="mr-1"
                 ></v-btn>
               </v-flex>
               <v-flex xs12>
@@ -78,9 +80,9 @@
 </template>
 
 <script>
-import store from "../../store";
-import storeActions from "../../store/storeActions";
-import KanbanAddNewCard from "./kanbanAddNewCard.vue";
+import store from "../../../store";
+import storeActions from "../../../store/storeActions";
+import KanbanAddNewCard from "../kanbanAddNewCard.vue";
 
 export default {
   components: {

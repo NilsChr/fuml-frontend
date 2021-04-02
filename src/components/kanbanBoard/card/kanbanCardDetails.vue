@@ -17,12 +17,12 @@
               @click="setFocusEdit('title')"
               @blur="setFocusEdit(null)"
             ></v-text-field>
+            <kanban-card-delete />
             <v-btn class="ml-5" fab text small @click="selectedCard = null">
               <v-icon>close</v-icon>
             </v-btn>
           </v-layout>
         </v-flex>
-
         <!-- LABELS -->
         <v-flex xs1 class="pl-5 pb-4">
           <v-layout wrap>
@@ -52,6 +52,7 @@
             </v-flex>
           </v-layout>
         </v-flex>
+        <v-divider class="pt-5"></v-divider>
 
         <!-- TEXT -->
         <v-flex xs5 class="pa-5 pt-0">
@@ -68,15 +69,25 @@
                 v-model="description"
                 style="cursor: pointer"
                 :emoji="false"
+                :image="false"
+                placeholder="Add a more detailed description"
               />
             </v-flex>
             <v-flex xs12 class="pt-2 pl-5">
-              <v-btn @click="updateDescription" v-if="editMode == 'editor'" depressed small
+              <v-btn
+                @click="updateDescription"
+                v-if="editMode == 'editor'"
+                depressed
+                small
                 >Update descritpion</v-btn
               >
             </v-flex>
           </v-layout>
         </v-flex>
+        <v-divider class="pb-5"></v-divider>
+
+        <!-- COMMENTS -->
+        <kanban-card-comments />
       </v-layout>
     </v-card>
     <kanban-create-label
@@ -87,12 +98,19 @@
 </template>
 
 <script>
-import storeActions from "../../store/storeActions";
-import kanbanCreateLabel from "./kanbanCreateLabel.vue";
+import storeActions from "../../../store/storeActions";
+import kanbanCreateLabel from "../label/kanbanCreateLabel.vue";
 import { Editor } from "vuetify-markdown-editor";
+import KanbanCardComments from "./kanbanCardComments.vue";
+import KanbanCardDelete from "./kanbanCardDelete.vue";
 
 export default {
-  components: { kanbanCreateLabel, Editor },
+  components: {
+    kanbanCreateLabel,
+    Editor,
+    KanbanCardComments,
+    KanbanCardDelete,
+  },
   data() {
     return {
       focusEdit: null,
@@ -103,7 +121,6 @@ export default {
       editMode: "editor",
       text: "",
       renderConfig: {
-        // Mermaid config
         mermaid: {
           theme: "dark",
         },
@@ -117,7 +134,6 @@ export default {
     setData() {
       this.title = this.selectedCard?.title || "";
       this.description = this.selectedCard?.description || "";
-
       if (this.description == "") {
         this.editMode = "editor";
       } else this.editMode = "viewer";
@@ -168,8 +184,6 @@ export default {
         return this.selectedCard != null;
       },
       set() {
-        //this.$store.commit(storeActions.kanbanCards.SET_DIALOG_CREATE_LABEL, false);
-
         this.$store.commit(storeActions.kanbanCards.SET_SELECTED_CARD, null);
       },
     },

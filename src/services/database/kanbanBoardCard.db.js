@@ -38,11 +38,11 @@ export default {
       }
     });
   },
-  delete: function(board) {
+  delete: function(board, card) {
     return new Promise(async (resolve, reject) => {
       try {
-        await HTTP.delete("/kanbanboards/" + board._id, board);
-        resolve();
+        const response = await HTTP.delete("/kanbanboards/" + board._id+ "/cards/" + card._id, board);
+        resolve(response.data);
       } catch (e) {
         reject(e);
       }
