@@ -101,9 +101,15 @@ export default {
         cardId: this.dragItem._id,
         newStatus: zone.id,
       };
+      /*
       this.$store.dispatch(
         storeActions.kanbanCards.UPDATE_CARD_STATUS,
         payload
+      );
+      */
+      this.$store.dispatch(
+        storeActions.kanbanCards.UPDATE_CARD,
+        this.dragItem._id
       );
 
       this.dragItem = null;

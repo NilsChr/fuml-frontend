@@ -7,6 +7,7 @@ export const kanbanCardActions = {
 
   CREATE_CARD: "CREATE_CARD",
   UPDATE_CARD_STATUS: "UPDATE_CARD_STATUS",
+  UPDATE_CARD: 'UPDATE_CARD',
   TOGGLE_LABEL: 'TOGGLE_LABEL',
 };
 
@@ -48,6 +49,14 @@ const site = {
 
       commit(storeActions.kanbanCards.SET_CARDS, state.cards);
     },
+    async UPDATE_CARD({ state, rootState, commit }, cardId) {
+        let card = state.cards.find((c) => c._id == cardId);
+        const board = rootState.kanban.selectedBoard;
+    
+        card = await DBConnector.kanbanBoardCards.update(board, card);
+  
+        commit(storeActions.kanbanCards.SET_CARDS, state.cards);
+      },
     CREATE_CARD({ state, rootState, commit }, payload) {
       return new Promise(async (resolve, reject) => {
         const projectId = rootState.projects.selectedProject._id;

@@ -8,11 +8,12 @@
             <v-icon>dashboard</v-icon>
             <v-text-field
               class="card-title pl-5"
-              v-model="title"
+              v-model="selectedCard.title"
               outlined
               hide-details
               dense
               v-bind:class="{ border: focusEdit == 'title' }"
+              @change="updateCard"
               @click="setFocusEdit('title')"
               @blur="setFocusEdit(null)"
             ></v-text-field>
@@ -35,9 +36,9 @@
                 :key="i"
                 small
                 depressed
-                :color="getLabel(label).color"
+                :color="getLabelColor(label)"
                 dark
-                >{{ getLabel(label).title }}</v-btn
+                >{{ getLabelTitle(label) }}</v-btn
               >
               <v-btn
                 depressed
@@ -59,15 +60,20 @@
               <v-icon>subject</v-icon>
               <strong class="ml-5 pl-2">Description</strong>
             </v-flex>
-            <v-flex xs12 class="pt-2">
-              <v-textarea
-                filled
-                no-resize
-                hide-details
-                outlined
-                placeholder="Add a more detailed description..."
+            <v-flex xs12 class="pt-2" @click="setEditMode('editor')">
+              <Editor
+                ref="editor"
+                :mode="editMode"
+                :render-config="renderConfig"
+                v-model="description"
+                style="cursor: pointer"
+                :emoji="false"
+              />
+            </v-flex>
+            <v-flex xs12 class="pt-2 pl-5">
+              <v-btn @click="updateDescription" v-if="editMode == 'editor'" depressed small
+                >Update descritpion</v-btn
               >
-              </v-textarea>
             </v-flex>
           </v-layout>
         </v-flex>
@@ -83,14 +89,25 @@
 <script>
 import storeActions from "../../store/storeActions";
 import kanbanCreateLabel from "./kanbanCreateLabel.vue";
+import { Editor } from "vuetify-markdown-editor";
+
 export default {
-  components: { kanbanCreateLabel },
+  components: { kanbanCreateLabel, Editor },
   data() {
     return {
       focusEdit: null,
       title: null,
       description: null,
       createLabelDialog: false,
+
+      editMode: "editor",
+      text: "",
+      renderConfig: {
+        // Mermaid config
+        mermaid: {
+          theme: "dark",
+        },
+      },
     };
   },
   methods: {
@@ -100,13 +117,46 @@ export default {
     setData() {
       this.title = this.selectedCard?.title || "";
       this.description = this.selectedCard?.description || "";
+
+      if (this.description == "") {
+        this.editMode = "editor";
+      } else this.editMode = "viewer";
     },
     createLabel() {
       this.createLabelDialog = true;
-      // this.$store.commit(storeActions.kanban.SET_DIALOG_CREATE_LABEL, true);
     },
     getLabel(id) {
       return this.selectedBoard.labels.find((l) => l._id == id);
+    },
+    getLabelColor(id) {
+      return this.getLabel(id)?.color || "transparent";
+    },
+    getLabelTitle(id) {
+      return this.getLabel(id)?.title || "";
+    },
+    updateTitle() {
+      this.selectedCard.title = this.title;
+      this.$store.dispatch(
+        storeActions.kanbanCards.UPDATE_CARD,
+        this.selectedCard._id
+      );
+    },
+    updateDescription() {
+      this.setEditMode("viewer");
+      console.log(this.description);
+      this.selectedCard.description = this.description;
+      this.updateCard();
+    },
+    setEditMode(mode) {
+      this.editMode = mode;
+      this.testMode = mode;
+      console.log(this.editMode);
+    },
+    updateCard() {
+      this.$store.dispatch(
+        storeActions.kanbanCards.UPDATE_CARD,
+        this.selectedCard._id
+      );
     },
     _handleCloseCreateLabel() {
       this.createLabelDialog = false;
@@ -132,9 +182,8 @@ export default {
       },
     },
     selectedBoard() {
-                return this.$store.state.kanban.selectedBoard;
-
-    }
+      return this.$store.state.kanban.selectedBoard;
+    },
   },
   watch: {
     selectedCard() {

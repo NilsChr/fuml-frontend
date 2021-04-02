@@ -1,4 +1,5 @@
 import DBConnector from "../../services/database/dbConnector";
+import cardUtil from "../../util/card.util";
 import storeActions from "../storeActions";
 
 export const kanbanActions = {
@@ -9,9 +10,9 @@ export const kanbanActions = {
   CREATE_BOARD: "CREATE_BOARD",
   DELETE_BOARD: "DELETE_BOARD",
   //SET_DIALOG_CREATE_LABEL: 'SET_DIALOG_CREATE_LABEL',
-  CREATE_LABEL: 'CREATE_LABEL',
-  UPDATE_LABEL: 'UPDATE_LABEL',
-  DELETE_LABEL: 'DELETE_LABEL'
+  CREATE_LABEL: "CREATE_LABEL",
+  UPDATE_LABEL: "UPDATE_LABEL",
+  DELETE_LABEL: "DELETE_LABEL",
 };
 
 const site = {
@@ -71,57 +72,69 @@ const site = {
         resolve(deletedBoard);
       });
     },
-    CREATE_LABEL({state, commit}, label) {
+    CREATE_LABEL({ state, commit }, label) {
       return new Promise(async (resolve) => {
         const selectedBoard = state.selectedBoard;
 
         const newLabel = {
           title: label.title,
-          color: label.color
-        }
-        const exists = selectedBoard.labels.find(l => l.title == newLabel.title && l.color == newLabel.color);
+          color: label.color,
+        };
+        const exists = selectedBoard.labels.find(
+          (l) => l.title == newLabel.title && l.color == newLabel.color
+        );
 
-        if(!exists) {
+        if (!exists) {
           selectedBoard.labels.push(newLabel);
 
           await DBConnector.kanbanBoards.update(selectedBoard);
         }
         resolve();
-      })
+      });
     },
-    UPDATE_LABEL({state, commit}, data) {
+    UPDATE_LABEL({ state, commit }, data) {
       return new Promise(async (resolve) => {
         const selectedBoard = state.selectedBoard;
 
         const oldLabel = data.old;
         const newLebelTitle = data.newLabelTitle;
 
-        const exists = selectedBoard.labels.find(l => l.title == oldLabel.title && l.color == oldLabel.color);
+        const exists = selectedBoard.labels.find(
+          (l) => l.title == oldLabel.title && l.color == oldLabel.color
+        );
 
-        if(exists) {
+        if (exists) {
           //selectedBoard.labels.push(newLabel);
           exists.title = newLebelTitle;
           await DBConnector.kanbanBoards.update(selectedBoard);
         }
         resolve();
-      })
+      });
     },
-    DELETE_LABEL({state,commit}, label) {
+    DELETE_LABEL({ state, commit, rootState }, label) {
       return new Promise(async (resolve) => {
         console.log(label);
 
         const selectedBoard = state.selectedBoard;
         console.log(selectedBoard);
 
-        const el = selectedBoard.labels.find(l => l._id == label._id);
-        if(el) {
+        const el = selectedBoard.labels.find((l) => l._id == label._id);
+        if (el) {
           const index = selectedBoard.labels.indexOf(el);
-          selectedBoard.labels.splice(index,1);
+          selectedBoard.labels.splice(index, 1);
           await DBConnector.kanbanBoards.update(selectedBoard);
         }
+
+        for (let i = 0; i < rootState.kanbanCards.cards.length; i++) {
+          const card = rootState.kanbanCards.cards[i];
+
+            cardUtil.removeLabelFromCard(card, label._id);
+            await DBConnector.kanbanBoardCards.update(selectedBoard, card);
+          
+        }
         resolve();
-      })
-    }
+      });
+    },
   },
 };
 
