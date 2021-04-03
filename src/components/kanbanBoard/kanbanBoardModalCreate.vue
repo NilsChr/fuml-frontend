@@ -10,6 +10,19 @@
               v-model="boardTitle"
             ></v-text-field>
           </v-flex>
+          <v-flex xs12>
+            <v-btn
+              dark
+              :color="c"
+              v-for="(c, i) in colors"
+              :key="i"
+              class="ma-1"
+              small
+              @click="color = c"
+            >
+              <v-icon color="grey lighten-2" v-if="color == c" size="17">check</v-icon>
+            </v-btn>
+          </v-flex>
         </v-layout>
       </v-main>
       <v-card-actions>
@@ -22,12 +35,32 @@
 </template>
 
 <script>
-import storeActions from '../../store/storeActions';
+import storeActions from "../../store/storeActions";
+import VSwatches from "vue-swatches";
+import "vue-swatches/dist/vue-swatches.css";
+
 export default {
   data() {
     return {
       boardTitle: "",
+      color: "#fff",
+      colors: [
+        "#fff",
+        "#61bd4f",
+        "#f2d600",
+        "#ff9f1a",
+        "#eb5a46",
+        "#c377e0",
+        "#0079bf",
+        "#00c2e0",
+        "#51e898",
+        "#ff78cb",
+        "#344563",
+      ],
     };
+  },
+  components: {
+    VSwatches,
   },
   methods: {
     async closeDialog(save) {
@@ -35,10 +68,11 @@ export default {
         this.dialog = false;
         return;
       }
-      
+
       if (this.boardTitle == "") return;
       const payload = {
         title: this.boardTitle,
+        backgroundColor: this.color
       };
       const newBoard = await this.$store.dispatch(
         storeActions.kanban.CREATE_BOARD,
@@ -57,10 +91,14 @@ export default {
       set(val) {
         this.$store.commit(storeActions.kanban.SET_MODAL_CREATE_BOARD, val);
       },
-    }
+    },
   },
 };
 </script>
 
 <style>
+.vue-swatches__container {
+  z-index: 10 !important;
+  position: absolute;
+}
 </style>

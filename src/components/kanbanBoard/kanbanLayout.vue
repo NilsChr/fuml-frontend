@@ -11,7 +11,7 @@
       <v-flex xs10>
         <v-layout fill-height v-if="selectedBoard">
           <v-flex xs12>
-            <v-card class="fill-height pa-1" id="blue">
+            <v-card class="fill-height pa-1" id="blue" :color="selectedBoard.backgroundColor">
               <v-layout column fill-height>
                 <v-flex xs1 class="mb-1">
                   <v-card class="fill-height">
@@ -35,7 +35,6 @@
 import kanbanBoardList from "./kanbanBoardList.vue";
 import draggable from "vuedraggable";
 import KanbanAddNewCard from "./kanbanAddNewCard.vue";
-import storeActions from "../../store/storeActions";
 import KanbanCards from "./card/kanbanCards.vue";
 import KanbanCardDetails from "./card/kanbanCardDetails.vue";
 
@@ -85,11 +84,6 @@ export default {
 </script>
 
 <style scoped>
-#test {
-  background-image: url("https://png.pngtree.com/thumb_back/fh260/background/20190719/pngtree-blue-gradient-abstract-particle-streamline-background-image_284566.jpg");
-  background-size: 100%;
-}
-
 #blue {
   background-color: #0079bf;
 }

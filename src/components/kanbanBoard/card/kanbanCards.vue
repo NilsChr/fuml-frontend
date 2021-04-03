@@ -31,6 +31,7 @@
           </v-menu>
         </v-layout>
         <kanban-add-new-card :column="zone" />
+
         <v-divider class="mt-2 mb-2"></v-divider>
         <v-scroll-y-transition group>
           <v-card
@@ -80,7 +81,6 @@
 </template>
 
 <script>
-import store from "../../../store";
 import storeActions from "../../../store/storeActions";
 import KanbanAddNewCard from "../kanbanAddNewCard.vue";
 
@@ -91,10 +91,10 @@ export default {
   data() {
     return {
       zones: [
-        { id: 1, title: "ToDo" },
-        { id: 2, title: "Pending" },
-        { id: 3, title: "In Progress" },
-        { id: 4, title: "Done" },
+        { id: 0, title: "ToDo" },
+        { id: 1, title: "Pending" },
+        { id: 2, title: "In Progress" },
+        { id: 3, title: "Done" },
       ],
       dragItem: null,
       targetId: null,
@@ -138,9 +138,9 @@ export default {
 
       this.dragItem = null;
     },
-    filteredItems(zone) {
+    /*filteredItems(zone) {
       return this.items.filter((i) => i.status == zone.id);
-    },
+    },*/
     boardCards(zone) {
       const filteredCards = this.$store.state.kanbanCards.cards.filter(
         (c) => c.status === zone.id && c.boardId == this.selectedBoard._id
@@ -158,7 +158,6 @@ export default {
     },
     toggleLabelTitles(ev) {
       ev.stopPropagation();
-      console.log(ev);
       this.displayLabelTitle = !this.displayLabelTitle;
     },
   },

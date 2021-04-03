@@ -13,10 +13,10 @@ export default {
   },
   getCollaborators: function(project) {
     return new Promise(async (resolve, reject) => {
+      if(!project) return resolve(null);
+
       try {
-          console.log("COOLABS")
         const projects = await HTTP.get("/projects/" + project._id + "/collaborators");
-        console.log(projects.data);
         resolve(projects.data);
       } catch (e) {
         reject(e);
@@ -26,6 +26,7 @@ export default {
   loadProjectDocuments: function(project) {
     return new Promise(async (resolve, reject) => {
       try {
+        if(!project) return resolve(null);
         const response = await HTTP.get(
           "/projects/" + project._id + "/documents"
         );
@@ -38,6 +39,8 @@ export default {
   loadProjectBoards: function(project) {
     return new Promise(async (resolve, reject) => {
       try {
+        if(!project) return resolve(null);
+
         const response = await HTTP.get(
           "/projects/" + project._id + "/boards"
         );

@@ -1,12 +1,13 @@
 import { HTTP } from "./dbConnector";
 
 export default {
-  create: function(title, projectId) {
+  create: function(title,backgroundColor, projectId) {
     return new Promise(async (resolve, reject) => {
       try {
         const payload = {
           projectId: projectId,
           title: title,
+          backgroundColor: backgroundColor
         };
         const repsonse = await HTTP.post("/kanbanboards", payload);
         resolve(repsonse.data);

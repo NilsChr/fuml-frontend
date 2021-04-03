@@ -1,6 +1,6 @@
 <template>
   <v-btn class="ml-5" fab text small @click="deleteDialog = true">
-    <v-icon>mdi-delete</v-icon>
+    <v-icon color="grey darken-1">mdi-delete</v-icon>
     <confirm-dialog
       :dialog="deleteDialog"
       :width="190"
@@ -28,7 +28,10 @@ export default {
       this.deleteDialog = false;
     },
     async _handleDeleteDialogYes() {
-      await this.$store.dispatch(storeActions.kanbanCards.DELETE_CARD, this.selectedCard);
+      await this.$store.dispatch(
+        storeActions.kanbanCards.DELETE_CARD,
+        this.selectedCard
+      );
       this.deleteDialog = false;
     },
   },

@@ -5,6 +5,7 @@
         <v-icon>question_answer</v-icon>
         <strong class="ml-5 pl-2">Comments</strong>
       </v-flex>
+
       <!-- NEW COMMENT -->
       <v-flex xs12>
         <v-layout justify-start class="pa-2">

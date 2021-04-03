@@ -7,12 +7,9 @@
             <v-subheader>Boards</v-subheader>
           </v-flex>
           <v-flex xs2>
-            <v-btn fab x-small text class="mt-1" @click="createBoard"
-              ><v-icon>mdi-plus</v-icon></v-btn
-            >
-            <!--
-            <modal-create-b />
-            -->
+            <v-btn fab x-small text class="mt-1" @click="createBoard">
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
             <kanban-board-modal-create />
           </v-flex>
 
@@ -58,7 +55,10 @@
           >
             <v-list-item-content>
               <v-list-item-title>{{ board.title }}</v-list-item-title>
-              <v-list-item-subtitle>statusbar</v-list-item-subtitle>
+              <v-list-item-subtitle class="pt-2">
+                Status
+                <kanban-board-status-bar :board="board" />
+              </v-list-item-subtitle>
             </v-list-item-content>
             <v-slide-x-transition>
               <v-list-item-action v-if="edit">
@@ -68,7 +68,7 @@
                   text
                   class="mt-1"
                   @click="deleteBoard($event, board)"
-                  ><v-icon>mdi-delete</v-icon></v-btn
+                  ><v-icon color="grey darken-2">mdi-delete</v-icon></v-btn
                 >
               </v-list-item-action>
             </v-slide-x-transition>
@@ -78,8 +78,9 @@
     </v-layout>
     <confirm-dialog
       :dialog="deleteDialog"
-      :width="190"
+      :width="250"
       title="Confirm Delete"
+      message="This will permanently delete this board and all cards in it."
       @no="_handleDeleteDialogNo"
       @yes="_handleDeleteDialogYes"
     ></confirm-dialog>
@@ -87,16 +88,13 @@
 </template>
 
 <script>
-import Vue from "vue";
-import storeActions from '../../store/storeActions';
-import KanbanBoardModalCreate from './kanbanBoardModalCreate.vue';
-//import storeActions from "../../../store/storeActions";
-//import modalCreateDocument from "./modalCreateDocument.vue";
+import storeActions from "../../store/storeActions";
+import KanbanBoardModalCreate from "./kanbanBoardModalCreate.vue";
 import ConfirmDialog from "../common/confirmDialog.vue";
-
+import KanbanBoardStatusBar from "./kanbanBoardStatusBar.vue";
 
 export default {
-  components: { KanbanBoardModalCreate,ConfirmDialog },
+  components: { KanbanBoardModalCreate, ConfirmDialog, KanbanBoardStatusBar },
   data() {
     return {
       boardSearch: "",
@@ -120,7 +118,6 @@ export default {
           },
         })
         .catch((e) => {});
-
     },
     deleteBoard(e, board) {
       e.stopPropagation();
@@ -132,7 +129,6 @@ export default {
       this.boardToDelete = null;
     },
     _handleDeleteDialogYes() {
-      // DELETE HERE
       this.$router
         .replace({
           name: "dashboard",
@@ -141,7 +137,10 @@ export default {
           },
         })
         .catch((e) => {});
-      this.$store.dispatch(storeActions.kanban.DELETE_BOARD, this.boardToDelete);
+      this.$store.dispatch(
+        storeActions.kanban.DELETE_BOARD,
+        this.boardToDelete
+      );
       this.deleteDialog = false;
       this.boardToDelete = null;
     },

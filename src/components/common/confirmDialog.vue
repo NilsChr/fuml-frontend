@@ -3,6 +3,9 @@
     <v-card>
       <v-card-title>{{ title }}</v-card-title>
       <v-divider></v-divider>
+      <v-card-text class="pa-5" v-if="message">
+        {{message}}
+      </v-card-text>
       <v-card-actions>
         <v-btn text @click="no">No</v-btn>
         <v-spacer></v-spacer>
@@ -15,7 +18,7 @@
 
 <script>
 export default {
-  props: ["dialog", "width", "title"],
+  props: ["dialog", "width", "title", "message"],
   methods: {
     no() {
       this.$emit("no");

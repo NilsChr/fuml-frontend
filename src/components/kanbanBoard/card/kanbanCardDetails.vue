@@ -79,6 +79,8 @@
                 v-if="editMode == 'editor'"
                 depressed
                 small
+                color="success"
+                :disabled="this.selectedCard.description == description"
                 >Update descritpion</v-btn
               >
             </v-flex>

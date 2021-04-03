@@ -6,15 +6,16 @@ export const kanbanCardActions = {
   SET_SELECTED_CARD: "SET_SELECTED_CARD",
 
   CREATE_CARD: "CREATE_CARD",
-  UPDATE_CARD_STATUS: "UPDATE_CARD_STATUS",
   UPDATE_CARD: "UPDATE_CARD",
-  DELETE_CARD: 'DELETE_CARD',
+  DELETE_CARD: "DELETE_CARD",
   TOGGLE_LABEL: "TOGGLE_LABEL",
 
   SET_COMMENTS: "SET_COMMENTS",
   LOAD_COMMENTS: "LOAD_COMMENTS",
   CREATE_COMMENT: "CREATE_COMMENT",
-  DELETE_COMMENT: 'DELETE_COMMENT'
+  DELETE_COMMENT: "DELETE_COMMENT",
+
+  UPDATE_BOARD_CARD_COUNT: "UPDATE_BOARD_CARD_COUNT",
 };
 
 const site = {
@@ -35,30 +36,60 @@ const site = {
     },
   },
   actions: {
-    async UPDATE_CARD_STATUS({ state, rootState, commit }, payload) {
-      let card = state.cards.find((c) => c._id == payload.cardId);
+
+    async UPDATE_BOARD_CARD_COUNT({ state, rootState, commit }, payload) {
       const board = rootState.kanban.selectedBoard;
-
-      card.status = payload.newStatus;
-
-      card = await DBConnector.kanbanBoardCards.update(board, card);
-
-      commit(storeActions.kanbanCards.SET_CARDS, state.cards);
+      const boardCards = state.cards.filter((c) => c.boardId == board._id);
+      const cardsTodo = boardCards.filter((c) => c.status == 0).length;
+      const cardsPending = boardCards.filter((c) => c.status == 1).length;
+      const cardsInProgress = boardCards.filter((c) => c.status == 2).length;
+      const cardsDone = boardCards.filter((c) => c.status == 3).length;
+      if (
+        board.cardsTodo != cardsTodo ||
+        board.cardsPending != cardsPending ||
+        board.cardsInProgress != cardsInProgress ||
+        board.cardsDone != cardsDone
+      ) {
+        board.cardsTodo = cardsTodo;
+        board.cardsPending = cardsPending;
+        board.cardsInProgress = cardsInProgress;
+        board.cardsDone = cardsDone;
+        await DBConnector.kanbanBoards.update(board);
+        //commit(storeActions.kanban.SET_BOARDS, rootState.kanban.boards);
+        commit(storeActions.kanban.SET_SELECTED_BOARD, board);
+      }
     },
-    async UPDATE_CARD({ state, rootState, commit }, cardId) {
+    async UPDATE_CARD({ state, rootState, commit, dispatch }, cardId) {
       let card = state.cards.find((c) => c._id == cardId);
       const board = rootState.kanban.selectedBoard;
 
       card = await DBConnector.kanbanBoardCards.update(board, card);
+      dispatch(kanbanCardActions.UPDATE_BOARD_CARD_COUNT);
 
       commit(storeActions.kanbanCards.SET_CARDS, state.cards);
     },
-    CREATE_CARD({ state, rootState, commit }, payload) {
+    CREATE_CARD({ state, rootState, commit, dispatch }, payload) {
       return new Promise(async (resolve, reject) => {
         const projectId = rootState.projects.selectedProject._id;
         const title = payload.title;
         const boardId = rootState.kanban.selectedBoard._id;
         const status = payload.status;
+        const board = rootState.kanban.selectedBoard;
+
+        switch (status) {
+          case 0:
+            board.cardsTodo++;
+            break;
+          case 1:
+            board.cardsPending++;
+            break;
+          case 2:
+            board.cardsInProgress++;
+            break;
+          case 3:
+            board.cardsDone++;
+            break;
+        }
 
         const newCard = await DBConnector.kanbanBoardCards.create(
           boardId,
@@ -68,21 +99,30 @@ const site = {
         );
         const cards = [...state.cards, newCard];
         commit(kanbanCardActions.SET_CARDS, cards);
+
+        dispatch(kanbanCardActions.UPDATE_BOARD_CARD_COUNT);
+
         resolve(newCard);
+
+
       });
     },
-    DELETE_CARD({ state, rootState, commit }, card) {
+    DELETE_CARD({ state, dispatch, rootState, commit }, card) {
       return new Promise(async (resolve) => {
         const boardId = rootState.kanban.selectedBoard;
         const cardId = state.selectedCard;
 
-        const deletedCard = await DBConnector.kanbanBoardCards.delete(boardId,cardId);
+        const deletedCard = await DBConnector.kanbanBoardCards.delete(
+          boardId,
+          cardId
+        );
         resolve(deletedCard);
-;
         const index = state.cards.indexOf(state.selectedCard);
-        state.cards.splice(index,1);
+        state.cards.splice(index, 1);
 
         commit(kanbanCardActions.SET_CARDS, state.cards);
+        dispatch(kanbanCardActions.UPDATE_BOARD_CARD_COUNT);
+
         commit(kanbanCardActions.SET_SELECTED_CARD, null);
 
       });
@@ -146,28 +186,27 @@ const site = {
       );
       comment.user = user;
 
-      comment.created = new Date(comment.created).toISOString().slice(0, 10); 
+      comment.created = new Date(comment.created).toISOString().slice(0, 10);
 
       const comments = [...state.selectedCardComments, comment];
       commit(kanbanCardActions.SET_COMMENTS, comments);
     },
     async DELETE_COMMENT({ state, rootState, commit }, comment) {
-        const boardId = rootState.kanban.selectedBoard._id;
-        const cardId = state.selectedCard._id;
-  
-        const deleted = await DBConnector.kanbanBoardCardComments.delete(
-          boardId,
-          cardId,
-          comment._id
-        );
+      const boardId = rootState.kanban.selectedBoard._id;
+      const cardId = state.selectedCard._id;
 
-        const index = state.selectedCardComments.indexOf(comment);
-        state.selectedCardComments.splice(index,1);
-        
+      const deleted = await DBConnector.kanbanBoardCardComments.delete(
+        boardId,
+        cardId,
+        comment._id
+      );
 
-        const comments = [...state.selectedCardComments];
-        commit(kanbanCardActions.SET_COMMENTS, comments);
-      },
+      const index = state.selectedCardComments.indexOf(comment);
+      state.selectedCardComments.splice(index, 1);
+
+      const comments = [...state.selectedCardComments];
+      commit(kanbanCardActions.SET_COMMENTS, comments);
+    },
   },
 };
 

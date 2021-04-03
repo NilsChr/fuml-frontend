@@ -9,7 +9,6 @@ export const kanbanActions = {
   SET_MODAL_CREATE_BOARD: "SET_MODAL_CREATE_BOARD",
   CREATE_BOARD: "CREATE_BOARD",
   DELETE_BOARD: "DELETE_BOARD",
-  //SET_DIALOG_CREATE_LABEL: 'SET_DIALOG_CREATE_LABEL',
   CREATE_LABEL: "CREATE_LABEL",
   UPDATE_LABEL: "UPDATE_LABEL",
   DELETE_LABEL: "DELETE_LABEL",
@@ -20,7 +19,6 @@ const site = {
     boards: [],
     selectedBoard: null,
     modalCreateBoard: false,
-    //dialogCreateLabel: false
   },
   mutations: {
     SET_BOARDS(state, boards) {
@@ -31,10 +29,7 @@ const site = {
     },
     SET_MODAL_CREATE_BOARD(state, modalCreateBoard) {
       state.modalCreateBoard = modalCreateBoard;
-    },
-    /*SET_DIALOG_CREATE_LABEL(state, dialogCreateLabel) {
-      state.dialogCreateLabel = dialogCreateLabel;
-    }*/
+    }
   },
   actions: {
     async LOAD_BOARDS({ commit }, boards) {
@@ -53,8 +48,9 @@ const site = {
       return new Promise(async (resolve, reject) => {
         const projectId = rootState.projects.selectedProject._id;
         const title = board.title;
+        const backgroundColor = board.backgroundColor;
         const newBoard = await DBConnector.kanbanBoards.create(
-          title,
+          title, backgroundColor,
           projectId
         );
         const boards = [...state.boards, newBoard];
@@ -69,6 +65,8 @@ const site = {
         let updatedBoard = [...state.boards];
         updatedBoard.splice(index, 1);
         commit(kanbanActions.SET_BOARDS, updatedBoard);
+        commit(kanbanActions.SET_SELECTED_BOARD, null);
+
         resolve(deletedBoard);
       });
     },
@@ -106,7 +104,6 @@ const site = {
         );
 
         if (exists) {
-          //selectedBoard.labels.push(newLabel);
           exists.title = newLebelTitle;
           await DBConnector.kanbanBoards.update(selectedBoard);
         }
