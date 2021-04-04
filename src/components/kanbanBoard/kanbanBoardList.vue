@@ -56,8 +56,8 @@
             <v-list-item-content>
               <v-list-item-title>{{ board.title }}</v-list-item-title>
               <v-list-item-subtitle class="pt-2">
-                Status
-                <kanban-board-status-bar :board="board" />
+                
+                <kanban-board-progress-bar :board="board" class="mt-1"/>
               </v-list-item-subtitle>
             </v-list-item-content>
             <v-slide-x-transition>
@@ -91,10 +91,10 @@
 import storeActions from "../../store/storeActions";
 import KanbanBoardModalCreate from "./kanbanBoardModalCreate.vue";
 import ConfirmDialog from "../common/confirmDialog.vue";
-import KanbanBoardStatusBar from "./kanbanBoardStatusBar.vue";
+import KanbanBoardProgressBar from "./kanbanBoardProgressBar.vue";
 
 export default {
-  components: { KanbanBoardModalCreate, ConfirmDialog, KanbanBoardStatusBar },
+  components: { KanbanBoardModalCreate, ConfirmDialog, KanbanBoardProgressBar },
   data() {
     return {
       boardSearch: "",

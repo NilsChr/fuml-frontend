@@ -5,6 +5,10 @@ export const kanbanCardActions = {
   SET_CARDS: "SET_CARDS",
   SET_SELECTED_CARD: "SET_SELECTED_CARD",
 
+  SET_FILTER_SEARCH: 'SET_FILTER_SEARCH',
+  SET_FILTER_ONLY_USER: 'SET_FILTER_ONLY_USER',
+  SET_FILTER_LABELS: 'SET_FILTER_LABELS',
+
   CREATE_CARD: "CREATE_CARD",
   UPDATE_CARD: "UPDATE_CARD",
   DELETE_CARD: "DELETE_CARD",
@@ -23,6 +27,10 @@ const site = {
     cards: [],
     selectedCard: null,
     selectedCardComments: [],
+
+    filterSearch: '',
+    filterOnlyUser: false,
+    filterLabels: []
   },
   mutations: {
     SET_CARDS(state, cards) {
@@ -34,9 +42,17 @@ const site = {
     SET_COMMENTS(state, comments) {
       state.selectedCardComments = comments;
     },
+    SET_FILTER_SEARCH(state, filterSearch) {
+        state.filterSearch = filterSearch;
+    },
+    SET_FILTER_ONLY_USER(state, filterOnlyUser) {
+        state.filterOnlyUser = filterOnlyUser;
+    },
+    SET_FILTER_LABELS(state, filterLabels) {
+        state.filterLabels = filterLabels;
+    }
   },
   actions: {
-
     async UPDATE_BOARD_CARD_COUNT({ state, rootState, commit }, payload) {
       const board = rootState.kanban.selectedBoard;
       const boardCards = state.cards.filter((c) => c.boardId == board._id);

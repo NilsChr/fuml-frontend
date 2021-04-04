@@ -15,7 +15,10 @@
               <v-layout column fill-height>
                 <v-flex xs1 class="mb-1">
                   <v-card class="fill-height">
+                    <!--
                     <v-layout fill-height>Status</v-layout>
+                    -->
+                    <kanban-board-status-bar />
                   </v-card>
                 </v-flex>
                 <v-flex xs11>
@@ -37,6 +40,7 @@ import draggable from "vuedraggable";
 import KanbanAddNewCard from "./kanbanAddNewCard.vue";
 import KanbanCards from "./card/kanbanCards.vue";
 import KanbanCardDetails from "./card/kanbanCardDetails.vue";
+import KanbanBoardStatusBar from './kanbanBoardStatusBar.vue';
 
 export default {
   components: {
@@ -45,6 +49,7 @@ export default {
     KanbanAddNewCard,
     KanbanCards,
     KanbanCardDetails,
+    KanbanBoardStatusBar,
   },
   data() {
     return {

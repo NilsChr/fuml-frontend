@@ -142,9 +142,24 @@ export default {
       return this.items.filter((i) => i.status == zone.id);
     },*/
     boardCards(zone) {
-      const filteredCards = this.$store.state.kanbanCards.cards.filter(
+      let filteredCards = this.$store.state.kanbanCards.cards.filter(
         (c) => c.status === zone.id && c.boardId == this.selectedBoard._id
       );
+
+      if(this.filterSearch != '') {
+        filteredCards = filteredCards.filter(c => c.title.toLowerCase().includes(this.filterSearch.toLowerCase()));
+      }
+
+      if(this.filterOnlyUser) {
+        filteredCards = filteredCards.filter(c => c.ownerId == this.currentUser._id);
+      }
+
+      if(this.filterLabels.length > 0) {
+        //filteredCards = filteredCards.filter(c => c.ownerId == this.currentUser._id);
+        filteredCards = filteredCards.filter(c => c.labels.filter(label => this.filterLabels.includes(label)).length > 0);
+        //arr1.filter(arr1Item => !arr2.includes(arr1Item));
+      }
+
       return filteredCards;
     },
     getLabel(id) {
@@ -164,6 +179,18 @@ export default {
   computed: {
     selectedBoard() {
       return this.$store.state.kanban.selectedBoard;
+    },
+    filterLabels() {
+      return this.$store.state.kanbanCards.filterLabels;
+    },
+    filterSearch() {
+      return this.$store.state.kanbanCards.filterSearch;
+    },
+    filterOnlyUser() {
+      return this.$store.state.kanbanCards.filterOnlyUser;
+    },
+    currentUser() {
+      return this.$store.state.user.currentUser;
     },
   },
 };
