@@ -49,6 +49,17 @@
         </v-list>
       </v-flex>
     </v-layout>
+    <v-snackbar
+      v-model="snackbar"
+      :color="snackbarColor"
+      :timeout="snackbarTimeout"
+      top
+    >
+      {{ snackbarText }}
+      <v-btn depressed text small dark @click="snackbar = false">
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-card>
 </template>
 
@@ -66,11 +77,17 @@ export default {
       editTitle: false,
       editIndex: -1,
       titleBeforeEdit: "",
+      snackbar: false,
+      snackbarTimeout: 3000,
+      snackbarColor: "error",
+      snackbarText: "",
     };
   },
   methods: {
     addParticipant() {
-      this.$store.dispatch(storeActions.documentSequence.ADD_PARTICIPANT_TO_SEQUENCE);
+      this.$store.dispatch(
+        storeActions.documentSequence.ADD_PARTICIPANT_TO_SEQUENCE
+      );
       this.update();
     },
     deleteParticipant(i) {
@@ -79,12 +96,35 @@ export default {
     },
     toggleEditTitle(index) {
       if (this.editTitle) {
-        if (this.selectedDocument.participants[index].title == "") {
-          this.selectedDocument.participants[index].title = "untitled";
+        let errorMessage = "";
+
+        const blankTitle =
+          this.selectedDocument.participants[index].title == "";
+        if (blankTitle) {
+          errorMessage = "Title needs to be set.";
         }
-       
-       //if(this.selectedDocument.participants[index].title.indexOf(" ") > 0)
-        //this.selectedDocument.participants[index].title = "\"" + this.selectedDocument.participants[index].title + "\"";
+
+        const hasSpaces =
+          this.selectedDocument.participants[index].title.indexOf(" ") >= 0;
+        if (hasSpaces) {
+          errorMessage = "Title can not contain spaces.";
+        }
+
+        const newTitle = this.selectedDocument.participants[index].title;
+        const exists = this.selectedDocument.participants.filter(
+          (f, i) => i != index && f.title == newTitle
+        );
+        if (exists.length > 0) {
+          errorMessage = "A participant with this name already exists.";
+        }
+
+        if (errorMessage != "") {
+          this.selectedDocument.participants[
+            index
+          ].title = this.titleBeforeEdit;
+          this.snackbar = true;
+          this.snackbarText = errorMessage;
+        }
 
         // Update code
         this.refactorAllCodeOnRename(
@@ -108,8 +148,25 @@ export default {
     },
     refactorAllCodeOnRename(prevParticipant, newParticipant) {
       this.selectedDocument.parts.forEach((part) => {
-        part.code = part.code.replace(prevParticipant, newParticipant);
+        let lines = part.code.split("\n");
+        let newCode = "";
+        lines.forEach((line) => {
+          const match = line.match(/(\w+)->(\w+)(:?)(.*)/);
+
+          if (match) {
+            const e1 = match[1].replace(prevParticipant, newParticipant);
+            const e2 = match[2].replace(prevParticipant, newParticipant);
+            const comment = match[4] || "";
+
+            if (comment) {
+              newCode += e1 + "->" + e2 + ":" + comment;
+            } else newCode += e1 + "->" + e2;
+            newCode += "\n";
+          }
+        });
+        part.code = newCode;
       });
+
       this.update();
     },
     update() {

@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs1>
+  <v-flex xs1 v-if="currentUser">
     <v-menu v-model="menu" offset-y offset-x>
       <template v-slot:activator="{ on }">
         <v-layout align-end justify-end>

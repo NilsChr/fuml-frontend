@@ -142,7 +142,7 @@ export default {
     selectedBoard() {
       return this.$store.state.kanban.selectedBoard;
     },
-  },
+  }
 };
 </script>
 

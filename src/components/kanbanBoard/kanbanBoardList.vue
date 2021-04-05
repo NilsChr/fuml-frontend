@@ -61,7 +61,7 @@
               </v-list-item-subtitle>
             </v-list-item-content>
             <v-slide-x-transition>
-              <v-list-item-action v-if="edit">
+              <v-list-item-action v-if="edit && currentUser._id == board.ownerId">
                 <v-btn
                   fab
                   x-small
@@ -166,6 +166,9 @@ export default {
     selectedProject() {
       return this.$store.state.projects.selectedProject;
     },
+    currentUser() {
+      return this.$store.state.user.currentUser;
+    }
   },
 };
 </script>

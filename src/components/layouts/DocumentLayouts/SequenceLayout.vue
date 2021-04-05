@@ -7,27 +7,6 @@
       <v-flex xs2 class="mr-1">
         <sequence-document-parts />
       </v-flex>
-      <!--
-      SEQUENCE
-      {{ selectedDocument }}
-      -->
-      <!--
-      <v-flex xs2 class="mr-1">
-        <v-layout fill-height style="" column>
-          <v-flex xs12>
-            <entity-list :document="selectedDocument" />
-          </v-flex>
-        </v-layout>
-      </v-flex>
-      <v-flex xs2 class="mr-1" v-if="selectedEntity">
-        <v-layout fill-height style="" column>
-          <v-flex xs12>
-            <entity-editor :entity="selectedEntity" />
-          </v-flex>
-        </v-layout>
-      </v-flex>
-      -->
-
       <v-flex v-if="img" :xs10="selectedDocument == null">
         <uml-image />
       </v-flex>

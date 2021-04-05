@@ -26,10 +26,11 @@
           >
           </v-checkbox>
         </v-flex>
-        <v-flex xs9>
-            <v-btn text fab x-small @click="clearLabels">
-                <v-icon size="15">clear</v-icon>
-            </v-btn>
+        <v-flex xs9 v-if="selectedBoard.labels.length > 0">
+          <v-btn class="mr-2" text x-small @click="clearLabels" icon>
+            <v-icon size="15">clear</v-icon>
+          </v-btn>
+
           <v-btn
             v-for="label in selectedBoard.labels"
             :key="label._id"
@@ -59,21 +60,20 @@
 import storeActions from "../../store/storeActions";
 export default {
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
-      clearLabels() {
-          
-      this.$store.commit(
-        storeActions.kanbanCards.SET_FILTER_LABELS,
-        []
-      );
-      },
-      getColor(label) {
-          if(this.selectedLabels.length > 0 && !this.selectedLabels.includes(label._id)) return 'grey lightne-2'
-          return label.color;
-      },
+    clearLabels() {
+      this.$store.commit(storeActions.kanbanCards.SET_FILTER_LABELS, []);
+    },
+    getColor(label) {
+      if (
+        this.selectedLabels.length > 0 &&
+        !this.selectedLabels.includes(label._id)
+      )
+        return "grey lightne-2";
+      return label.color;
+    },
     toggleLabel(label) {
       const index = this.selectedLabels.indexOf(label._id);
 

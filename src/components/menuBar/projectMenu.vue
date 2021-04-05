@@ -25,6 +25,9 @@
         @click="setSelectedProject(project)"
       >
         <v-list-item-title v-text="project.title"></v-list-item-title>
+        <v-list-item-subtitle v-if="project.ownerId == currentUser._id">Owner</v-list-item-subtitle>
+                <v-list-item-subtitle v-else>Collaorator</v-list-item-subtitle>
+
       </v-list-item>
     </v-list>
   </v-menu>
@@ -62,6 +65,9 @@ export default {
     },
   },
   computed: {
+    currentUser() {
+      return this.$store.state.user.currentUser;
+    },
     selectedProject() {
       return this.$store.state.projects.selectedProject;
     },

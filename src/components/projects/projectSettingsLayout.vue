@@ -8,7 +8,7 @@
             <project-settings-information />
           </v-flex>
           <v-divider></v-divider>
-          <v-flex xs2>
+          <v-flex xs2 v-if="selectedProject.ownerId == currentUser._id">
             <project-settings-delete />
           </v-flex>
         </v-layout>
@@ -29,6 +29,9 @@ export default {
     selectedProject() {
       return this.$store.state.projects.selectedProject;
     },
+    currentUser() {
+      return this.$store.state.user.currentUser;
+    }
   },
 };
 </script>

@@ -11,6 +11,7 @@ export const projectActions = {
   SET_SELECTED_PROJECT: "SET_SELECTED_PROJECT",
   SET_SELECTED_PROJECT_COLLABORATORS: "SET_SELECTED_PROJECT_COLLABORATORS",
   LOAD_SELECTED_PROJECT_COLLABORATORS: "LOAD_SELECTED_PROJECT_COLLABORATORS",
+  REMOVE_CURRENTUSER_AS_COLLAB: 'REMOVE_CURRENTUSER_AS_COLLAB'
 };
 
 const projects = {
@@ -50,10 +51,7 @@ const projects = {
     async LOAD_SELECTED_PROJECT_COLLABORATORS({ commit, state, dispatch }) {
       const collabs = await DBConnector.projects.getCollaborators(
         state.selectedProject
-      ); /*await DBConnector.get(
-        "/projects/" + state.selectedProject._id + "/collaborators"
-      );*/
-      //      console.log('COLLABS', collabs)
+      ); 
       commit(projectActions.SET_SELECTED_PROJECT_COLLABORATORS, collabs);
     },
     async LOAD_SELECTED_PROJECT(
@@ -61,7 +59,6 @@ const projects = {
       payload
     ) {
       commit(projectActions.SET_LOADING, true);
-      //const docs = await DBConnector.loadProjectDocuments(payload);
       const docs = await DBConnector.projects.loadProjectDocuments(payload);
       commit(storeActions.SET_SELECTED_PROJECT, payload);
       commit(storeActions.SET_DOCUMENTS, docs);
@@ -143,6 +140,16 @@ const projects = {
         }
       });
     },
+    async REMOVE_CURRENTUSER_AS_COLLAB({state, rootState, commit}) {
+      const user = rootState.user.currentUser;
+      const project = state.selectedProject;
+
+      await DBConnector.removeCollaborator(project, user);
+
+      const projects = state.projects.filter(p => p._id != project._id);
+      commit(projectActions.SET_PROJECTS, projects);
+      commit(projectActions.SET_SELECTED_PROJECT, null);
+    }
   },
 };
 
