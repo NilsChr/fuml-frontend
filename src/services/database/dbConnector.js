@@ -6,8 +6,10 @@ import kanbanBoardDb from "./kanbanBoard.db";
 import kanbanBoardCardDb from "./kanbanBoardCard.db";
 import kanbanBoardCardCommentDb from "./kanbanBoardCardComment.db";
 
+import globals from '../../globals';
+
 export const HTTP = {
-  url: "http://localhost:3000/api",
+  url: globals.backendUrl,//"http://localhost:3000/api",
   setToken() {
     return new Promise(async (resolve) => {
       const token = await auth.user().getIdToken();

@@ -60,20 +60,55 @@
             <v-flex xs12>
               <v-icon>subject</v-icon>
               <strong class="ml-5 pl-2">Description</strong>
+
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <!--
+                  <v-btn
+                    depressed
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="openHelp"
+                    fab
+                    x-small
+                    class="ml-4"
+                  >
+                  -->
+                  <v-icon
+                    size="15"
+                    class="ml-4"
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="openHelp"
+                    >help</v-icon
+                  >
+                  <!--
+                  </v-btn>
+                  -->
+                </template>
+                <span>This editor uses markdown, click to learn more.</span>
+              </v-tooltip>
             </v-flex>
-            <v-flex xs12 class="pt-2" @click="setEditMode('editor')">
+            <v-flex xs12 class="pt-2">
               <Editor
                 ref="editor"
                 :mode="editMode"
                 :render-config="renderConfig"
                 v-model="description"
-                style="cursor: pointer"
                 :emoji="false"
                 :image="false"
                 placeholder="Add a more detailed description"
               />
             </v-flex>
             <v-flex xs12 class="pt-2 pl-5">
+              <v-btn
+                @click="setEditMode('editor')"
+                v-if="editMode != 'editor'"
+                depressed
+                x-small
+                color="warning lighten-2"
+                >Edit</v-btn
+              >
               <v-btn
                 @click="updateDescription"
                 v-if="editMode == 'editor'"
@@ -83,6 +118,19 @@
                 :disabled="this.selectedCard.description == description"
                 >Update descritpion</v-btn
               >
+              <v-btn
+                @click="cancelDescritpionEdit"
+                class="ml-2"
+                v-if="editMode == 'editor'"
+                depressed
+                small
+                color="grey"
+                >Cancel</v-btn
+              >
+              <kanban-card-document-link
+                v-if="editMode == 'editor'"
+                @created="_handleLinkCreated"
+              />
             </v-flex>
           </v-layout>
         </v-flex>
@@ -105,6 +153,7 @@ import kanbanCreateLabel from "../label/kanbanCreateLabel.vue";
 import { Editor } from "vuetify-markdown-editor";
 import KanbanCardComments from "./kanbanCardComments.vue";
 import KanbanCardDelete from "./kanbanCardDelete.vue";
+import KanbanCardDocumentLink from "./kanbanCardDocumentLink.vue";
 
 export default {
   components: {
@@ -112,6 +161,7 @@ export default {
     Editor,
     KanbanCardComments,
     KanbanCardDelete,
+    KanbanCardDocumentLink,
   },
   data() {
     return {
@@ -119,7 +169,7 @@ export default {
       title: null,
       description: null,
       createLabelDialog: false,
-
+      descriptionBeforeEdit: "",
       editMode: "editor",
       text: "",
       renderConfig: {
@@ -166,6 +216,9 @@ export default {
       this.updateCard();
     },
     setEditMode(mode) {
+      if (mode == "editor") {
+        this.descriptionBeforeEdit = this.description;
+      }
       this.editMode = mode;
       this.testMode = mode;
       console.log(this.editMode);
@@ -176,8 +229,21 @@ export default {
         this.selectedCard._id
       );
     },
+    cancelDescritpionEdit() {
+      this.description = this.descriptionBeforeEdit;
+      this.descriptionBeforeEdit = "";
+      this.setEditMode("viewer");
+    },
+    openHelp() {
+      const url =
+        "https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet";
+      window.open(url, "_blank").focus();
+    },
     _handleCloseCreateLabel() {
       this.createLabelDialog = false;
+    },
+    _handleLinkCreated(link) {
+      this.description = this.description + link;
     },
   },
   computed: {
