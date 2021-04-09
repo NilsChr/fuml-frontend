@@ -7,9 +7,6 @@
   >
     <template v-slot:activator="{ on }">
       <v-btn color="primary lighten" depressed dark v-on="on" small class="ml-2">
-          <!--
-        <v-icon>link</v-icon>
-        -->
         Add document link
       </v-btn>
     </template>
@@ -83,7 +80,6 @@ export default {
     },
     items() {
       const docs = this.$store.state.documents.documents;
-      console.log(docs);
       return docs;
     },
   },

@@ -20,6 +20,9 @@ export const kanbanCardActions = {
   DELETE_COMMENT: "DELETE_COMMENT",
 
   UPDATE_BOARD_CARD_COUNT: "UPDATE_BOARD_CARD_COUNT",
+
+  REMOVE_MEMBER:'REMOVE_MEMBER',
+  TOGGLE_MEMBER: 'TOGGLE_MEMBER'
 };
 
 const site = {
@@ -222,6 +225,45 @@ const site = {
 
       const comments = [...state.selectedCardComments];
       commit(kanbanCardActions.SET_COMMENTS, comments);
+    },
+
+    // MEMBERS
+    async ADD_MEMBER({state, rootState, commit}, member) {
+      const board = rootState.kanban.selectedBoard;
+      const card = state.selectedCard;
+      const index = card.assignees.indexOf(member);
+      if(index == -1) {
+        card.assignees.push(member);
+        DBConnector.kanbanBoardCards.update(board, card);
+      }
+    },
+
+    async REMOVE_MEMBER({state, rootState, commit}, member) {
+      const board = rootState.kanban.selectedBoard;
+      const card = state.selectedCard;
+      const index = card.assignees.indexOf(member);
+      if(index >= 0) {
+        card.assignees.splice(index,1);
+        DBConnector.kanbanBoardCards.update(board, card);
+      }
+    },
+
+    TOGGLE_MEMBER({ state, rootState, commit }, memberId) {
+      return new Promise(async (resolve) => {
+        const card = state.selectedCard;
+        const memberExists = card.assignees.indexOf(memberId);
+
+        if (memberExists >= 0) {
+          card.assignees.splice(memberExists, 1);
+        } else {
+          card.assignees.push(memberId);
+        }
+        console.log(card.assignees);
+        const board = rootState.kanban.selectedBoard;
+        await DBConnector.kanbanBoardCards.update(board, card);
+
+        resolve();
+      });
     },
   },
 };

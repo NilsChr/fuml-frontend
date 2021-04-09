@@ -41,10 +41,10 @@
             @dragstart="dragStart($event, item)"
             @mouseup="selectCard($event, item)"
             v-bind:class="{ ghost: item == dragItem }"
-            class="ma-1 pa-1"
+            class="ma-1 pa-2"
           >
             <v-layout wrap>
-              <v-flex xs12 v-if="displayLabelTitle">
+              <v-flex xs8 v-if="displayLabelTitle">
                 <v-btn
                   @mouseup.stop="toggleLabelTitles($event)"
                   v-for="(label, i) in item.labels"
@@ -57,7 +57,7 @@
                   >{{ getLabelTitle(label) }}</v-btn
                 >
               </v-flex>
-              <v-flex xs12 v-if="!displayLabelTitle">
+              <v-flex xs8 v-if="!displayLabelTitle">
                 <v-btn
                   @mouseup.stop="toggleLabelTitles($event)"
                   v-for="(label, i) in item.labels"
@@ -69,7 +69,19 @@
                   class="mr-1"
                 ></v-btn>
               </v-flex>
-              <v-flex xs12>
+              <v-flex xs4>
+                <v-layout justify-end>
+                  <v-avatar
+                    v-for="(member, i) in item.assignees"
+                    :key="i"
+                    size="22"
+                    class="cardMember"
+                  >
+                    <v-img :src="getMember(member).avatarUrl"> </v-img>
+                  </v-avatar>
+                </v-layout>
+              </v-flex>
+              <v-flex xs12 class="pt-2">
                 {{ item.title }}
               </v-flex>
             </v-layout>
@@ -138,26 +150,29 @@ export default {
 
       this.dragItem = null;
     },
-    /*filteredItems(zone) {
-      return this.items.filter((i) => i.status == zone.id);
-    },*/
     boardCards(zone) {
       let filteredCards = this.$store.state.kanbanCards.cards.filter(
         (c) => c.status === zone.id && c.boardId == this.selectedBoard._id
       );
 
-      if(this.filterSearch != '') {
-        filteredCards = filteredCards.filter(c => c.title.toLowerCase().includes(this.filterSearch.toLowerCase()));
+      if (this.filterSearch != "") {
+        filteredCards = filteredCards.filter((c) =>
+          c.title.toLowerCase().includes(this.filterSearch.toLowerCase())
+        );
       }
 
-      if(this.filterOnlyUser) {
-        filteredCards = filteredCards.filter(c => c.ownerId == this.currentUser._id);
+      if (this.filterOnlyUser) {
+        filteredCards = filteredCards.filter(
+          (c) => c.ownerId == this.currentUser._id
+        );
       }
 
-      if(this.filterLabels.length > 0) {
-        //filteredCards = filteredCards.filter(c => c.ownerId == this.currentUser._id);
-        filteredCards = filteredCards.filter(c => c.labels.filter(label => this.filterLabels.includes(label)).length > 0);
-        //arr1.filter(arr1Item => !arr2.includes(arr1Item));
+      if (this.filterLabels.length > 0) {
+        filteredCards = filteredCards.filter(
+          (c) =>
+            c.labels.filter((label) => this.filterLabels.includes(label))
+              .length > 0
+        );
       }
 
       return filteredCards;
@@ -175,6 +190,9 @@ export default {
       ev.stopPropagation();
       this.displayLabelTitle = !this.displayLabelTitle;
     },
+    getMember(id) {
+      return this.projectMembers.find((m) => m._id == id);
+    },
   },
   computed: {
     selectedBoard() {
@@ -191,6 +209,9 @@ export default {
     },
     currentUser() {
       return this.$store.state.user.currentUser;
+    },
+    projectMembers() {
+      return this.$store.state.projects.selectedProjectCollaborators;
     },
   },
 };
@@ -218,5 +239,10 @@ export default {
 .ghost {
   opacity: 1;
   background-color: rgb(240, 240, 240);
+}
+
+.cardMember {
+  border: 1px solid #fafafa;
+  margin-left: -12px;
 }
 </style>

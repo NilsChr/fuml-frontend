@@ -26,29 +26,11 @@
         <!-- LABELS -->
         <v-flex xs1 class="pl-5 pb-4">
           <v-layout wrap>
-            <v-flex xs12>
-              <label><strong>LABELS</strong></label>
+            <v-flex xs8>
+              <kanban-card-labels />
             </v-flex>
-            <v-flex xs12>
-              <v-btn
-                class="ma-1"
-                v-for="(label, i) in selectedCard.labels"
-                :key="i"
-                small
-                depressed
-                :color="getLabelColor(label)"
-                dark
-                >{{ getLabelTitle(label) }}</v-btn
-              >
-              <v-btn
-                depressed
-                color="grey lighten-3"
-                small
-                class="mr-2"
-                @click="createLabel"
-              >
-                <v-icon size="20">add</v-icon>
-              </v-btn>
+            <v-flex xs4>
+              <kanban-card-members />
             </v-flex>
           </v-layout>
         </v-flex>
@@ -63,17 +45,6 @@
 
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
-                  <!--
-                  <v-btn
-                    depressed
-                    v-bind="attrs"
-                    v-on="on"
-                    @click="openHelp"
-                    fab
-                    x-small
-                    class="ml-4"
-                  >
-                  -->
                   <v-icon
                     size="15"
                     class="ml-4"
@@ -82,9 +53,6 @@
                     @click="openHelp"
                     >help</v-icon
                   >
-                  <!--
-                  </v-btn>
-                  -->
                 </template>
                 <span>This editor uses markdown, click to learn more.</span>
               </v-tooltip>
@@ -140,35 +108,32 @@
         <kanban-card-comments />
       </v-layout>
     </v-card>
-    <kanban-create-label
-      :dialog="createLabelDialog"
-      v-on:close="_handleCloseCreateLabel"
-    />
   </v-dialog>
 </template>
 
 <script>
 import storeActions from "../../../store/storeActions";
-import kanbanCreateLabel from "../label/kanbanCreateLabel.vue";
 import { Editor } from "vuetify-markdown-editor";
 import KanbanCardComments from "./kanbanCardComments.vue";
 import KanbanCardDelete from "./kanbanCardDelete.vue";
 import KanbanCardDocumentLink from "./kanbanCardDocumentLink.vue";
+import KanbanCardLabels from "./kanbanCardLabels.vue";
+import KanbanCardMembers from './kanbanCardMembers.vue';
 
 export default {
   components: {
-    kanbanCreateLabel,
     Editor,
     KanbanCardComments,
     KanbanCardDelete,
     KanbanCardDocumentLink,
+    KanbanCardLabels,
+    KanbanCardMembers,
   },
   data() {
     return {
       focusEdit: null,
       title: null,
       description: null,
-      createLabelDialog: false,
       descriptionBeforeEdit: "",
       editMode: "editor",
       text: "",
@@ -189,18 +154,6 @@ export default {
       if (this.description == "") {
         this.editMode = "editor";
       } else this.editMode = "viewer";
-    },
-    createLabel() {
-      this.createLabelDialog = true;
-    },
-    getLabel(id) {
-      return this.selectedBoard.labels.find((l) => l._id == id);
-    },
-    getLabelColor(id) {
-      return this.getLabel(id)?.color || "transparent";
-    },
-    getLabelTitle(id) {
-      return this.getLabel(id)?.title || "";
     },
     updateTitle() {
       this.selectedCard.title = this.title;
@@ -238,9 +191,6 @@ export default {
       const url =
         "https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet";
       window.open(url, "_blank").focus();
-    },
-    _handleCloseCreateLabel() {
-      this.createLabelDialog = false;
     },
     _handleLinkCreated(link) {
       this.description = this.description + link;
