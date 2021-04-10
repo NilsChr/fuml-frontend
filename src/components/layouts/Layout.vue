@@ -21,6 +21,7 @@
 import DocumentsList from "../lists/documents/documentsList";
 import EntityLayout from "./DocumentLayouts/EntityLayout";
 import SequenceLayout from "./DocumentLayouts/SequenceLayout";
+import TextLayout from "./DocumentLayouts/TextLayout";
 import UmlImage from "../uml/UmlImage.vue";
 import { documentTypes } from '../../store/modules/documents.store';
 
@@ -31,6 +32,7 @@ export default {
     DocumentsList,
     EntityLayout,
     SequenceLayout,
+    TextLayout
   },
   computed: {
     selectedProject() {
@@ -52,6 +54,8 @@ export default {
           return EntityLayout;
         case documentTypes.SEQUENCE:
           return SequenceLayout;
+            case documentTypes.TEXT:
+          return TextLayout;
       }
     },
   },

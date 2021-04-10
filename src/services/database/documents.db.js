@@ -1,17 +1,24 @@
 import { documentTypes } from "../../store/modules/documents.store";
 import { HTTP } from "./dbConnector";
 
+function getDocumentEndpoint(type) {
+  if (type === documentTypes.ENTITY) {
+    return "entitydocuments";
+  }
+  if (type === documentTypes.SEQUENCE) {
+    return "sequencedocuments";
+  }
+  if (type === documentTypes.TEXT) {
+    return "textdocuments";
+  }
+  return "";
+}
+
 export default {
   create: function(type, title, projectId) {
     return new Promise(async (resolve, reject) => {
       try {
-        let endpoint = "";
-        if (type === documentTypes.ENTITY) {
-          endpoint = "entitydocuments";
-        }
-        if (type === documentTypes.SEQUENCE) {
-          endpoint = "sequencedocuments";
-        }
+        let endpoint = getDocumentEndpoint(type);
 
         if (endpoint === "") {
           return reject("Invalid document type");
@@ -31,13 +38,7 @@ export default {
   update: function(document) {
     return new Promise(async (resolve, reject) => {
       try {
-        let endpoint = "";
-        if (document.type === documentTypes.ENTITY) {
-          endpoint = "entitydocuments";
-        }
-        if (document.type === documentTypes.SEQUENCE) {
-          endpoint = "sequencedocuments";
-        }
+        let endpoint = getDocumentEndpoint(document.type);
 
         if (endpoint === "") {
           return reject("Invalid document type");
@@ -52,13 +53,7 @@ export default {
   delete: function(document) {
     return new Promise(async (resolve, reject) => {
       try {
-        let endpoint = "";
-        if (document.type === documentTypes.ENTITY) {
-          endpoint = "entitydocuments";
-        }
-        if (document.type === documentTypes.SEQUENCE) {
-          endpoint = "sequencedocuments";
-        }
+        let endpoint = getDocumentEndpoint(type);
 
         if (endpoint === "") {
           return reject("Invalid document type");
@@ -69,5 +64,5 @@ export default {
         reject(e);
       }
     });
-  }
+  },
 };

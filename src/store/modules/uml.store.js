@@ -1,6 +1,7 @@
 import * as plantumlEncoder from "plantuml-encoder";
 import DBConnector from "../../services/database/dbConnector";
 import UMLParser from "../../services/umlParser/uml.parser";
+import { documentTypes } from "./documents.store";
 
 const uml = {
   state: {
@@ -16,6 +17,8 @@ const uml = {
       //db.saveData();
 
       const document = rootState.documents.selectedDocument;
+      if(!document) return;
+      if(document.type == documentTypes.TEXT) return;
       //DBConnector.updateDocument(document)
       DBConnector.documents.update(document);
 

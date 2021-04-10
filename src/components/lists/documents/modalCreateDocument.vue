@@ -31,7 +31,6 @@
 <script>
 import { documentTypes } from '../../../store/modules/documents.store';
 import storeActions from "../../../store/storeActions";
-//import { documentTypes } from "../../../services/factories/document.factory";
 
 export default {
   data() {

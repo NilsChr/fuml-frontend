@@ -4,6 +4,7 @@ import storeActions from "../storeActions";
 export const documentTypes = {
   ENTITY: "ENTITY",
   SEQUENCE: "SEQUENCE",
+  TEXT: "TEXT"
 };
 
 const documents = {
