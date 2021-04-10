@@ -56,9 +56,7 @@
       top
     >
       {{ snackbarText }}
-      <v-btn depressed text small dark @click="snackbar = false">
-        Close
-      </v-btn>
+      <v-btn depressed text small dark @click="snackbar = false"> Close </v-btn>
     </v-snackbar>
   </v-card>
 </template>
@@ -154,8 +152,17 @@ export default {
           const match = line.match(/(\w+)->(\w+)(:?)(.*)/);
 
           if (match) {
-            const e1 = match[1].replace(prevParticipant, newParticipant);
-            const e2 = match[2].replace(prevParticipant, newParticipant);
+            let e1 = match[1];
+
+            if (match[1] == prevParticipant) {
+              e1 = match[1].replace(prevParticipant, newParticipant);
+            }
+
+            let e2 = match[2];
+
+            if (match[2] == prevParticipant) {
+              e2 = match[2].replace(prevParticipant, newParticipant);
+            }
             const comment = match[4] || "";
 
             if (comment) {

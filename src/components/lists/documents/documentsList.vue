@@ -157,7 +157,8 @@ export default {
       if (!this.documentsSearch) return documents;
       if (this.documentsSearch == "") return documents;
       return documents.filter((f) =>
-        f.title.toLowerCase().includes(this.documentsSearch.toLowerCase())
+        f.title.toLowerCase().includes(this.documentsSearch.toLowerCase()) ||
+         f.type.toLowerCase().includes(this.documentsSearch.toLowerCase())
       );
     },
     selectedDocument() {

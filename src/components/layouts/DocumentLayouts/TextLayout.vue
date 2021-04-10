@@ -5,9 +5,31 @@
         <v-card class="fill-height pa-2" style="overflow-y: scroll">
           <v-layout wrap>
             <v-flex xs12>
-              <v-card-title>
-                {{ selectedDocument.title }}
-              </v-card-title>
+              <v-layout justify-space-between>
+                <v-card-title>
+                  {{ selectedDocument.title }}
+                </v-card-title>
+                <v-btn
+                  depressed
+                  class="mt-3"
+                  color="grey lighten-2"
+                  small
+                  @click="editDocument = true"
+                  v-if="!editDocument"
+                >
+                  <v-icon size="15">edit</v-icon>
+                </v-btn>
+                <v-btn
+                  depressed
+                  class="mt-3"
+                  color="warning"
+                  small
+                  @click="editDocument = false"
+                  v-if="editDocument"
+                >
+                  <v-icon>edit</v-icon>
+                </v-btn>
+              </v-layout>
             </v-flex>
             <v-flex xs12>
               <quill-editor
@@ -29,7 +51,7 @@
 </template>
 
 <script>
-import '../../../plugins/highlight';
+import "../../../plugins/highlight";
 
 import { quillEditor } from "vue-quill-editor";
 import DBConnector from "../../../services/database/dbConnector";
@@ -41,6 +63,7 @@ export default {
   data() {
     return {
       //content: "<h2>I am Example</h2>",
+      editDocument: false,
       editorOption: {
         bounds: "#quill-editor",
         modules: {
@@ -111,9 +134,28 @@ export default {
     // console.log("this is current quill instance object", this.editor);
     // This prevents code-blocks to indent more than one line
     //this.content = this.selectedDocument.text;
+    let qel = document.getElementsByClassName("ql-toolbar")[0];
+    qel.style.display = "none";
+    this.editor.enable(false);
+  },
+  watch: {
+    editDocument() {
+      let qel = document.getElementsByClassName("ql-toolbar")[0];
+
+      if (!this.editDocument) {
+        qel.style.display = "none";
+        this.editor.enable(false);
+      } else {
+        qel.style.display = "block";
+        this.editor.enable(true);
+      }
+    },
   },
 };
 </script>
 
 <style>
+.ql-container.ql-snow {
+  border: none !important;
+}
 </style>
