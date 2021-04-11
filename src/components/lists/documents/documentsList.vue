@@ -42,7 +42,7 @@
         </v-layout>
       </v-flex>
       <v-flex xs11 style="overflow: hidden" class="bordered">
-        <v-list class="card-list" dense style="overflow: auto;">
+        <v-list class="card-list" dense style="overflow: auto">
           <v-list-item
             dense
             v-for="document in filteredDocuments"
@@ -54,9 +54,12 @@
             @click="setSelectedDocument(document)"
           >
             <v-list-item-content>
-              <v-list-item-title>{{ document.title  }}</v-list-item-title>
-              <v-list-item-subtitle>{{ document.type | toLowerCase}}</v-list-item-subtitle>
+              <v-list-item-title>{{ document.title }}</v-list-item-title>
+              <v-list-item-subtitle>{{
+                document.type | toLowerCase
+              }}</v-list-item-subtitle>
             </v-list-item-content>
+
             <v-slide-x-transition>
               <v-list-item-action v-if="edit">
                 <v-btn
@@ -156,9 +159,10 @@ export default {
       const documents = this.projectDocuments;
       if (!this.documentsSearch) return documents;
       if (this.documentsSearch == "") return documents;
-      return documents.filter((f) =>
-        f.title.toLowerCase().includes(this.documentsSearch.toLowerCase()) ||
-         f.type.toLowerCase().includes(this.documentsSearch.toLowerCase())
+      return documents.filter(
+        (f) =>
+          f.title.toLowerCase().includes(this.documentsSearch.toLowerCase()) ||
+          f.type.toLowerCase().includes(this.documentsSearch.toLowerCase())
       );
     },
     selectedDocument() {
