@@ -179,13 +179,10 @@ const site = {
       // Attach users
       for (let i = 0; i < comments.length; i++) {
         const comment = comments[i];
-        console.log(rootState.projects.selectedProjectCollaborators);
         const user = rootState.projects.selectedProjectCollaborators.find(
           (u) => u._id == comment.ownerId
         );
         comment.user = user;
-
-        comment.created = new Date(comment.created).toISOString().slice(0, 10); //.replace(/-/g,"");;
       }
 
       commit(kanbanCardActions.SET_COMMENTS, comments);

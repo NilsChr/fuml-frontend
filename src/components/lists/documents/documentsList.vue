@@ -42,7 +42,7 @@
         </v-layout>
       </v-flex>
       <v-flex xs11 style="overflow: hidden" class="bordered">
-        <v-list class="card-list" dense>
+        <v-list class="card-list" dense style="overflow: auto;">
           <v-list-item
             dense
             v-for="document in filteredDocuments"
@@ -54,8 +54,8 @@
             @click="setSelectedDocument(document)"
           >
             <v-list-item-content>
-              <v-list-item-title>{{ document.title }}</v-list-item-title>
-              <v-list-item-subtitle>{{ document.type }}</v-list-item-subtitle>
+              <v-list-item-title>{{ document.title  }}</v-list-item-title>
+              <v-list-item-subtitle>{{ document.type | toLowerCase}}</v-list-item-subtitle>
             </v-list-item-content>
             <v-slide-x-transition>
               <v-list-item-action v-if="edit">
@@ -173,7 +173,7 @@ export default {
 
 <style scoped>
 .selected {
-  border-left: 10px solid rgb(102, 199, 102);
+  border-left: 5px solid rgb(102, 199, 102);
 }
 .bordered {
   border: 1px solid rgb(208, 208, 208);

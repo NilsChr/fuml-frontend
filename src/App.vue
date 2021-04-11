@@ -1,6 +1,13 @@
 <template>
   <v-app>
     <v-app-bar app color="grey darken-4" dark v-if="showAppBar">
+      <v-progress-linear
+        v-if="networkCall"
+        indeterminate
+        style="position: absolute; top: 0; left: 0"
+        height="2"
+      ></v-progress-linear>
+
       <div class="d-flex align-center">
         <label
           style="font-family: 'Montserrat'; font-size: 26px; color: #639bff"
@@ -40,6 +47,9 @@ export default {
   computed: {
     showAppBar() {
       return this.$store.state.site.showAppBar;
+    },
+    networkCall() {
+      return this.$store.state.site.networkCallInProgress;
     },
   },
   created() {

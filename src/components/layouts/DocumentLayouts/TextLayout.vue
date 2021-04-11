@@ -2,51 +2,99 @@
   <v-container fluid class="pa-0 ma-0" fill-height>
     <v-layout class="pa-0 ma-0" fill-height>
       <v-flex xs12>
-        <v-card class="fill-height pa-2" style="overflow-y: scroll">
-          <v-layout wrap>
-            <v-flex xs12>
-              <v-layout justify-space-between>
-                <v-card-title>
-                  {{ selectedDocument.title }}
-                </v-card-title>
-                <v-btn
-                  depressed
-                  class="mt-3"
-                  color="grey lighten-2"
-                  small
-                  @click="editDocument = true"
-                  v-if="!editDocument"
-                >
-                  <v-icon size="15">edit</v-icon>
-                </v-btn>
-                <v-btn
-                  depressed
-                  class="mt-3"
-                  color="warning"
-                  small
-                  @click="editDocument = false"
-                  v-if="editDocument"
-                >
-                  <v-icon>edit</v-icon>
-                </v-btn>
+        <v-card id="text-card" class="fill-height pa-2">
+          <v-layout fill-height style="overflow: hidden" column>
+            <v-flex xs1 style="">
+              <v-layout justify-start wrap>
+                <v-flex xs1 class="pa-5">
+                  <user-avatar :userId="selectedDocument.ownerId" :size="35" />
+                </v-flex>
+                <v-flex xs4>
+                  <v-card-title v-if="editDocument">
+                    <v-text-field
+                      v-model="selectedDocument.title"
+                      hide-details
+                      outlined
+                      dense
+                      @change="_handleTitleChange"
+                    >
+                    </v-text-field>
+                  </v-card-title>
+                  <v-card-title v-if="!editDocument">
+                    {{ selectedDocument.title }}
+                  </v-card-title>
+                </v-flex>
+                <v-spacer></v-spacer>
+                <v-flex xs2>
+                  <v-subheader>
+                    File size: {{ (currentSize - 186) | fileSize }}
+                  </v-subheader>
+                </v-flex>
+                <v-flex xs1>
+                  <v-layout justify-end>
+                    <v-btn
+                      depressed
+                      class="mt-3"
+                      color="grey lighten-2"
+                      small
+                      @click="editDocument = true"
+                      v-if="!editDocument"
+                    >
+                      <v-icon size="15">edit</v-icon>
+                    </v-btn>
+                    <v-btn
+                      depressed
+                      class="mt-3"
+                      color="warning"
+                      small
+                      @click="editDocument = false"
+                      v-if="editDocument"
+                    >
+                      <v-icon>edit</v-icon>
+                    </v-btn>
+                  </v-layout>
+                </v-flex>
+                <v-flex xs12>
+                  <v-progress-linear
+                    :color="getProgressColor()"
+                    :value="documentSizeNormalized"
+                    class="ma-1"
+                  ></v-progress-linear>
+                </v-flex>
               </v-layout>
             </v-flex>
-            <v-flex xs12>
-              <quill-editor
-                v-model="selectedDocument.text"
-                ref="myQuillEditor"
-                :options="editorOption"
-                @blur="onEditorBlur($event)"
-                @focus="onEditorFocus($event)"
-                @ready="onEditorReady($event)"
-                @change="onEditorChange($event)"
+            <v-flex xs11 style="position: relative" class="bordered">
+              <div
+                id="editorcontainer"
+                style="
+                  height: 10em;
+                  min-height: 100%;
+                  overflow-y: auto;
+                  margin-top: 3em;
+                "
               >
-              </quill-editor>
+                <quill-editor
+                  style="min-height: 100%; height: auto"
+                  v-model="selectedDocument.text"
+                  ref="myQuillEditor"
+                  :options="editorOption"
+                  @blur="onEditorBlur($event)"
+                  @focus="onEditorFocus($event)"
+                  @ready="onEditorReady($event)"
+                  @change="onEditorChange($event)"
+                >
+                </quill-editor>
+              </div>
             </v-flex>
           </v-layout>
         </v-card>
       </v-flex>
     </v-layout>
+
+    <v-snackbar v-model="messageFileToLarge" color="error" multi-line top>
+      File to large, not saved.
+      <v-btn text @click="messageFileToLarge = false" depressed> Close </v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -55,15 +103,19 @@ import "../../../plugins/highlight";
 
 import { quillEditor } from "vue-quill-editor";
 import DBConnector from "../../../services/database/dbConnector";
+import memoryUtil from "../../../util/memory.util";
+import UserAvatar from "../../common/userAvatar.vue";
 
 export default {
   components: {
     quillEditor,
+    UserAvatar,
   },
   data() {
     return {
-      //content: "<h2>I am Example</h2>",
+      currentSize: 0,
       editDocument: false,
+      messageFileToLarge: false,
       editorOption: {
         bounds: "#quill-editor",
         modules: {
@@ -99,24 +151,34 @@ export default {
     };
   },
   methods: {
-    onEditorBlur(quill) {
-      // console.log("editor blur!", quill);
-    },
-    onEditorFocus(quill) {
-      // console.log("editor focus!", quill);
-    },
-    onEditorReady(quill) {
-      // console.log("editor ready!", quill);
-    },
+    onEditorBlur(quill) {},
+    onEditorFocus(quill) {},
+    onEditorReady(quill) {},
     onEditorChange({ quill, html, text }) {
-      //console.log("editor change!", quill, html, text);
-      //this.content = html;
       this.selectedDocument.text = html;
+      this.currentSize = memoryUtil.memorySizeOfInBytes(this.selectedDocument);
 
       clearTimeout(this.timeOut);
       this.timeOut = setTimeout(() => {
+        if (this.documentSizeNormalized >= 100) {
+          this.messageFileToLarge = true;
+          return;
+        }
+        this.messageFileToLarge = false;
         DBConnector.documents.update(this.selectedDocument);
       }, 200);
+    },
+    _handleTitleChange() {
+      DBConnector.documents.update(this.selectedDocument);
+    },
+    getProgressColor() {
+      if (this.documentSizeNormalized < 75) return "secondary";
+      if (
+        this.documentSizeNormalized >= 75 &&
+        this.documentSizeNormalized < 100
+      )
+        return "warning";
+      return "error";
     },
   },
   computed: {
@@ -124,21 +186,22 @@ export default {
       return this.$refs.myQuillEditor.quill;
     },
     selectedDocument() {
-      //console.log('doc change')
-      //this.editor.setContent(this.selectedDocument.text);
-      // this.content = this.selectedDocument.text;
       return this.$store.state.documents.selectedDocument;
+    },
+    documentSizeNormalized() {
+      return (this.currentSize / 2500000) * 100;
     },
   },
   mounted() {
-    // console.log("this is current quill instance object", this.editor);
-    // This prevents code-blocks to indent more than one line
-    //this.content = this.selectedDocument.text;
     let qel = document.getElementsByClassName("ql-toolbar")[0];
     qel.style.display = "none";
     this.editor.enable(false);
+    this.currentSize = memoryUtil.memorySizeOfInBytes(this.selectedDocument);
   },
   watch: {
+    selectedDocument() {
+      this.currentSize = memoryUtil.memorySizeOfInBytes(this.selectedDocument);
+    },
     editDocument() {
       let qel = document.getElementsByClassName("ql-toolbar")[0];
 
@@ -157,5 +220,28 @@ export default {
 <style>
 .ql-container.ql-snow {
   border: none !important;
+}
+.ql-toolbar.ql-snow {
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
+  border-bottom: 1px solid rgb(92, 92, 92);
+}
+.ql-container.ql-snow {
+  height: 100%;
+  overflow: hidden;
+}
+.ql-editor {
+  overflow: hidden;
+}
+
+.ql-container.ql-snow.ql-disabled {
+  overflow: auto;
+}
+.ql-toolbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 </style>

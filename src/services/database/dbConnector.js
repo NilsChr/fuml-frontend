@@ -6,10 +6,16 @@ import kanbanBoardDb from "./kanbanBoard.db";
 import kanbanBoardCardDb from "./kanbanBoardCard.db";
 import kanbanBoardCardCommentDb from "./kanbanBoardCardComment.db";
 
-import globals from '../../globals';
+import globals from "../../globals";
+import storeActions from "../../store/storeActions";
+
 
 export const HTTP = {
-  url: globals.backendUrl,//"http://localhost:3000/api",
+  url: globals.backendUrl, //"http://localhost:3000/api",
+  context: null,
+  init(context) {
+    this.context = context;
+  },
   setToken() {
     return new Promise(async (resolve) => {
       const token = await auth.user().getIdToken();
@@ -19,11 +25,14 @@ export const HTTP = {
   },
   post: function(path, payload) {
     return new Promise(async (resolve, reject) => {
+      this.context.$store.commit(storeActions.site.SET_NETWORK_CALL, true);
       try {
         await this.setToken();
         const response = await axios.post(this.url + path, payload);
+        this.context.$store.commit(storeActions.site.SET_NETWORK_CALL, false);
         resolve(response);
       } catch (e) {
+        this.context.$store.commit(storeActions.site.SET_NETWORK_CALL, false);
         return reject(e);
       }
     });
@@ -41,22 +50,28 @@ export const HTTP = {
   },
   put: function(path, payload) {
     return new Promise(async (resolve, reject) => {
+      this.context.$store.commit(storeActions.site.SET_NETWORK_CALL, true);
       try {
         await this.setToken();
         const response = await axios.put(this.url + path, payload);
+        this.context.$store.commit(storeActions.site.SET_NETWORK_CALL, false);
         resolve(response);
       } catch (e) {
+        this.context.$store.commit(storeActions.site.SET_NETWORK_CALL, false);
         reject(e);
       }
     });
   },
   delete: function(path) {
     return new Promise(async (resolve, reject) => {
+      this.context.$store.commit(storeActions.site.SET_NETWORK_CALL, true);
       try {
         await this.setToken();
         const response = await axios.delete(this.url + path);
+        this.context.$store.commit(storeActions.site.SET_NETWORK_CALL, false);
         resolve(response);
       } catch (e) {
+        this.context.$store.commit(storeActions.site.SET_NETWORK_CALL, false);
         reject(e);
       }
     });

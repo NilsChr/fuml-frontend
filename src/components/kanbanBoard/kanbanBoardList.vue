@@ -175,7 +175,7 @@ export default {
 
 <style scoped>
 .selected {
-  border-left: 10px solid rgb(102, 199, 102);
+  border-left: 5px solid rgb(102, 199, 102);
 }
 .bordered {
   border: 1px solid rgb(208, 208, 208);

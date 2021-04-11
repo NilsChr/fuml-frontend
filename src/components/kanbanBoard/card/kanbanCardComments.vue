@@ -59,7 +59,7 @@
             <v-layout wrap>
               <v-flex xs12>
                 <label class="comment-name">{{ comment.user.nickName }}</label>
-                <label class="comment-date">{{ comment.created }}</label>
+                <label class="comment-date">{{ comment.created | dateFormatLong }}</label>
               </v-flex>
               <v-flex xs11>
                 <label class="comment-text">{{ comment.text }}</label>

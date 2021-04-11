@@ -25,9 +25,10 @@
         @click="setSelectedProject(project)"
       >
         <v-list-item-title v-text="project.title"></v-list-item-title>
-        <v-list-item-subtitle v-if="project.ownerId == currentUser._id">Owner</v-list-item-subtitle>
-                <v-list-item-subtitle v-else>Collaorator</v-list-item-subtitle>
-
+        <v-list-item-subtitle v-if="project.ownerId == currentUser._id"
+          >Owner</v-list-item-subtitle
+        >
+        <v-list-item-subtitle v-else>Collaorator</v-list-item-subtitle>
       </v-list-item>
     </v-list>
   </v-menu>
@@ -50,10 +51,12 @@ export default {
   methods: {
     setSelectedProject(project) {
       this.$store.dispatch(actions.LOAD_SELECTED_PROJECT, project);
-      this.$router.replace({
-        name: "dashboard",
-        query: { projectId: project._id },
-      }).catch((e) => {});
+      this.$router
+        .replace({
+          name: "dashboard",
+          query: { projectId: project._id },
+        })
+        .catch((e) => {});
     },
     openCreateProjectDialog() {
       this.menu = false;

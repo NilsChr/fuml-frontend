@@ -56,6 +56,8 @@ export default {
       ); // CREATE
       this.dialog = false;
       this.$emit("created", newDocument);
+      this.documentType = "";
+      this.documentTitle = "";
     },
   },
   computed: {
