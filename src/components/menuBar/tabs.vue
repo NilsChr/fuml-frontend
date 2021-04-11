@@ -16,23 +16,23 @@ export default {
     return {
       active_tab: 1,
       tabs: [
-        { id: 1, name: "Settings", value: siteStates.PROJECT_SETTINGS },
         { id: 2, name: "Documents", value: siteStates.DOCUMENTS },
         { id: 3, name: "Board", value: siteStates.BOARD },
-        { id: 4, name: "Chat", value: siteStates.CHAT },
+        /*{ id: 4, name: "Chat", value: siteStates.CHAT },*/
+        { id: 1, name: "Settings", value: siteStates.PROJECT_SETTINGS },
       ],
     };
   },
   methods: {
     setState(value) {
       this.$store.commit(storeActions.site.SET_SITE_STATE, value);
-    }
+    },
   },
   computed: {
     selectedProject() {
       return this.$store.state.projects.selectedProject;
-    }
-  }
+    },
+  },
 };
 </script>
 

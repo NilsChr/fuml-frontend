@@ -42,15 +42,7 @@ export default {
     _handleSetColor(color) {
       this.$emit("change", color);
     },
-  },
-  watch: {
-    /* selectedColor() {
-      if (this.selectedColor) {
-       // this.color = this.selectedColor;
-      }
-    },
-    */
-  },
+  }
 };
 </script>
 
