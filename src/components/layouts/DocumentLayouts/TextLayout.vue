@@ -27,7 +27,7 @@
                 <v-spacer></v-spacer>
                 <v-flex xs2>
                   <v-subheader>
-                    File size: {{ (currentSize - 186) | fileSize }}
+                    File size: {{ (currentSize) | fileSize }}
                   </v-subheader>
                 </v-flex>
                 <v-flex xs1>

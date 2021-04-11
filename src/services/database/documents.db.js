@@ -53,7 +53,7 @@ export default {
   delete: function(document) {
     return new Promise(async (resolve, reject) => {
       try {
-        let endpoint = getDocumentEndpoint(type);
+        let endpoint = getDocumentEndpoint(document.type);
 
         if (endpoint === "") {
           return reject("Invalid document type");

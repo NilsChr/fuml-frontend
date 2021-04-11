@@ -61,14 +61,14 @@
             </v-list-item-content>
 
             <v-slide-x-transition>
-              <v-list-item-action v-if="edit">
+               <v-list-item-action v-if="edit">
                 <v-btn
                   fab
                   x-small
                   text
                   class="mt-1"
-                  @click="deleteDocument($event, document)"
-                  ><v-icon>mdi-delete</v-icon></v-btn
+                  @click="setDocumentToEdit(document)"
+                  ><v-icon>edit</v-icon></v-btn
                 >
               </v-list-item-action>
             </v-slide-x-transition>
@@ -76,13 +76,8 @@
         </v-list>
       </v-flex>
     </v-layout>
-    <confirm-dialog
-      :dialog="deleteDialog"
-      :width="190"
-      title="Confirm Delete"
-      @no="_handleDeleteDialogNo"
-      @yes="_handleDeleteDialogYes"
-    ></confirm-dialog>
+    <document-edit :dialog="documentEditDialog" :document="documentToEdit" @close="documentEditDialog = false">
+      </document-edit>
   </v-card>
 </template>
 
@@ -91,15 +86,16 @@ import Vue from "vue";
 import storeActions from "../../../store/storeActions";
 import modalCreateDocument from "./modalCreateDocument.vue";
 import ConfirmDialog from "../../common/confirmDialog.vue";
+import DocumentEdit from './documentEdit.vue';
 
 export default {
-  components: { modalCreateDocument, ConfirmDialog },
+  components: { modalCreateDocument, ConfirmDialog, DocumentEdit },
   data() {
     return {
       documentsSearch: "",
       edit: false,
-      deleteDialog: false,
-      documentToDelete: null,
+      documentEditDialog: false,
+      documentToEdit: null
     };
   },
   methods: {
@@ -124,29 +120,10 @@ export default {
         }.bind(this)
       );
     },
-    deleteDocument(e, document) {
-      e.stopPropagation();
-      this.deleteDialog = true;
-      this.documentToDelete = document;
-    },
-    _handleDeleteDialogNo() {
-      this.deleteDialog = false;
-      this.documentToDelete = null;
-    },
-    _handleDeleteDialogYes() {
-      // DELETE HERE
-      this.$router
-        .replace({
-          name: "dashboard",
-          query: {
-            projectId: this.selectedProject._id,
-          },
-        })
-        .catch((e) => {});
-      this.$store.dispatch(storeActions.DELETE_DOCUMENT, this.documentToDelete);
-      this.deleteDialog = false;
-      this.documentToDelete = null;
-    },
+    setDocumentToEdit(document) {
+      this.documentToEdit = document;
+      this.documentEditDialog = true;
+    }
   },
   computed: {
     projectDocuments() {
