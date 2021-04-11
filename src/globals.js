@@ -4,7 +4,8 @@ const backendUrl = process.env.NODE_ENV === "development" ? "http://localhost:30
 
 const globals = {
     url: url,
-    backendUrl: backendUrl
+    backendUrl: backendUrl,
+    pageTitle: 'FUml'
 }
 
 export default globals;

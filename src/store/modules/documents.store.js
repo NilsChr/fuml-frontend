@@ -1,4 +1,6 @@
+import globals from "../../globals";
 import DBConnector from "../../services/database/dbConnector";
+import pageSettings from "../../util/pageSettings.util";
 import storeActions from "../storeActions";
 
 export const documentTypes = {
@@ -21,6 +23,7 @@ const documents = {
       state.modalCreateDocument = modalCreateDocument;
     },
     SET_SELECTED_DOCUMENT(state, selectedDocument) {
+      pageSettings.setTitle(selectedDocument.title);
       state.selectedDocument = selectedDocument;
     },
   },

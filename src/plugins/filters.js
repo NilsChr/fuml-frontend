@@ -6,6 +6,12 @@ Vue.filter("toLowerCase", function(value) {
   return value.toLowerCase();
 });
 
+Vue.filter("toUpperCase", function(value) {
+  if (!value) return "";
+  value = value.toString();
+  return value.toUpperCase();
+});
+
 Vue.filter("dateFormatShort", function(value) {
   if (!value) return "";
   return new Date(value).toISOString().slice(0, 10);
@@ -16,6 +22,13 @@ Vue.filter("dateFormatLong", function(value) {
   const date = new Date(value);
   return date.toLocaleDateString() + " " + date.toLocaleTimeString();
 });
+
+Vue.filter("stripePrice", function(value) {
+  if (!value) return "";
+  const price = value.toString();
+  return price.substring(0, price.length-2) + "," + price.substring(price.length-2, price.length);
+});
+
 
 const units = ["bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 Vue.filter("fileSize", function(value) {

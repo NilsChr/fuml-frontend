@@ -53,6 +53,7 @@
 <script>
 import DBConnector from "../../../services/database/dbConnector";
 import storeActions from '../../../store/storeActions';
+import pageSettings from '../../../util/pageSettings.util';
 import ConfirmDialog from "../../common/confirmDialog.vue";
 export default {
   props: ["dialog", "document"],

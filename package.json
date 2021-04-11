@@ -8,6 +8,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@vue-stripe/vue-stripe": "^4.1.8",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "firebase": "^7.16.1",

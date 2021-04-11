@@ -1,6 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Landing from "../views/Landing.vue";
+import Subscribe from "../views/Subscribe.vue";
+import SubscribeSuccess from "../views/SubscribeSuccess.vue";
+import SubscribeCancel from "../views/SubscribeCancel.vue";
+
 import Auth from "../views/Auth.vue";
 import Dashboard from "../views/Dashboard.vue";
 
@@ -15,13 +19,31 @@ const routes = [
     path: "/",
     name: "Landing",
     component: Landing,
-    meta: { showBar: false },
+    meta: { showBar: false, },
   },
   {
     path: "/auth",
     name: "auth",
     component: Auth,
-    meta: { showBar: false },
+    meta: { showBar: false, },
+  },
+  {
+    path: "/subscribe",
+    name: "subscribe",
+    component: Subscribe,
+    meta: { showBar: true },
+  },
+  {
+    path: "/subscribe-success",
+    name: "subscribe-sucess",
+    component: SubscribeSuccess,
+    meta: { showBar: true },
+  },
+  {
+    path: "/subscribe-cancel",
+    name: "subscribe-cancel",
+    component: SubscribeCancel,
+    meta: { showBar: true },
   },
   {
     path: "/dashboard",

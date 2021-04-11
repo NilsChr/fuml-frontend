@@ -32,6 +32,7 @@
 import Account from "./components/menuBar/account.vue";
 import ProjectMenu from "./components/menuBar/projectMenu.vue";
 import Tabs from "./components/menuBar/tabs.vue";
+import globals from './globals';
 
 export default {
   name: "App",

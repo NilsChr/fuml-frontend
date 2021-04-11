@@ -1,7 +1,7 @@
 <template>
   <v-flex class="ml-5 pl-5">
     <v-tabs v-model="active_tab" v-if="selectedProject">
-      <v-tab v-for="tab in tabs" :key="tab.id" @click="setState(tab.value)">
+      <v-tab v-for="tab in tabs" :key="tab.id" @click="setState(tab)">
         {{ tab.name }}
       </v-tab>
     </v-tabs>
@@ -11,6 +11,7 @@
 <script>
 import { siteStates } from "../../store/modules/site.store";
 import storeActions from "../../store/storeActions";
+import pageSettings from '../../util/pageSettings.util';
 export default {
   data() {
     return {
@@ -24,8 +25,11 @@ export default {
     };
   },
   methods: {
-    setState(value) {
-      this.$store.commit(storeActions.site.SET_SITE_STATE, value);
+    setState(tab) {
+            pageSettings.setTitle(tab.name);
+            
+
+      this.$store.commit(storeActions.site.SET_SITE_STATE, tab.value);
     },
   },
   computed: {

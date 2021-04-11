@@ -1,5 +1,7 @@
+import globals from "../../globals";
 import DBConnector from "../../services/database/dbConnector";
 import cardUtil from "../../util/card.util";
+import pageSettings from "../../util/pageSettings.util";
 import storeActions from "../storeActions";
 
 export const kanbanActions = {
@@ -25,11 +27,12 @@ const site = {
       state.boards = boards;
     },
     SET_SELECTED_BOARD(state, selectedBoard) {
+      pageSettings.setTitle(selectedBoard.title);
       state.selectedBoard = selectedBoard;
     },
     SET_MODAL_CREATE_BOARD(state, modalCreateBoard) {
       state.modalCreateBoard = modalCreateBoard;
-    }
+    },
   },
   actions: {
     async LOAD_BOARDS({ commit }, boards) {
@@ -50,7 +53,8 @@ const site = {
         const title = board.title;
         const backgroundColor = board.backgroundColor;
         const newBoard = await DBConnector.kanbanBoards.create(
-          title, backgroundColor,
+          title,
+          backgroundColor,
           projectId
         );
         const boards = [...state.boards, newBoard];
@@ -85,7 +89,9 @@ const site = {
         if (!exists) {
           selectedBoard.labels.push(newLabel);
 
-          const updatedBoard = await DBConnector.kanbanBoards.update(selectedBoard);
+          const updatedBoard = await DBConnector.kanbanBoards.update(
+            selectedBoard
+          );
           //commit(storeActions.kanban.SET_SELECTED_BOARD, updatedBoard);
           selectedBoard.labels = updatedBoard.labels;
         }
@@ -127,9 +133,8 @@ const site = {
         for (let i = 0; i < rootState.kanbanCards.cards.length; i++) {
           const card = rootState.kanbanCards.cards[i];
 
-            cardUtil.removeLabelFromCard(card, label._id);
-            await DBConnector.kanbanBoardCards.update(selectedBoard, card);
-          
+          cardUtil.removeLabelFromCard(card, label._id);
+          await DBConnector.kanbanBoardCards.update(selectedBoard, card);
         }
         resolve();
       });

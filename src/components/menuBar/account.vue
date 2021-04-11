@@ -31,13 +31,17 @@ export default {
   data() {
     return {
       menu: false,
-      options: [{ title: "logout", action: this.logout }],
+      options: [{ title: "logout", action: this.logout }, { title: 'Become Premium', action: this.goToSubscription}],
     };
   },
   methods: {
     logout() {
       auth.logout();
     },
+    goToSubscription() {
+      console.log('sub');
+      this.$router.push("/subscribe");
+    }
   },
   computed: {
     currentUser() {

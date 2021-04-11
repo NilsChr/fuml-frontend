@@ -1,0 +1,7 @@
+https://dashboard.stripe.com/test/coupons/nbRjXJBf
+
+https://vuestripe.com/stripe-checkout/sessions
+
+https://blog.bearer.sh/consuming-webhooks-with-node-js-and-express/
+
+https://dashboard.ngrok.com/get-started/setup
