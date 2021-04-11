@@ -56,19 +56,20 @@
             <v-list-item-content>
               <v-list-item-title>{{ board.title }}</v-list-item-title>
               <v-list-item-subtitle class="pt-2">
-                
-                <kanban-board-progress-bar :board="board" class="mt-1"/>
+                <kanban-board-progress-bar :board="board" class="mt-1" />
               </v-list-item-subtitle>
             </v-list-item-content>
             <v-slide-x-transition>
-              <v-list-item-action v-if="edit && currentUser._id == board.ownerId">
+              <v-list-item-action
+                v-if="edit && currentUser._id == board.ownerId"
+              >
                 <v-btn
                   fab
                   x-small
                   text
                   class="mt-1"
-                  @click="deleteBoard($event, board)"
-                  ><v-icon color="grey darken-2">mdi-delete</v-icon></v-btn
+                  @click="setEditBoard($event, board)"
+                  ><v-icon color="grey darken-2">edit</v-icon></v-btn
                 >
               </v-list-item-action>
             </v-slide-x-transition>
@@ -76,31 +77,33 @@
         </v-list>
       </v-flex>
     </v-layout>
-    <confirm-dialog
-      :dialog="deleteDialog"
-      :width="250"
-      title="Confirm Delete"
-      message="This will permanently delete this board and all cards in it."
-      @no="_handleDeleteDialogNo"
-      @yes="_handleDeleteDialogYes"
-    ></confirm-dialog>
+    <kanban-board-list-edit
+      :dialog="boardToEditDialog"
+      :board="boardToEdit"
+      @close="boardToEditDialog = false"
+    />
   </v-card>
 </template>
 
 <script>
 import storeActions from "../../store/storeActions";
 import KanbanBoardModalCreate from "./kanbanBoardModalCreate.vue";
-import ConfirmDialog from "../common/confirmDialog.vue";
 import KanbanBoardProgressBar from "./kanbanBoardProgressBar.vue";
+import KanbanBoardListEdit from "./KanbanBoardListEdit.vue";
 
 export default {
-  components: { KanbanBoardModalCreate, ConfirmDialog, KanbanBoardProgressBar },
+  components: {
+    KanbanBoardModalCreate,
+    KanbanBoardProgressBar,
+    KanbanBoardListEdit,
+  },
   data() {
     return {
       boardSearch: "",
       edit: false,
-      deleteDialog: false,
-      boardToDelete: null,
+
+      boardToEdit: null,
+      boardToEditDialog: false,
     };
   },
   methods: {
@@ -119,30 +122,10 @@ export default {
         })
         .catch((e) => {});
     },
-    deleteBoard(e, board) {
+    setEditBoard(e, board) {
       e.stopPropagation();
-      this.deleteDialog = true;
-      this.boardToDelete = board;
-    },
-    _handleDeleteDialogNo() {
-      this.deleteDialog = false;
-      this.boardToDelete = null;
-    },
-    _handleDeleteDialogYes() {
-      this.$router
-        .replace({
-          name: "dashboard",
-          query: {
-            projectId: this.selectedProject._id,
-          },
-        })
-        .catch((e) => {});
-      this.$store.dispatch(
-        storeActions.kanban.DELETE_BOARD,
-        this.boardToDelete
-      );
-      this.deleteDialog = false;
-      this.boardToDelete = null;
+      this.boardToEdit = board;
+      this.boardToEditDialog = true;
     },
   },
   computed: {
@@ -168,7 +151,7 @@ export default {
     },
     currentUser() {
       return this.$store.state.user.currentUser;
-    }
+    },
   },
 };
 </script>
