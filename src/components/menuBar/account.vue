@@ -5,7 +5,7 @@
         <v-layout align-end justify-end>
           <v-flex xs3>
             <v-avatar size="33">
-            <v-img :src="currentUser.avatarUrl" v-on="on"/>
+              <v-img :src="currentUser.avatarUrl" v-on="on" />
             </v-avatar>
           </v-flex>
         </v-layout>
@@ -31,23 +31,29 @@ export default {
   data() {
     return {
       menu: false,
-      options: [{ title: "logout", action: this.logout }, { title: 'Become Premium', action: this.goToSubscription}],
+      options: [
+        { title: "logout", action: this.logout },
+        { title: "User Settings", action: this.goToUserSettings },
+        { title: "Become Premium", action: this.goToSubscription },
+      ],
     };
   },
   methods: {
     logout() {
       auth.logout();
     },
+    goToUserSettings() {
+      this.$router.push("/usersettings");
+    },
     goToSubscription() {
-      console.log('sub');
       this.$router.push("/subscribe");
-    }
+    },
   },
   computed: {
     currentUser() {
-      return this.$store.state.user.currentUser
-    }
-  }
+      return this.$store.state.user.currentUser;
+    },
+  },
 };
 </script>
 

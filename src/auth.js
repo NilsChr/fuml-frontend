@@ -44,7 +44,9 @@ const auth = {
         if (!user) throw "Not logged in";
         //console.log(await user.getIdToken());
         let currentProfile = await DBConnector.getAccount();
-        this.context.$store.commit(storeActions.user.SET_CURRENT_USER, currentProfile);
+        this.context.$store.commit(storeActions.user.SET_CURRENT_USER, currentProfile.user);
+        this.context.$store.commit(storeActions.user.SET_CUSTOMER, currentProfile.customer);
+
         this.context.$store.dispatch("LOAD_PROJECTS");
 
       } catch (e) {

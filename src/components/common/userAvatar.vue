@@ -8,13 +8,16 @@
 export default {
   props: ["userId", "size"],
   data() {
-      return {
-          fallback: 'https://kvener.no/wp-content/uploads/2019/02/blank-profile-picture-973460_640.png'
-      }
+    return {
+      fallback:
+        "https://kvener.no/wp-content/uploads/2019/02/blank-profile-picture-973460_640.png",
+    };
   },
   methods: {
     getMemberImg(id) {
-      return this.projectMembers.find((m) => m._id == id)?.avatarUrl || this.fallback;
+      return (
+        this.projectMembers.find((m) => m._id == id)?.avatarUrl || this.fallback
+      );
     },
   },
   computed: {

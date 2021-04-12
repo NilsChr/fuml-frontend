@@ -15,7 +15,7 @@
         >
         <project-menu />
 
-        <tabs />
+        <tabs v-if="showAppBarTabs" />
       </div>
 
       <v-spacer></v-spacer>
@@ -48,6 +48,9 @@ export default {
   computed: {
     showAppBar() {
       return this.$store.state.site.showAppBar;
+    },
+    showAppBarTabs() {
+      return this.$store.state.site.showAppBarTabs;
     },
     networkCall() {
       return this.$store.state.site.networkCallInProgress;
@@ -88,7 +91,9 @@ body {
 .fill-height {
   height: 100%;
 }
-
+.selected {
+  border-left: 5px solid rgb(102, 199, 102);
+}
 .bordered {
   border: 1px solid rgb(208, 208, 208);
   border-radius: 5px;

@@ -7,6 +7,7 @@ import SubscribeCancel from "../views/SubscribeCancel.vue";
 
 import Auth from "../views/Auth.vue";
 import Dashboard from "../views/Dashboard.vue";
+import UserSettings from "../views/UserSettings.vue";
 
 import Layout from "../components/layouts/Layout.vue";
 import store from "../store";
@@ -25,37 +26,43 @@ const routes = [
     path: "/auth",
     name: "auth",
     component: Auth,
-    meta: { showBar: false, },
+    meta: { showBar: false, showBarTabs: false },
+  },
+  {
+    path: "/usersettings",
+    name: "usersettings",
+    component: UserSettings,
+    meta: { showBar: true, showBarTabs: false },
   },
   {
     path: "/subscribe",
     name: "subscribe",
     component: Subscribe,
-    meta: { showBar: true },
+    meta: { showBar: true, showBarTabs: false },
   },
   {
     path: "/subscribe-success",
     name: "subscribe-sucess",
     component: SubscribeSuccess,
-    meta: { showBar: true },
+    meta: { showBar: true, showBarTabs: false },
   },
   {
     path: "/subscribe-cancel",
     name: "subscribe-cancel",
     component: SubscribeCancel,
-    meta: { showBar: true },
+    meta: { showBar: true, showBarTabs: false },
   },
   {
     path: "/dashboard",
     name: "dashboard",
     component: Dashboard,
-    meta: { showBar: true },
+    meta: { showBar: true, showBarTabs: true },
   },
   {
     path: "/editor",
     name: "editor",
     component: Layout,
-    meta: { showBar: true },
+    meta: { showBar: true, showBarTabs: true },
   },
   {
     path: "*",
@@ -76,6 +83,8 @@ router.beforeEach((to, from, next) => {
 
   //if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' });
   store.commit(storeActions.site.SET_SHOW_APP_BAR, to.meta.showBar);
+  store.commit(storeActions.site.SET_SHOW_APP_BAR_TABS, to.meta.showBarTabs);
+
   next();
   //else next()
 });

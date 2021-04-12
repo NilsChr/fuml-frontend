@@ -23,6 +23,11 @@ Vue.filter("dateFormatLong", function(value) {
   return date.toLocaleDateString() + " " + date.toLocaleTimeString();
 });
 
+Vue.filter("dateFormatStripeShort", function(value) {
+  if (!value) return "";
+  return new Date(value*1000).toISOString().slice(0, 10);
+});
+
 Vue.filter("stripePrice", function(value) {
   if (!value) return "";
   const price = value.toString();

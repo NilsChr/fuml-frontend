@@ -11,7 +11,7 @@
 <script>
 import { siteStates } from "../../store/modules/site.store";
 import storeActions from "../../store/storeActions";
-import pageSettings from '../../util/pageSettings.util';
+import pageSettings from "../../util/pageSettings.util";
 export default {
   data() {
     return {
@@ -26,9 +26,7 @@ export default {
   },
   methods: {
     setState(tab) {
-            pageSettings.setTitle(tab.name);
-            
-
+      pageSettings.setTitle(tab.name);
       this.$store.commit(storeActions.site.SET_SITE_STATE, tab.value);
     },
   },

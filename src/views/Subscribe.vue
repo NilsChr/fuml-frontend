@@ -1,9 +1,9 @@
 <template>
   <v-container fluid fill-height>
     <v-layout align-center justify-center column fill-height>
-      <v-flex xs2>
+      <v-flex xs1 class="pt-5">
         <v-text-field
-          label="Coupon"
+          label="Coupon Code"
           v-model="couponCode"
           dark
           hide-details
@@ -62,6 +62,10 @@
       :session-id="sessionId"
     />
 
+    <v-snackbar v-model="snackbar" top :timeout="2000" color="error">
+      {{ snackbarMessage }}
+      <v-btn text depressed @click="snackbar = false" small> Close </v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -75,29 +79,31 @@ export default {
   },
   data() {
     return {
-      couponCode: '',
+      couponCode: "",
       products: [],
       publishableKey: process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY,
       loading: false,
+      snackbar: false,
+      snackbarMessage: "",
+
       sessionId: null,
-      lineItems: [
-        {
-          price: "price_1If51cL9YgD3C6pQDUrokgkn", // The id of the recurring price you created in your Stripe dashboard
-          quantity: 1,
-        },
-      ],
-      successURL: "http://localhost:8080/fuml/subscribe-success",
-      cancelURL: "http://localhost:8080/fuml/subscribe-cancel",
     };
   },
   methods: {
     async buy(data) {
-      const session = await DBConnector.stripe.createSession({
+      const res = await DBConnector.stripe.createSession({
         productId: data.product.id,
-        coupon: this.couponCode
+        stripePrice: data.price.id,
+        coupon: this.couponCode,
       });
+      console.log("RES", res);
+      if (!res.session) {
+        this.snackbarMessage = res.message;
+        this.snackbar = true;
+        return;
+      }
 
-      this.sessionId = session.id;
+      this.sessionId = res.session.id;
       this.$refs.checkoutRef.redirectToCheckout();
     },
   },
@@ -115,9 +121,10 @@ export default {
 
 <style>
 .product-card {
-  transition: 0.1s linear all;
+
 }
 .product-card:hover {
-  margin-bottom: 20px !important;
+  transition: all 0.2s ease-in-out;
+  transform: scale(1.02);
 }
 </style>
