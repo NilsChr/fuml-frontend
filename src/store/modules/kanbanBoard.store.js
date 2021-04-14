@@ -27,7 +27,9 @@ const site = {
       state.boards = boards;
     },
     SET_SELECTED_BOARD(state, selectedBoard) {
-      pageSettings.setTitle(selectedBoard.title);
+      if(selectedBoard) {
+        pageSettings.setTitle(selectedBoard.title);
+      } else pageSettings.setTitle('');
       state.selectedBoard = selectedBoard;
     },
     SET_MODAL_CREATE_BOARD(state, modalCreateBoard) {

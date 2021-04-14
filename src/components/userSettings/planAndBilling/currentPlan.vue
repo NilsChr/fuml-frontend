@@ -1,22 +1,20 @@
 <template>
   <v-layout class="pa-5">
-    <v-card style="border: 3px solid rgb(102, 199, 102)">
+    <v-card style="border-left: 5px solid rgb(102, 199, 102)" width="500">
       <v-layout>
-        <v-flex xs2 style="border-right: 1px solid grey">
-            <!--
-          <v-img :src="require('../../../assets/parchment.svg')" />
-          -->
-            <svg-parchment style="width:100%; height: 100%;"/>
+        <v-flex xs3 style="border-right: 1px solid #dadada">
+          <svg-credit-card style="width: 100%; height: 200%" />
         </v-flex>
-        <v-flex xs10 class="pa-2">
+        <v-flex xs7 class="pa-2">
           <v-layout wrap>
             <v-flex xs12 class="pa-3">
               <strong>{{ activePlan.stripeProductName }}</strong>
             </v-flex>
             <v-flex xs12>
               <v-subheader>
-                Active until {{ activePlan.period_end | dateFormatStripeShort }}
+                Active until {{ activePlan.period_end | dateFormatStripeText }}
               </v-subheader>
+              <v-subheader> {{ daysLeft }} days remaining </v-subheader>
             </v-flex>
           </v-layout>
         </v-flex>
@@ -26,9 +24,10 @@
 </template>
 
 <script>
-import svgParchment from '../../common/svgParchment.vue';
+import SvgCreditCard from "../../common/svgCreditCard.vue";
+import svgParchment from "../../common/svgParchment.vue";
 export default {
-  components: { svgParchment },
+  components: { svgParchment, SvgCreditCard },
   computed: {
     activePlan() {
       const now = new Date().getTime() / 1000;
@@ -36,6 +35,13 @@ export default {
         (i) =>
           i.period_start <= now && i.period_end > now && i.active && !i.refunded
       )[0];
+    },
+    daysLeft() {
+      const start = new Date().getTime();
+      const end = new Date(this.activePlan.period_end * 1000).getTime();
+      const diff_time = end - start;
+      const diff_days = diff_time / (1000 * 3600 * 24);
+      return diff_days.toFixed(0);
     },
   },
 };

@@ -15,7 +15,7 @@ import pageSettings from "../../util/pageSettings.util";
 export default {
   data() {
     return {
-      active_tab: 1,
+      active_tab: 0,
       tabs: [
         { id: 2, name: "Documents", value: siteStates.DOCUMENTS },
         { id: 3, name: "Board", value: siteStates.BOARD },
