@@ -9,7 +9,7 @@
           hide-details
           dense
           outlined
-          placeholder="ltest"
+          placeholder="Got a coupon code?"
         >
         </v-text-field>
       </v-flex>

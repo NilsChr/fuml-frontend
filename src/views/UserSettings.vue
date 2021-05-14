@@ -45,6 +45,7 @@
 <script>
 import userAvatar from "../components/common/userAvatar.vue";
 import PlanAndBilling from "../components/userSettings/planAndBilling/planAndBilling";
+import ProfileSettings from "../components/userSettings/profileSettings/profileSettings";
 
 export default {
   components: { userAvatar },
@@ -53,7 +54,7 @@ export default {
       selectedMenu: 1,
       menu: [
         { id: 1, title: "User Settings", action: null },
-        { id: 2, title: "Document Settings", action: null },
+       // { id: 2, title: "Document Settings", action: null },
         { id: 3, title: "Plan & Billing", action: null },
         { id: 4, title: "Support Tickets", action: null },
         { id: 5, title: "Close Account", action: null },
@@ -68,7 +69,7 @@ export default {
     dynamicComponent() {
       switch (this.selectedMenu) {
         case 1:
-          return null;
+          return ProfileSettings;
         case 2:
           return null;
         case 3:

@@ -9,6 +9,7 @@ import kanbanBoardCardCommentDb from "./kanbanBoardCardComment.db";
 import globals from "../../globals";
 import storeActions from "../../store/storeActions";
 import stripeDb from "./stripe.db";
+import userDb from "./user.db";
 
 export const HTTP = {
   url: globals.backendUrl, //"http://localhost:3000/api",
@@ -102,6 +103,7 @@ const DBConnector = {
   kanbanBoardCards: kanbanBoardCardDb,
   kanbanBoardCardComments: kanbanBoardCardCommentDb,
   stripe: stripeDb,
+  user: userDb,
 
   addCollaborator: function(project, collaborator) {
     return new Promise(async (resolve, reject) => {

@@ -1,6 +1,6 @@
 <template>
   <v-layout row class="mt-5">
-    <v-flex xs6>
+    <v-flex xs6 v-if="customer">
       <v-list dense>
         <template v-for="invoice in customer.invoices">
           <v-list-item :key="`item-${invoice._id}`" class="item-invoice">
@@ -14,7 +14,7 @@
               </v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action-text :key="`date-${invoice._id}`">
-              {{ invoice.period_start | dateFormatStripeShort }} -
+              Start / End: {{ invoice.period_start | dateFormatStripeShort }} /
               {{ invoice.period_end | dateFormatStripeShort }}
             </v-list-item-action-text>
           </v-list-item>

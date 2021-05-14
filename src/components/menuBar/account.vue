@@ -34,7 +34,7 @@ export default {
       options: [
         { title: "logout", action: this.logout },
         { title: "User Settings", action: this.goToUserSettings },
-        { title: "Become Premium", action: this.goToSubscription },
+        { title: "Membership", action: this.goToSubscription },
       ],
     };
   },

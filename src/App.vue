@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="grey darken-4" dark v-if="showAppBar">
+    <v-app-bar app color="grey darken-4" dark v-if="showAppBar" >
       <v-progress-linear
         v-if="networkCall"
         indeterminate
@@ -22,7 +22,7 @@
       <account />
     </v-app-bar>
 
-    <v-main id="app-main" v-bind:style="{ maxHeight: appHeight + 'px' }">
+    <v-main id="app-main" v-bind:style="{ maxHeight: appHeight + 'px', ...theme }">
       <router-view />
     </v-main>
   </v-app>
@@ -32,7 +32,8 @@
 import Account from "./components/menuBar/account.vue";
 import ProjectMenu from "./components/menuBar/projectMenu.vue";
 import Tabs from "./components/menuBar/tabs.vue";
-import globals from './globals';
+import globals from "./globals";
+import themes from "./util/appThemes";
 
 export default {
   name: "App",
@@ -55,6 +56,13 @@ export default {
     networkCall() {
       return this.$store.state.site.networkCallInProgress;
     },
+    currentUser() {
+      return this.$store.state.user.currentUser;
+    },
+    theme() {
+      let theme = this.currentUser?.selectedTheme || 2;
+      return themes[theme].style;
+    }
   },
   created() {
     let height = window.innerHeight;
@@ -70,7 +78,12 @@ body {
 }
 #app-main {
   overflow: hidden;
-  background-color: #2b2b2b;
+  /*background-color: #2b2b2b; */
+
+  /*
+  background-color: #4158D0;
+  background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+*/
 }
 
 #app-main * {

@@ -101,6 +101,12 @@ const projects = {
       return new Promise(async (resolve) => {
         const title = payload.title;
         const project = await DBConnector.projects.create(title);
+
+        console.log('Created', project);
+        if(project?.status == 'failed') {
+          return resolve(project);
+        }
+
         const projects = [...state.projects, project];
         commit(storeActions.SET_PROJECTS, projects);
         dispatch(storeActions.LOAD_SELECTED_PROJECT, project);

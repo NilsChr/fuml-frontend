@@ -10,8 +10,8 @@
       </router-link>
     </v-app-bar>
     <v-layout fill-height class="pl-5 pr-5">
-      <v-flex xs6>
-        <v-layout align-center justify-center fill-height column>
+      <v-flex xs6 >
+        <v-layout align-center justify-center fill-height column >
           <v-flex xs5>
             <v-layout justify-center>
               <v-flex xs6>

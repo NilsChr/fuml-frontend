@@ -11,7 +11,7 @@
       <v-flex xs10>
         <v-layout fill-height v-if="selectedBoard">
           <v-flex xs12>
-            <v-card class="fill-height pa-1" id="blue" :color="selectedBoard.backgroundColor">
+            <v-card class="fill-height pa-1" id="blue" :color="selectedBoard.backgroundColor" flat>
               <v-layout column fill-height>
                 <v-flex xs1 class="mb-1">
                   <v-card class="fill-height">

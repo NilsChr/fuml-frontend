@@ -10,6 +10,25 @@
               v-model="projectTitle"
             ></v-text-field>
           </v-flex>
+          <v-flex xs12 v-if="errorMessage == 'No plan active for this user.'" >
+            <v-card color="error lighten-1" flat>
+              <v-card-text>
+                <strong>Oops</strong>
+                <br/>
+                You have reached your free limit of 3 projects.
+                <br/>
+                Add a plan to your account for unlimited projects and documents.
+                <br/>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn @click="toSubscribe" block color="white" depressed>
+                  Subscribe now
+                </v-btn>
+
+              </v-card-actions>
+            </v-card>
+          </v-flex>
         </v-layout>
       </v-main>
       <v-card-actions>
@@ -31,6 +50,7 @@ export default {
     return {
       dialogCreateProject: false,
       projectTitle: "",
+      errorMessage: "",
     };
   },
   methods: {
@@ -45,10 +65,21 @@ export default {
       let project = await this.$store.dispatch("CREATE_PROJECT", {
         title: this.projectTitle,
       });
+
+      if (project?.status === "failed") {
+        this.errorMessage = project.message;
+        return;
+      }
+
       this.dialog = false;
       this.$emit("created", project);
       this.projectTitle = "";
     },
+    toSubscribe() {
+      this.dialog = false;
+      this.projectTitle = "";
+      this.$router.push("/subscribe");
+    }
   },
   computed: {
     dialog: {

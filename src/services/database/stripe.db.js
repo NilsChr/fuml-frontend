@@ -44,4 +44,19 @@ export default {
       }
     });
   },
+  cancelSubscription: function(subscription_id) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        console.log('CANCEL SUB')
+        const res = await HTTP.post("/stripe/cancelSubscription", {subscription_id: subscription_id});
+        console.log("STATUS");
+        console.log(res.data);
+        resolve(res.data);
+
+      } catch (e) {
+        console.log(e);
+        reject(e);
+      }
+    });
+  }
 };

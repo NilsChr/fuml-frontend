@@ -45,6 +45,7 @@ export default {
       boardTitle: "",
       color: "#fff",
       colors: [
+        "rgba(0,0,0,0)",
         "#fff",
         "#61bd4f",
         "#f2d600",

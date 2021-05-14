@@ -19,7 +19,6 @@ export default {
       tabs: [
         { id: 2, name: "Documents", value: siteStates.DOCUMENTS },
         { id: 3, name: "Board", value: siteStates.BOARD },
-        /*{ id: 4, name: "Chat", value: siteStates.CHAT },*/
         { id: 1, name: "Settings", value: siteStates.PROJECT_SETTINGS },
       ],
     };
