@@ -53,6 +53,10 @@ const auth = {
         console.log("No profile created", e);
       }
 
+      if(user) {
+        router.push('/dashboard');
+      }
+
     });
   },
   authForm(container) {

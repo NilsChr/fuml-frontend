@@ -4,7 +4,7 @@
       <v-subheader><strong>Collaborators</strong></v-subheader>
     </v-flex>
     <v-flex xs12>
-      <v-btn outlined color="white" @click="drawer = !drawer"
+      <v-btn outlined @click="drawer = !drawer"
         >Manage Collaborators</v-btn
       >
     </v-flex>
@@ -15,7 +15,7 @@
             ><v-subheader><strong>Collaborators</strong></v-subheader></v-flex
           >
           <v-flex xs1>
-            <v-btn block small @click="addDialog = true"
+            <v-btn block depressed outlined small @click="addDialog = true"
               >Add collaborator</v-btn
             >
             <v-dialog v-model="addDialog" max-width="400">

@@ -1,6 +1,6 @@
 <template>
   <v-container fill-height fluid>
-    <v-card style="width: 100%; height: 100%" dark v-if="selectedProject">
+    <v-card style="width: 100%; height: 100%" v-if="selectedProject">
       <v-card-title>Settings</v-card-title>
       <v-container fill-height fluid>
         <v-layout column>

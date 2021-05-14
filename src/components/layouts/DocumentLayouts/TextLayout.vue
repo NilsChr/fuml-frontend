@@ -27,7 +27,7 @@
                 <v-spacer></v-spacer>
                 <v-flex xs2>
                   <v-subheader>
-                    File size: {{ (currentSize) | fileSize }}
+                    File size: {{ currentSize | fileSize }}
                   </v-subheader>
                 </v-flex>
                 <v-flex xs1>
@@ -63,7 +63,11 @@
                 </v-flex>
               </v-layout>
             </v-flex>
-            <v-flex xs11 style="position: relative" class="bordered">
+            <v-flex
+              xs11
+              style="position: relative; background-color: rgb(230, 230, 230)"
+              class="bordered"
+            >
               <div
                 id="editorcontainer"
                 style="
@@ -220,7 +224,16 @@ export default {
 <style>
 .ql-container.ql-snow {
   border: none !important;
+
+  width: 8.5in;
+  min-height: 11in;
+  padding: 1in;
+  margin: 1rem;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+  background-color: white;
+  margin: auto;
 }
+
 .ql-toolbar.ql-snow {
   border-left: none !important;
   border-right: none !important;
@@ -243,5 +256,62 @@ export default {
   top: 0;
   left: 0;
   right: 0;
+  background-color: rgb(250, 250, 250);
+}
+
+@media print {
+  /*
+  body * {
+    visibility: hidden;
+  }
+  .ql-container.ql-snow {
+    width: 6.5in;
+    height: 9in;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    visibility: visible;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  
+  
+  .ql-container.ql-snow * {
+    visibility: visible;
+    width: 6.5in;
+    height: 9in;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+  }
+  .ql-container.ql-editor * {
+    visibility: visible;
+    width: 6.5in;
+    height: 9in;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+  }
+  */
+  /*
+  body {
+    background: none;
+  }
+
+  .ql-container.ql-editor {
+    width: 6.5in;
+    height: 9in;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    align-self: flex-start;
+  }
+
+
+  body * :not(.ql-container.ql-editor) {
+    visibility: hidden  
+  }
+  */
 }
 </style>

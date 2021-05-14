@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="grey darken-4" dark v-if="showAppBar" >
+    <v-app-bar app v-if="showAppBar" dark >
       <v-progress-linear
         v-if="networkCall"
         indeterminate
@@ -77,7 +77,7 @@ body {
   width: 100%;
 }
 #app-main {
-  overflow: hidden;
+  /*overflow: hidden; */
   /*background-color: #2b2b2b; */
 
   /*

@@ -32,7 +32,7 @@ export default {
     return {
       menu: false,
       options: [
-        { title: "logout", action: this.logout },
+        { title: "Logout", action: this.logout },
         { title: "User Settings", action: this.goToUserSettings },
         { title: "Membership", action: this.goToSubscription },
       ],

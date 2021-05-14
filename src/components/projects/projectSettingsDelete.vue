@@ -6,7 +6,7 @@
     <div id="shadow" v-if="dialog"></div>
 
     <v-dialog v-model="dialog" max-width="500" persistent>
-      <v-card dark style="border: 2px solid #ff5252">
+      <v-card style="border: 2px solid #ff5252">
         <v-card-title>Confirm Delete</v-card-title>
         <v-card-text>
           This will permanently delete the project and all documents in it
@@ -93,9 +93,9 @@ export default {
   position: absolute;
   width: 1000% !important;
   height: 1000% !important;
-  left: 0px;
-  top: 0px;
+  left: -500px;
+  top: -500px;
   z-index: 0;
-  background-color: rgba(0, 0, 0, 0.836);
+  background-color: rgba(0, 0, 0, 0);
 }
-</style>
+</style> 

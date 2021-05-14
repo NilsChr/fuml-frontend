@@ -22,7 +22,7 @@
       v-if="tempTitle != selectedProject.title"
       @click="cancel"
     >
-      <v-btn>Cancel</v-btn>
+      <v-btn outlined depressed>Cancel</v-btn>
     </v-flex>
   </v-layout>
 </template>

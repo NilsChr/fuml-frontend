@@ -40,7 +40,7 @@
         </v-flex>
       </v-layout>
     </v-card>
-    <v-card v-if="!activePlan">
+    <v-card v-if="!activePlan" flat>
       <v-card-subtitle> No Active Plan </v-card-subtitle>
     </v-card>
   </v-layout>
