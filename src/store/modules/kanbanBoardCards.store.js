@@ -12,6 +12,7 @@ export const kanbanCardActions = {
   CREATE_CARD: "CREATE_CARD",
   UPDATE_CARD: "UPDATE_CARD",
   DELETE_CARD: "DELETE_CARD",
+  ARCHIVE_CARD: "ARCHIVE_CARD",
   TOGGLE_LABEL: "TOGGLE_LABEL",
 
   SET_COMMENTS: "SET_COMMENTS",
@@ -146,6 +147,26 @@ const site = {
 
       });
     },
+    ARCHIVE_CARD({state,dispatch, rootState, commit}, card) {
+      return new Promise(async (resolve) => {
+        const boardId = rootState.kanban.selectedBoard;
+        const cardId = state.selectedCard;
+
+        /*const deletedCard = await DBConnector.kanbanBoardCards.delete(
+          boardId,
+          cardId
+        );
+        resolve(deletedCard);
+        const index = state.cards.indexOf(state.selectedCard);
+        state.cards.splice(index, 1);
+
+        commit(kanbanCardActions.SET_CARDS, state.cards);
+        dispatch(kanbanCardActions.UPDATE_BOARD_CARD_COUNT);
+
+        commit(kanbanCardActions.SET_SELECTED_CARD, null);
+*/
+      });
+    },
     TOGGLE_LABEL({ state, rootState, commit }, labelId) {
       console.log("TOGGLE_LABEL", labelId);
       return new Promise(async (resolve) => {
@@ -223,7 +244,6 @@ const site = {
       const comments = [...state.selectedCardComments];
       commit(kanbanCardActions.SET_COMMENTS, comments);
     },
-
     // MEMBERS
     async ADD_MEMBER({state, rootState, commit}, member) {
       const board = rootState.kanban.selectedBoard;
@@ -244,7 +264,6 @@ const site = {
         DBConnector.kanbanBoardCards.update(board, card);
       }
     },
-
     TOGGLE_MEMBER({ state, rootState, commit }, memberId) {
       return new Promise(async (resolve) => {
         const card = state.selectedCard;

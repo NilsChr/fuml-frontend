@@ -41,9 +41,12 @@
             @dragstart="dragStart($event, item)"
             @mouseup="selectCard($event, item)"
             v-bind:class="{ ghost: item == dragItem }"
-            class="ma-1 pa-2"
+            class="ma-1 pl-2 pr-2 pb-2"
           >
             <v-layout wrap>
+              <v-flex xs12 class="pt-2 card-title">
+                {{ item.title }}
+              </v-flex>
               <v-flex xs8 v-if="displayLabelTitle">
                 <v-btn
                   @mouseup.stop="toggleLabelTitles($event)"
@@ -80,9 +83,6 @@
                     <v-img :src="getMember(member).avatarUrl"> </v-img>
                   </v-avatar>
                 </v-layout>
-              </v-flex>
-              <v-flex xs12 class="pt-2">
-                {{ item.title }}
               </v-flex>
             </v-layout>
           </v-card>
@@ -124,7 +124,15 @@ export default {
       this.$store.commit(storeActions.kanbanCards.SET_SELECTED_CARD, card);
     },
     archiveList(zone) {
-      console.log("archiving zone", zone);
+      //  console.log("archiving zone", zone);
+      let filteredCards = this.$store.state.kanbanCards.cards.filter(
+        (c) => c.status === zone.id && !c.archived
+      );
+
+      filteredCards.forEach((c) => {
+        c.archived = true;
+        this.$store.dispatch(storeActions.kanbanCards.UPDATE_CARD, c._id);
+      });
     },
     allowDrop(ev) {
       ev.preventDefault();
@@ -152,7 +160,7 @@ export default {
     },
     boardCards(zone) {
       let filteredCards = this.$store.state.kanbanCards.cards.filter(
-        (c) => c.status === zone.id && c.boardId == this.selectedBoard._id
+        (c) => !c.archived && c.status === zone.id && c.boardId == this.selectedBoard._id
       );
 
       if (this.filterSearch != "") {
@@ -244,5 +252,9 @@ export default {
 .cardMember {
   border: 1px solid #fafafa;
   margin-left: -12px;
+}
+
+.card-title {
+  font-size: 0.9em;
 }
 </style>
