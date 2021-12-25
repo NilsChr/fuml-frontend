@@ -30,6 +30,6 @@ export default {
   width: 150px;
   border-radius: 5px;
   background-color: yellow;
-  transform:rotate(90deg)  translate(50%, 50%) ;
+  transform: translate(50%, 50%) rotate(90deg);
 }
 </style>

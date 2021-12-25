@@ -11,8 +11,10 @@
           v-bind:style="theme.style"
           class="color-demo"
           @click="setTheme(theme.id)"
-          v-bind:class="{'color-demo-selected': currentUser.selectedTheme == theme.id }"
-        >  
+          v-bind:class="{
+            'color-demo-selected': currentUser.selectedTheme == theme.id,
+          }"
+        >
           <label class="color-demo-title">
             {{ theme.title }}
           </label>
@@ -77,6 +79,6 @@ export default {
 }
 
 .color-demo-selected {
-    border: 2px solid #1b1b1b;
+  border: 2px solid #1b1b1b;
 }
 </style>

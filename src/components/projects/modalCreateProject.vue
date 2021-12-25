@@ -87,10 +87,13 @@ export default {
         return this.$store.state.projects.modalCreateProject;
       },
       set(val) {
+        this.errorMessage = '';
+        this.projectTitle = '';
         this.$store.commit(actions.SET_MODAL_CREATE_PROJECT, val);
       },
     },
   },
+
 };
 </script>
 

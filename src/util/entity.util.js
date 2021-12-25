@@ -75,7 +75,6 @@ const entityUtil = {
   createRelationString(relationPair) {
     let out = "";
 
-    //{ ent1: 'e2', type1: '|o', ent2: 'e1', type2: '|o', hash: 6361 }
     out += '"' + relationPair.ent1 + '" ';
     out += relationPair.type1 + "--";
     if (relationPair.type2 != null) {

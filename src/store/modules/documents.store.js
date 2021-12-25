@@ -23,7 +23,9 @@ const documents = {
       state.modalCreateDocument = modalCreateDocument;
     },
     SET_SELECTED_DOCUMENT(state, selectedDocument) {
-      pageSettings.setTitle(selectedDocument.title);
+      if(selectedDocument && selectedDocument.title) {
+        pageSettings.setTitle(selectedDocument.title);
+      } else  pageSettings.setTitle('FUml');
       state.selectedDocument = selectedDocument;
     },
   },

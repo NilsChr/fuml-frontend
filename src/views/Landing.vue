@@ -1,16 +1,5 @@
 <template>
   <v-container fluid fill-height class="pl-0 pr-0 pa-0">
-    <!--
-    <v-app-bar dark flat color="transparent">
-      <label style="font-family: 'Montserrat'; font-size: 26px; color: #639bff"
-        ><strong>FU</strong>ml</label
-      >
-      <v-spacer></v-spacer>
-      <router-link to="/auth">
-        <v-subheader> SIGN IN </v-subheader>
-      </router-link>
-    </v-app-bar>
-    -->
     <div id="skewer"></div>
     <div id="by-bog">© BogSynth.com</div>
     <v-layout fill-height class="pl-0 pr-0">
@@ -19,11 +8,6 @@
           <v-flex xs3>
             <v-layout justify-start>
               <v-flex xs8>
-                <!--
-                <v-img
-                  src="https://wac-cdn-2.atlassian.com/image/upload/f_auto,q_auto/dam/jcr:b86a32cb-0aa8-4783-aa81-9592d4fbf829/jsw-header-illustrations---v3.png?cdnVersion=1508"
-                ></v-img>
-                -->
                 <fuml-logo style="position: relative; z-index: 9" />
               </v-flex>
             </v-layout>

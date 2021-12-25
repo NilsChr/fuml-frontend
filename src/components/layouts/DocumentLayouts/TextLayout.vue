@@ -142,7 +142,7 @@ export default {
             },
           },
           imageCompress: {
-            quality: 0.7, // default
+            quality: 0.4, // default 0.7
             maxWidth: 1000, // default
             maxHeight: 1000, // default
             imageType: "image/jpeg/png", // default

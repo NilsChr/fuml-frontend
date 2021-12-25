@@ -61,7 +61,7 @@ export default {
     },
     theme() {
       let theme = this.currentUser?.selectedTheme || 2;
-      return themes[theme].style;
+      return themes[theme-1].style;
     }
   },
   created() {
@@ -79,11 +79,6 @@ body {
 #app-main {
   /*overflow: hidden; */
   /*background-color: #2b2b2b; */
-
-  /*
-  background-color: #4158D0;
-  background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
-*/
 }
 
 #app-main * {

@@ -8,6 +8,7 @@ import SubscribeCancel from "../views/SubscribeCancel.vue";
 import Auth from "../views/Auth.vue";
 import Dashboard from "../views/Dashboard.vue";
 import UserSettings from "../views/UserSettings.vue";
+import Admin from "../views/Admin.vue";
 
 import Layout from "../components/layouts/Layout.vue";
 import store from "../store";
@@ -62,6 +63,12 @@ const routes = [
     path: "/editor",
     name: "editor",
     component: Layout,
+    meta: { showBar: true, showBarTabs: true },
+  },
+  {
+    path: "/admin",
+    name: "admin",
+    component: Admin,
     meta: { showBar: true, showBarTabs: true },
   },
   {

@@ -19,6 +19,9 @@
         >
           <v-list-item-title v-text="option.title"></v-list-item-title>
         </v-list-item>
+        <v-list-item v-if="currentUser.isAdmin" @click="goToAdmin">
+          <v-list-item-title v-text="'Admin'"></v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-menu>
   </v-flex>
@@ -47,6 +50,9 @@ export default {
     },
     goToSubscription() {
       this.$router.push("/subscribe");
+    },
+    goToAdmin() {
+      this.$router.push("/admin");
     },
   },
   computed: {

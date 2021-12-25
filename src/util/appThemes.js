@@ -1,14 +1,14 @@
 const themes = [
   {
-    id: 0,
+    id: 1,
     title: "Light",
     style: {
-      backgroundColor: "white",
+      backgroundColor: "#ebebeb",//"white",
       backgroundImage: "",
     },
   },
   {
-    id: 1,
+    id: 2,
     title: "Dark",
     style: {
       backgroundColor: "#2b2b2b",
@@ -16,7 +16,7 @@ const themes = [
     },
   },
   {
-    id: 2,
+    id: 3,
     title: "Sunset",
     style: {
       backgroundColor: "#4158D0",
@@ -25,7 +25,7 @@ const themes = [
     },
   },
   {
-    id: 3,
+    id: 4,
     title: "Heaven",
     style: {
       backgroundColor: "#0093E9",
@@ -33,7 +33,7 @@ const themes = [
     },
   },
   {
-    id: 4,
+    id: 5,
     title: "Peach",
     style: {
       backgroundColor: "#FF9A8B",
@@ -42,7 +42,7 @@ const themes = [
     },
   },
   {
-    id: 5,
+    id: 6,
     title: "Icarus",
     style: {
       backgroundColor: "#FAD961",

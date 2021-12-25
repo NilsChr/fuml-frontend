@@ -7,8 +7,6 @@ import { userActions } from "./modules/user.store";
 
 export default {
   site: siteActions,
- // SET_SHOW_APP_BAR: 'SET_SHOW_APP_BAR',
-
   SET_PROJECTS: "SET_PROJECTS",
   SET_MODAL_CREATE_PROJECT: "SET_MODAL_CREATE_PROJECT",
   SET_SELECTED_PROJECT: "SET_SELECTED_PROJECT",

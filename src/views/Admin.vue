@@ -6,6 +6,10 @@
           <v-layout column>
             <v-flex xs4 class="text-center pt-5">
               <v-layout align-center justify-center class="pb-3">
+                <label><strong>Admin panel</strong></label>
+              </v-layout>
+              <!--
+              <v-layout align-center justify-center class="pb-3">
                 <user-avatar :userId="currentUser._id" size="105" />
               </v-layout>
               <label
@@ -13,6 +17,7 @@
               >
               <br />
               <label style="font-size: 0.75em">{{ currentUser.email }}</label>
+              -->
             </v-flex>
             <v-flex xs2> </v-flex>
             <v-divider></v-divider>
@@ -24,8 +29,8 @@
                   @click="selectedMenu = item.id"
                   v-bind:class="{ selected: selectedMenu == item.id }"
                 >
-                  <v-list-item-title >
-                    <strong>{{item.title}}</strong>
+                  <v-list-item-title>
+                    <strong>{{ item.title }}</strong>
                   </v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -43,22 +48,21 @@
 </template>
 
 <script>
-import userAvatar from "../components/common/userAvatar.vue";
-import PlanAndBilling from "../components/userSettings/planAndBilling/planAndBilling";
-import ProfileSettings from "../components/userSettings/profileSettings/profileSettings";
-import UserTickets from "../components/userSettings/userTickets/userTickets";
+import Tickets from "../components/admin/adminTickets";
 
 export default {
-  components: { userAvatar },
+  components: {},
   data() {
     return {
       selectedMenu: 1,
       menu: [
-        { id: 1, title: "User Settings", action: null },
-       // { id: 2, title: "Document Settings", action: null },
+        { id: 1, title: "Tickets", action: null },
+        // { id: 2, title: "Document Settings", action: null },
+        /*
         { id: 3, title: "Plan & Billing", action: null },
         { id: 4, title: "Support Tickets", action: null },
         { id: 5, title: "Close Account", action: null },
+        */
       ],
     };
   },
@@ -70,13 +74,11 @@ export default {
     dynamicComponent() {
       switch (this.selectedMenu) {
         case 1:
-          return ProfileSettings;
+          return Tickets;
         case 2:
           return null;
         case 3:
-          return PlanAndBilling;
-        case 4: 
-          return UserTickets;
+          return null;
       }
     },
   },
