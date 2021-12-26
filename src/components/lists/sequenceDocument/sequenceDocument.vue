@@ -149,7 +149,7 @@ export default {
         let lines = part.code.split("\n");
         let newCode = "";
         lines.forEach((line) => {
-          const match = line.match(/(\w+)->(\w+)(:?)(.*)/);
+          const match = line.match(/(\w+)\s*->\s*(\w+)(:?)(.*)/);
 
           if (match) {
             let e1 = match[1];

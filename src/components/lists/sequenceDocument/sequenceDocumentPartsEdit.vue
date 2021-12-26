@@ -139,7 +139,7 @@ export default {
       let errors = [];
       for (let i = 0; i < lines.length; i++) {
         if (lines[i] == "") continue;
-        let regPairs = /(\w+)->(\w+)/;
+        let regPairs = /(\w+)\s*->\s*(\w+)/;
         let matchPairs = lines[i].match(regPairs);
         if (!matchPairs) {
           errors.push("No entity pair on line " + (i + 1));

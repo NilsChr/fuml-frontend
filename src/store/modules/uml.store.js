@@ -29,7 +29,7 @@ const uml = {
         commit("SET_URL", null);
         return;
       }
-      const plantImg = "http://www.plantuml.com/plantuml/svg/" + encoded;
+      const plantImg = "https://www.plantuml.com/plantuml/svg/" + encoded;
 
       commit("SET_URL", plantImg);
     },
