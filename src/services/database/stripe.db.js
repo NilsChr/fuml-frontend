@@ -4,7 +4,7 @@ export default {
   createSession: function(data) {
     return new Promise(async (resolve, reject) => {
       try {
-        console.log('CREATE SESS', data);
+        //console.log('CREATE SESS', data);
         const res = await HTTP.post("/stripe/checkout", data);
         //console.log(res.data);
         resolve(res.data);
@@ -17,10 +17,10 @@ export default {
   getProducts: function() {
     return new Promise(async (resolve, reject) => {
       try {
-        console.log('GET PRODUCTS')
+        //console.log('GET PRODUCTS')
         const res = await HTTP.get("/stripe/products");
-        console.log("PRODUCTS");
-        console.log(res.data);
+        //console.log("PRODUCTS");
+        //console.log(res.data);
         resolve(res.data);
 
       } catch (e) {
@@ -32,10 +32,10 @@ export default {
   applyCoupon: function(code) {
     return new Promise(async (resolve, reject) => {
       try {
-        console.log('GET COUPONS')
+        //console.log('GET COUPONS')
         const res = await HTTP.post("/stripe/coupons", {coupon: code});
-        console.log("COUPONS");
-        console.log(res.data);
+        //console.log("COUPONS");
+        //console.log(res.data);
         resolve(res.data);
 
       } catch (e) {
@@ -47,10 +47,10 @@ export default {
   cancelSubscription: function(subscription_id) {
     return new Promise(async (resolve, reject) => {
       try {
-        console.log('CANCEL SUB')
+        //console.log('CANCEL SUB')
         const res = await HTTP.post("/stripe/cancelSubscription", {subscription_id: subscription_id});
-        console.log("STATUS");
-        console.log(res.data);
+        //console.log("STATUS");
+        //console.log(res.data);
         resolve(res.data);
 
       } catch (e) {

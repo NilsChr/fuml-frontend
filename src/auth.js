@@ -55,7 +55,7 @@ const auth = {
       }
 
       if(user) {
-        router.push('/dashboard');
+        router.push('/dashboard').catch(e => {});
       }
 
     });

@@ -13,7 +13,7 @@ export default {
         );
         resolve(repsonse.data);
       } catch (e) {
-        console.log(e);
+        //console.log(e);
         reject(e);
       }
     });

@@ -12,7 +12,7 @@ export default {
         const repsonse = await HTTP.post("/kanbanboards/" + boardId + "/cards", payload);
         resolve(repsonse.data);
       } catch (e) {
-          console.log(e);
+          //console.log(e);
         reject(e);
       }
     });

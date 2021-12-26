@@ -47,7 +47,7 @@ export const HTTP = {
     return new Promise(async (resolve, reject) => {
       try {
         await this.setToken();
-        console.log("GET ", this.url + path)
+        //console.log("GET ", this.url + path)
         const response = await axios.get(this.url + path);
         resolve(response);
       } catch (e) {
@@ -92,7 +92,7 @@ const DBConnector = {
         const profile = await HTTP.get("/account");
         resolve(profile.data);
       } catch (e) {
-        console.log(e);
+        //console.log(e);
         reject(e);
       }
     });
@@ -122,10 +122,10 @@ const DBConnector = {
   removeCollaborator: function(project, collaborator) {
     return new Promise(async (resolve, reject) => {
       try {
-        console.log(project, collaborator);
+        //console.log(project, collaborator);
         const url =
           "/projects/" + project._id + "/collaborators/" + collaborator._id;
-        console.log(url);
+        //console.log(url);
         const response = await HTTP.delete(url);
         resolve(response.data);
       } catch (e) {
