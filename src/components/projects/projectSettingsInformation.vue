@@ -4,7 +4,7 @@
       <strong> Project Information </strong>
     </v-flex>
     <v-flex xs4>
-      <v-layout wrap v-if="selectedProject.ownerId == currentUser._id">
+      <v-layout wrap v-if="selectedProject.ownerId === currentUser._id">
         <v-flex xs12><v-subheader><strong>Project Title</strong></v-subheader></v-flex>
 
         <!-- PROJECT TITLE -->

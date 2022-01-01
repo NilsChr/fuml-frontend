@@ -79,7 +79,7 @@ export default {
       "mousedown",
       function (e) {
         if (this.clickedInsideZoom) return;
-        if (e.button == 0) {
+        if (e.button === 0) {
           this.dragging = true;
         }
       }.bind(this)
@@ -90,7 +90,7 @@ export default {
       function (e) {
         if (this.clickedInsideZoom) return;
 
-        if (e.button == 0) {
+        if (e.button === 0) {
           this.dragging = false;
         }
       }.bind(this)

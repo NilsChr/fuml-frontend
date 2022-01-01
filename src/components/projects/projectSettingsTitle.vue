@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     async save() {
-      if (this.tempTitle == "") return;
+      if (this.tempTitle === "") return;
       this.tempTitle = this.tempTitle.trim();
 
       this.loading = true;

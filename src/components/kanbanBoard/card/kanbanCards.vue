@@ -33,14 +33,14 @@
         <kanban-add-new-card :column="zone" />
 
         <v-divider class="mt-2 mb-2"></v-divider>
-        <v-scroll-y-transition group>
+        <v-scroll-x-transition group>
           <v-card
             v-for="item in boardCards(zone)"
             :key="item._id"
             draggable=""
             @dragstart="dragStart($event, item)"
             @mouseup="selectCard($event, item)"
-            v-bind:class="{ ghost: item == dragItem }"
+            v-bind:class="{ ghost: item === dragItem }"
             class="ma-1 pl-2 pr-2 pb-2"
           >
             <v-layout wrap>
@@ -72,7 +72,12 @@
                   class="mr-1"
                 ></v-btn>
               </v-flex>
-              <v-flex xs4>
+              <v-flex xs2>
+                <v-icon size="12" v-if="item.hasComments"
+                  >mdi-comment-text-outline</v-icon
+                >
+              </v-flex>
+              <v-flex xs2>
                 <v-layout justify-end>
                   <v-avatar
                     v-for="(member, i) in item.assignees"
@@ -86,7 +91,7 @@
               </v-flex>
             </v-layout>
           </v-card>
-        </v-scroll-y-transition>
+        </v-scroll-x-transition>
       </v-card>
     </v-flex>
   </v-layout>
@@ -160,7 +165,10 @@ export default {
     },
     boardCards(zone) {
       let filteredCards = this.$store.state.kanbanCards.cards.filter(
-        (c) => !c.archived && c.status === zone.id && c.boardId == this.selectedBoard._id
+        (c) =>
+          !c.archived &&
+          c.status === zone.id &&
+          c.boardId === this.selectedBoard._id
       );
 
       if (this.filterSearch != "") {
@@ -171,7 +179,7 @@ export default {
 
       if (this.filterOnlyUser) {
         filteredCards = filteredCards.filter(
-          (c) => c.ownerId == this.currentUser._id
+          (c) => c.ownerId === this.currentUser._id
         );
       }
 
@@ -186,7 +194,7 @@ export default {
       return filteredCards;
     },
     getLabel(id) {
-      return this.selectedBoard.labels.find((l) => l._id == id);
+      return this.selectedBoard.labels.find((l) => l._id === id);
     },
     getLabelColor(id) {
       return this.getLabel(id)?.color || "transparent";
@@ -199,7 +207,7 @@ export default {
       this.displayLabelTitle = !this.displayLabelTitle;
     },
     getMember(id) {
-      return this.projectMembers.find((m) => m._id == id);
+      return this.projectMembers.find((m) => m._id === id);
     },
   },
   computed: {

@@ -52,7 +52,7 @@
                   <v-btn text @click="addDialog = false">Cancel</v-btn>
                   <v-btn
                     text
-                    :disabled="addSearch == null"
+                    :disabled="addSearch === null"
                     @click="addCollaborator"
                     >Add</v-btn
                   >
@@ -167,17 +167,17 @@ export default {
     ownerIsColab(colab) {
       if (!this.selectedProject) return false;
       if (!colab) return false;
-      return this.selectedProject.ownerId == colab._id;
+      return this.selectedProject.ownerId === colab._id;
     },
     projectOwnerIsCurrentUser() {
       if (!this.selectedProject) return false;
       if (!this.currentUser) return false;
-      return this.selectedProject.ownerId == this.currentUser._id;
+      return this.selectedProject.ownerId === this.currentUser._id;
     },
     colabIsCurrentUser(colab) {
       if (!this.currentUser) return false;
       if (!colab) return false;
-      return colab._id == this.currentUser._id;
+      return colab._id === this.currentUser._id;
     },
     triggerDeleteCollaborator(e, colab) {
       e.stopPropagation();
@@ -208,7 +208,7 @@ export default {
       return this.$store.state.projects.selectedProjectCollaborators;
     },
     filteredCollaborators() {
-      if (this.filterSearch == "") return this.collaborators;
+      if (this.filterSearch === "") return this.collaborators;
 
       return this.collaborators.filter((c) =>
         c.nickName.toLowerCase().includes(this.filterSearch.toLowerCase())

@@ -45,7 +45,7 @@ export default {
         this.dialog = false;
         return;
       }
-      if (this.documentTitle == "") return;
+      if (this.documentTitle === "") return;
       const payload = {
         title: this.documentTitle,
         type: documentTypes[this.documentType],

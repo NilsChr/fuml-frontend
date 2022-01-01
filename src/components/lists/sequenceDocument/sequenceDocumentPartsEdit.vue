@@ -12,7 +12,7 @@
       >
       </v-subheader>
       <v-text-field
-        v-if="editTitle && editIndex == index"
+        v-if="editTitle && editIndex === index"
         v-model="part.title"
         dense
         hide-details
@@ -108,7 +108,7 @@ export default {
     },
     toggleEditTitle() {
       if (this.editTitle) {
-        if (this.part.title == "") {
+        if (this.part.title === "") {
           this.part.title = "untitled";
         }
 
@@ -138,7 +138,7 @@ export default {
       let lines = this.part.code.split("\n");
       let errors = [];
       for (let i = 0; i < lines.length; i++) {
-        if (lines[i] == "") continue;
+        if (lines[i] === "") continue;
         let regPairs = /(\w+)\s*->\s*(\w+)/;
         let matchPairs = lines[i].match(regPairs);
         if (!matchPairs) {
@@ -167,7 +167,7 @@ export default {
       this.errorMessages = errors;
       this.hasError = this.errorMessages.length > 0;
 
-      return errors.length == 0;
+      return errors.length === 0;
     },
     deletePart(part) {
       this.deleteDialog = true;

@@ -100,7 +100,7 @@ function handleDashboardLink(to) {
   const projectId = to.query.projectId;
     if (projectId) {
       const project = store.state.projects.projects.filter(
-        (p) => p._id == projectId
+        (p) => p._id === projectId
       )[0];
       if (project) {
         store.commit(storeActions.SET_SELECTED_PROJECT, project);
@@ -112,7 +112,7 @@ function handleDashboardLink(to) {
     const documentId = to.query.documentId;
     if (documentId) {
       const document = store.state.documents.documents.filter(
-        (p) => p._id == documentId
+        (p) => p._id === documentId
       )[0];
       if (document) {
         store.commit(storeActions.SET_SELECTED_DOCUMENT, document);

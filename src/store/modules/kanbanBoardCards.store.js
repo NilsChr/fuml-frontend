@@ -5,9 +5,9 @@ export const kanbanCardActions = {
   SET_CARDS: "SET_CARDS",
   SET_SELECTED_CARD: "SET_SELECTED_CARD",
 
-  SET_FILTER_SEARCH: 'SET_FILTER_SEARCH',
-  SET_FILTER_ONLY_USER: 'SET_FILTER_ONLY_USER',
-  SET_FILTER_LABELS: 'SET_FILTER_LABELS',
+  SET_FILTER_SEARCH: "SET_FILTER_SEARCH",
+  SET_FILTER_ONLY_USER: "SET_FILTER_ONLY_USER",
+  SET_FILTER_LABELS: "SET_FILTER_LABELS",
 
   CREATE_CARD: "CREATE_CARD",
   UPDATE_CARD: "UPDATE_CARD",
@@ -16,14 +16,15 @@ export const kanbanCardActions = {
   TOGGLE_LABEL: "TOGGLE_LABEL",
 
   SET_COMMENTS: "SET_COMMENTS",
+  SET_LOADING_COMMENTS: "SET_LOADING_COMMENTS",
   LOAD_COMMENTS: "LOAD_COMMENTS",
   CREATE_COMMENT: "CREATE_COMMENT",
   DELETE_COMMENT: "DELETE_COMMENT",
 
   UPDATE_BOARD_CARD_COUNT: "UPDATE_BOARD_CARD_COUNT",
 
-  REMOVE_MEMBER:'REMOVE_MEMBER',
-  TOGGLE_MEMBER: 'TOGGLE_MEMBER'
+  REMOVE_MEMBER: "REMOVE_MEMBER",
+  TOGGLE_MEMBER: "TOGGLE_MEMBER",
 };
 
 const site = {
@@ -31,10 +32,11 @@ const site = {
     cards: [],
     selectedCard: null,
     selectedCardComments: [],
+    loadingComments: false,
 
-    filterSearch: '',
+    filterSearch: "",
     filterOnlyUser: false,
-    filterLabels: []
+    filterLabels: [],
   },
   mutations: {
     SET_CARDS(state, cards) {
@@ -46,24 +48,27 @@ const site = {
     SET_COMMENTS(state, comments) {
       state.selectedCardComments = comments;
     },
+    SET_LOADING_COMMENTS(state, loadingComments) {
+      state.loadingComments = loadingComments;
+    },
     SET_FILTER_SEARCH(state, filterSearch) {
-        state.filterSearch = filterSearch;
+      state.filterSearch = filterSearch;
     },
     SET_FILTER_ONLY_USER(state, filterOnlyUser) {
-        state.filterOnlyUser = filterOnlyUser;
+      state.filterOnlyUser = filterOnlyUser;
     },
     SET_FILTER_LABELS(state, filterLabels) {
-        state.filterLabels = filterLabels;
-    }
+      state.filterLabels = filterLabels;
+    },
   },
   actions: {
     async UPDATE_BOARD_CARD_COUNT({ state, rootState, commit }, payload) {
       const board = rootState.kanban.selectedBoard;
-      const boardCards = state.cards.filter((c) => c.boardId == board._id);
-      const cardsTodo = boardCards.filter((c) => c.status == 0).length;
-      const cardsPending = boardCards.filter((c) => c.status == 1).length;
-      const cardsInProgress = boardCards.filter((c) => c.status == 2).length;
-      const cardsDone = boardCards.filter((c) => c.status == 3).length;
+      const boardCards = state.cards.filter((c) => c.boardId === board._id);
+      const cardsTodo = boardCards.filter((c) => c.status === 0).length;
+      const cardsPending = boardCards.filter((c) => c.status === 1).length;
+      const cardsInProgress = boardCards.filter((c) => c.status === 2).length;
+      const cardsDone = boardCards.filter((c) => c.status === 3).length;
       if (
         board.cardsTodo != cardsTodo ||
         board.cardsPending != cardsPending ||
@@ -80,7 +85,7 @@ const site = {
       }
     },
     async UPDATE_CARD({ state, rootState, commit, dispatch }, cardId) {
-      let card = state.cards.find((c) => c._id == cardId);
+      let card = state.cards.find((c) => c._id === cardId);
       const board = rootState.kanban.selectedBoard;
 
       card = await DBConnector.kanbanBoardCards.update(board, card);
@@ -123,8 +128,6 @@ const site = {
         dispatch(kanbanCardActions.UPDATE_BOARD_CARD_COUNT);
 
         resolve(newCard);
-
-
       });
     },
     DELETE_CARD({ state, dispatch, rootState, commit }, card) {
@@ -144,13 +147,14 @@ const site = {
         dispatch(kanbanCardActions.UPDATE_BOARD_CARD_COUNT);
 
         commit(kanbanCardActions.SET_SELECTED_CARD, null);
-
       });
     },
-    ARCHIVE_CARD({state,dispatch, rootState, commit}, card) {
+    ARCHIVE_CARD({ state, dispatch, rootState, commit }, card) {
       return new Promise(async (resolve) => {
         const boardId = rootState.kanban.selectedBoard;
         const cardId = state.selectedCard;
+
+        await DBConnector.kanbanBoardCards.update();
 
         /*const deletedCard = await DBConnector.kanbanBoardCards.delete(
           boardId,
@@ -189,6 +193,8 @@ const site = {
 
     // CARDS
     async LOAD_COMMENTS({ state, rootState, commit }) {
+      commit(kanbanCardActions.SET_LOADING_COMMENTS, true);
+
       const boardId = rootState.kanban.selectedBoard._id;
       const cardId = state.selectedCard._id;
 
@@ -201,16 +207,19 @@ const site = {
       for (let i = 0; i < comments.length; i++) {
         const comment = comments[i];
         const user = rootState.projects.selectedProjectCollaborators.find(
-          (u) => u._id == comment.ownerId
+          (u) => u._id === comment.ownerId
         );
         comment.user = user;
       }
 
       commit(kanbanCardActions.SET_COMMENTS, comments);
+      commit(kanbanCardActions.SET_LOADING_COMMENTS, false);
     },
     async CREATE_COMMENT({ state, rootState, commit }, text) {
       const boardId = rootState.kanban.selectedBoard._id;
       const cardId = state.selectedCard._id;
+      state.selectedCard.hasComments = true;
+      commit(kanbanCardActions.SET_SELECTED_CARD, state.selectedCard);
 
       const comment = await DBConnector.kanbanBoardCardComments.create(
         boardId,
@@ -219,7 +228,7 @@ const site = {
       );
 
       const user = rootState.projects.selectedProjectCollaborators.find(
-        (u) => u._id == comment.ownerId
+        (u) => u._id === comment.ownerId
       );
       comment.user = user;
 
@@ -245,22 +254,22 @@ const site = {
       commit(kanbanCardActions.SET_COMMENTS, comments);
     },
     // MEMBERS
-    async ADD_MEMBER({state, rootState, commit}, member) {
+    async ADD_MEMBER({ state, rootState, commit }, member) {
       const board = rootState.kanban.selectedBoard;
       const card = state.selectedCard;
       const index = card.assignees.indexOf(member);
-      if(index == -1) {
+      if (index === -1) {
         card.assignees.push(member);
         DBConnector.kanbanBoardCards.update(board, card);
       }
     },
 
-    async REMOVE_MEMBER({state, rootState, commit}, member) {
+    async REMOVE_MEMBER({ state, rootState, commit }, member) {
       const board = rootState.kanban.selectedBoard;
       const card = state.selectedCard;
       const index = card.assignees.indexOf(member);
-      if(index >= 0) {
-        card.assignees.splice(index,1);
+      if (index >= 0) {
+        card.assignees.splice(index, 1);
         DBConnector.kanbanBoardCards.update(board, card);
       }
     },

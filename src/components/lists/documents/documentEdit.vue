@@ -31,7 +31,7 @@
         </v-btn>
         <v-btn
           @click="_handleUpdate"
-          :disabled="title == document.title || loading"
+          :disabled="title === document.title || loading"
           color="warning"
           depressed
           small

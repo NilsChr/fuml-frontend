@@ -12,7 +12,7 @@
           class="color-demo"
           @click="setTheme(theme.id)"
           v-bind:class="{
-            'color-demo-selected': currentUser.selectedTheme == theme.id,
+            'color-demo-selected': currentUser.selectedTheme === theme.id,
           }"
         >
           <label class="color-demo-title">

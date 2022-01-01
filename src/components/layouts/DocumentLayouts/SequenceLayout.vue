@@ -7,7 +7,7 @@
       <v-flex xs2 class="mr-1">
         <sequence-document-parts />
       </v-flex>
-      <v-flex v-if="img" :xs10="selectedDocument == null">
+      <v-flex v-if="img" :xs10="selectedDocument === null">
         <uml-image />
       </v-flex>
     </v-layout>

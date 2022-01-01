@@ -61,7 +61,7 @@ export default {
     },
     toggleEditTitle(index) {
       if (this.editTitle) {
-        if (this.selectedDocument.parts[index].title == "") {
+        if (this.selectedDocument.parts[index].title === "") {
           this.selectedDocument.parts[index].title = "untitled";
         }
         this.editTitle = false;

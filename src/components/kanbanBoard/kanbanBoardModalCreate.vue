@@ -20,7 +20,7 @@
               small
               @click="color = c"
             >
-              <v-icon color="grey lighten-2" v-if="color == c" size="17">check</v-icon>
+              <v-icon color="grey lighten-2" v-if="color === c" size="17">check</v-icon>
             </v-btn>
           </v-flex>
         </v-layout>
@@ -70,7 +70,7 @@ export default {
         return;
       }
 
-      if (this.boardTitle == "") return;
+      if (this.boardTitle === "") return;
       const payload = {
         title: this.boardTitle,
         backgroundColor: this.color

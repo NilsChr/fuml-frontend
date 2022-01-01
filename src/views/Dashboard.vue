@@ -1,8 +1,8 @@
 <template>
   <div style="width: 100%; height: 100%">
-    <project-settings v-if="state == stateSettings()" />
-    <layout v-if="state == stateDocuments()" />
-    <kanban-layout v-if="state == stateBoard()" />
+    <project-settings v-if="state === stateSettings()" />
+    <layout v-if="state === stateDocuments()" />
+    <kanban-layout v-if="state === stateBoard()" />
   </div>
 </template>
 

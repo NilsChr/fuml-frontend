@@ -80,7 +80,7 @@ export default {
       return this.$store.state.projects.selectedProject;
     },
     confirmColor() {
-      if (this.confirmProjectTitle == this.selectedProject.title)
+      if (this.confirmProjectTitle === this.selectedProject.title)
         return "success";
       return "error";
     },

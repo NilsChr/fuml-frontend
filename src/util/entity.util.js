@@ -4,7 +4,7 @@ const entityUtil = {
       i,
       chr;
 
-    if (!str || str == "") return hash;
+    if (!str || str === "") return hash;
     if (str.length === 0) return hash;
     for (i = 0; i < str.length; i++) {
       chr = str.charCodeAt(i);
@@ -48,10 +48,10 @@ const entityUtil = {
     for (let i = 0; i < document.entities.length; i++) {
       let entity = document.entities[i];
 
-      if (entity.title == lookingEntity.title) continue;
+      if (entity.title === lookingEntity.title) continue;
 
       let match = entity.relations.filter(
-        (r) => r.entity == lookingEntity.title
+        (r) => r.entity === lookingEntity.title
       )[0];
       if (match) {
         return {

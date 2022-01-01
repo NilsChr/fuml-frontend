@@ -132,7 +132,7 @@ export default {
       this.$store.commit("SET_SELECTED_ENTITY", null);
     },
     addProperty(resetCarret) {
-      if (this.newPropType == "" || this.newPropTitle == "") return;
+      if (this.newPropType === "" || this.newPropTitle === "") return;
 
       let prop = {
         title: this.newPropTitle,
@@ -156,8 +156,8 @@ export default {
     },
     addRelationship() {
       if (
-        this.selectedRelationShipType == "" ||
-        this.selectedRelationShipEntity == ""
+        this.selectedRelationShipType === "" ||
+        this.selectedRelationShipEntity === ""
       )
         return;
 
@@ -179,7 +179,7 @@ export default {
       this.$store.dispatch("PARSE_UML");
     },
     relationTypeValue(rel) {
-      return this.relationTypes.filter((f) => f.value == rel)[0].text;
+      return this.relationTypes.filter((f) => f.value === rel)[0].text;
     },
   },
   computed: {

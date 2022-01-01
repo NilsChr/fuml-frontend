@@ -12,7 +12,7 @@
               outlined
               hide-details
               dense
-              v-bind:class="{ border: focusEdit == 'title' }"
+              v-bind:class="{ border: focusEdit === 'title' }"
               @change="updateCard"
               @click="setFocusEdit('title')"
               @blur="setFocusEdit(null)"
@@ -79,24 +79,24 @@
               >
               <v-btn
                 @click="updateDescription"
-                v-if="editMode == 'editor'"
+                v-if="editMode === 'editor'"
                 depressed
                 small
                 color="success"
-                :disabled="this.selectedCard.description == description"
+                :disabled="this.selectedCard.description === description"
                 >Update descritpion</v-btn
               >
               <v-btn
                 @click="cancelDescritpionEdit"
                 class="ml-2"
-                v-if="editMode == 'editor'"
+                v-if="editMode === 'editor'"
                 depressed
                 small
                 color="grey"
                 >Cancel</v-btn
               >
               <kanban-card-document-link
-                v-if="editMode == 'editor'"
+                v-if="editMode === 'editor'"
                 @created="_handleLinkCreated"
               />
             </v-flex>
@@ -151,7 +151,7 @@ export default {
     setData() {
       this.title = this.selectedCard?.title || "";
       this.description = this.selectedCard?.description || "";
-      if (this.description == "") {
+      if (this.description === "") {
         this.editMode = "editor";
       } else this.editMode = "viewer";
     },
@@ -169,7 +169,7 @@ export default {
       this.updateCard();
     },
     setEditMode(mode) {
-      if (mode == "editor") {
+      if (mode === "editor") {
         this.descriptionBeforeEdit = this.description;
       }
       this.editMode = mode;

@@ -44,7 +44,7 @@
             dense
             v-for="entity in filteredDocuments"
             :key="entity.id"
-            v-bind:class="{ selected: selectedEntity == entity }"
+            v-bind:class="{ selected: selectedEntity === entity }"
             @click.stop
             class="list-item"
           >
@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     createEntity() {
-      if (this.entityTitle == "") return;
+      if (this.entityTitle === "") return;
       this.$store.dispatch(storeActions.CREATE_ENTITY, {title: this.entityTitle});
       this.entityTitle = "";
       this.update();
@@ -112,7 +112,7 @@ export default {
       return this.$store.state.documentEntities.selectedEntity;
     },
     filteredDocuments() {
-      if (this.entitySearch == "") return this.document.entities;
+      if (this.entitySearch === "") return this.document.entities;
       else
         return this.document.entities.filter((e) =>
           e.title.toLowerCase().includes(this.entitySearch.toLowerCase())

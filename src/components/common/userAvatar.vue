@@ -16,7 +16,7 @@ export default {
   methods: {
     getMemberImg(id) {
       return (
-        this.projectMembers.find((m) => m._id == id)?.avatarUrl || this.fallback
+        this.projectMembers.find((m) => m._id === id)?.avatarUrl || this.fallback
       );
     },
   },

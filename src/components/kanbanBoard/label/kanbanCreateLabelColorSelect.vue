@@ -34,7 +34,7 @@
                 depressed
                 small
                 color="success"
-                :disabled="tempTitle == label.title"
+                :disabled="tempTitle === label.title"
                 @click="updateLabel"
               >
                 Update

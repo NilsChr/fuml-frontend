@@ -50,7 +50,7 @@ const auth = {
 
       } catch (e) {
         console.log("No profile created", e);
-        router.push('/');
+        router.push('/').catch(e => {});
         return;
       }
 
@@ -76,13 +76,13 @@ const auth = {
         function() {
           // Sign-out successful.
           //console.log("Logout successful");
-          router.push("/");
+          router.push("/").catch(e => {});
         },
         function(error) {
           //console.log(error);
 
           // An error happened.
-          router.push("/");
+          router.push("/").catch(e => {});
 
         }
       );

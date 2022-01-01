@@ -52,12 +52,12 @@ const documents = {
       });
     },
     async DELETE_DOCUMENT({ state, commit }, document) {
-      if (state.selectedDocument && state.selectedDocument._id == document._id) {
+      if (state.selectedDocument && state.selectedDocument._id === document._id) {
         commit(storeActions.SET_SELECTED_DOCUMENT, null);
       }
       
       for (let i = 0; i < state.documents.length; i++) {
-        if (state.documents[i]._id == document._id) {
+        if (state.documents[i]._id === document._id) {
           state.documents.splice(i, 1);
           break;
         }

@@ -85,7 +85,7 @@ const site = {
           color: label.color,
         };
         const exists = selectedBoard.labels.find(
-          (l) => l.title == newLabel.title && l.color == newLabel.color
+          (l) => l.title === newLabel.title && l.color === newLabel.color
         );
 
         if (!exists) {
@@ -108,7 +108,7 @@ const site = {
         const newLebelTitle = data.newLabelTitle;
 
         const exists = selectedBoard.labels.find(
-          (l) => l.title == oldLabel.title && l.color == oldLabel.color
+          (l) => l.title === oldLabel.title && l.color === oldLabel.color
         );
 
         if (exists) {
@@ -125,7 +125,7 @@ const site = {
         const selectedBoard = state.selectedBoard;
         console.log(selectedBoard);
 
-        const el = selectedBoard.labels.find((l) => l._id == label._id);
+        const el = selectedBoard.labels.find((l) => l._id === label._id);
         if (el) {
           const index = selectedBoard.labels.indexOf(el);
           selectedBoard.labels.splice(index, 1);

@@ -10,7 +10,7 @@
       @click="_handleSetColor(c)"
       :depressed="selectedColor != c"
     >
-      <v-icon color="grey lighten-2" v-if="selectedColor == c" size="17"
+      <v-icon color="grey lighten-2" v-if="selectedColor === c" size="17"
         >check</v-icon
       >
     </v-btn>

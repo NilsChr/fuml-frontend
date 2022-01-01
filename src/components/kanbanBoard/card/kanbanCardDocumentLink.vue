@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     createLink() {
-      if (this.linkText == "") return;
+      if (this.linkText === "") return;
 
       const base = globals.url;
 

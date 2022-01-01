@@ -124,7 +124,7 @@ export default {
       this.menuRemoveMember = false;
     },
     getMember(id) {
-      return this.projectMembers.find((m) => m._id == id);
+      return this.projectMembers.find((m) => m._id === id);
     },
     async toggleMember(id) {
       console.log(id);

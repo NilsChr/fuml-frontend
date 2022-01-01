@@ -10,7 +10,7 @@
               v-model="projectTitle"
             ></v-text-field>
           </v-flex>
-          <v-flex xs12 v-if="errorMessage == 'No plan active for this user.'" >
+          <v-flex xs12 v-if="errorMessage === 'No plan active for this user.'" >
             <v-card color="error lighten-1" flat>
               <v-card-text>
                 <strong>Oops</strong>
@@ -60,7 +60,7 @@ export default {
         return;
       }
 
-      if (this.projectTitle == "") return;
+      if (this.projectTitle === "") return;
       if (this.projectTitle.length > 32) return;
       let project = await this.$store.dispatch("CREATE_PROJECT", {
         title: this.projectTitle,

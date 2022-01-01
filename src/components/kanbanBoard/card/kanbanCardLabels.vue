@@ -45,7 +45,7 @@ export default {
       this.createLabelDialog = true;
     },
     getLabel(id) {
-      return this.selectedBoard.labels.find((l) => l._id == id);
+      return this.selectedBoard.labels.find((l) => l._id === id);
     },
     getLabelColor(id) {
       return this.getLabel(id)?.color || "transparent";

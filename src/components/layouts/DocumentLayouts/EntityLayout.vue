@@ -18,7 +18,7 @@
 
       <v-flex
         v-if="img"
-        :xs10="selectedEntity == null"
+        :xs10="selectedEntity === null"
       >
         <uml-image />
       </v-flex>
@@ -40,7 +40,7 @@ export default {
   computed: {
     selectedProject() {
       return this.$store.state.projects.projects.filter(
-        (p) => p.id == this.$store.state.projects.selectedProject
+        (p) => p.id === this.$store.state.projects.selectedProject
       )[0];
     },
     selectedEntity() {

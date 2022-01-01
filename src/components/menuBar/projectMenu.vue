@@ -11,7 +11,7 @@
       </v-layout>
     </template>
 
-    <v-list>
+    <v-list v-if="currentUser !== null">
       <v-list-item @click.stop @click="openCreateProjectDialog">
         <v-list-item-title v-text="'Create New Project'"></v-list-item-title>
         <v-list-item-action>
@@ -25,7 +25,7 @@
         @click="setSelectedProject(project)"
       >
         <v-list-item-title v-text="project.title"></v-list-item-title>
-        <v-list-item-subtitle v-if="project.ownerId == currentUser._id"
+        <v-list-item-subtitle v-if="project.ownerId === currentUser._id"
           >Owner</v-list-item-subtitle
         >
         <v-list-item-subtitle v-else>Collaorator</v-list-item-subtitle>

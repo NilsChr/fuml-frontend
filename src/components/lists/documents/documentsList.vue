@@ -47,7 +47,7 @@
             dense
             v-for="document in filteredDocuments"
             :key="document.id"
-            v-bind:class="{ selected: selectedDocument == document }"
+            v-bind:class="{ selected: selectedDocument === document }"
             @click.stop
             class="list-item"
             two-line
@@ -129,13 +129,13 @@ export default {
     projectDocuments() {
       const projectId = this.$store.state.projects.selectedProject._id;
       return this.$store.state.documents.documents.filter(
-        (d) => d.projectId == projectId
+        (d) => d.projectId === projectId
       );
     },
     filteredDocuments() {
       const documents = this.projectDocuments;
       if (!this.documentsSearch) return documents;
-      if (this.documentsSearch == "") return documents;
+      if (this.documentsSearch === "") return documents;
       return documents.filter(
         (f) =>
           f.title.toLowerCase().includes(this.documentsSearch.toLowerCase()) ||

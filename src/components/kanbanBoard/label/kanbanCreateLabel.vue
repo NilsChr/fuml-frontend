@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="dialog" width="330" persistent>
-    <v-card v-if="state == 'set'">
+    <v-card v-if="state === 'set'">
       <v-layout column>
         <v-flex xs1>
           <v-layout justify-space-between class="pa-2">
@@ -31,7 +31,7 @@
       </v-layout>
     </v-card>
 
-    <v-card v-if="state == 'create'">
+    <v-card v-if="state === 'create'">
       <v-layout column>
         <v-flex xs1>
           <v-layout justify-space-between class="pa-2">
@@ -64,7 +64,7 @@
                 @click="createSelectedColor = color"
               >
                 <v-icon
-                  v-if="createSelectedColor == color"
+                  v-if="createSelectedColor === color"
                   color="white"
                   size="12"
                   >check</v-icon
@@ -79,7 +79,7 @@
                 block
                 color="grey lighten-3"
                 depressed
-                :disabled="createTitle == '' || !createSelectedColor"
+                :disabled="createTitle === '' || !createSelectedColor"
                 @click="postLabel"
                 >Create a new label</v-btn
               >

@@ -8,7 +8,7 @@
             <project-settings-information />
           </v-flex>
           <v-divider></v-divider>
-          <v-flex xs2 v-if="selectedProject.ownerId == currentUser._id">
+          <v-flex xs2 v-if="selectedProject.ownerId === currentUser._id">
             <project-settings-delete />
           </v-flex>
         </v-layout>

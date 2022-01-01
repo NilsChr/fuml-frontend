@@ -47,7 +47,7 @@
             dense
             v-for="board in filteredBoards"
             :key="board.id"
-            v-bind:class="{ selected: selectedBoard == board }"
+            v-bind:class="{ selected: selectedBoard === board }"
             @click.stop
             class="list-item"
             two-line
@@ -61,7 +61,7 @@
             </v-list-item-content>
             <v-slide-x-transition>
               <v-list-item-action
-                v-if="edit && currentUser._id == board.ownerId"
+                v-if="edit && currentUser._id === board.ownerId"
               >
                 <v-btn
                   fab
@@ -132,13 +132,13 @@ export default {
     projectBoards() {
       const projectId = this.$store.state.projects.selectedProject._id;
       return this.$store.state.kanban.boards.filter(
-        (d) => d.projectId == projectId
+        (d) => d.projectId === projectId
       );
     },
     filteredBoards() {
       const boards = this.projectBoards;
       if (!this.boardSearch) return boards;
-      if (this.boardSearch == "") return boards;
+      if (this.boardSearch === "") return boards;
       return boards.filter((f) =>
         f.title.toLowerCase().includes(this.boardSearch.toLowerCase())
       );

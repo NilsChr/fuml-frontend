@@ -26,12 +26,13 @@
                 hide-details
                 placeholder="Write a comment..."
                 v-model="newComment"
+                @keydown.enter="save"
               ></v-text-field>
               <v-flex xs12 v-if="newComment != ''">
                 <v-btn
                   depressed
                   color="success"
-                  :disbabled="newComment == ''"
+                  :disbabled="newComment === ''"
                   small
                   @click="save"
                   >Save</v-btn
@@ -43,7 +44,7 @@
       </v-flex>
 
       <!-- COMMENTS -->
-      <v-flex xs12>
+      <v-flex xs12 id="comments" v-if="loadingComments === false">
         <v-layout
           v-for="(comment, i) in comments"
           :key="comment._id"
@@ -59,18 +60,35 @@
             <v-layout wrap>
               <v-flex xs12>
                 <label class="comment-name">{{ comment.user.nickName }}</label>
-                <label class="comment-date">{{ comment.created | dateFormatLong }}</label>
+                <label class="comment-date">{{
+                  comment.created | dateFormatLong
+                }}</label>
               </v-flex>
               <v-flex xs11>
                 <label class="comment-text">{{ comment.text }}</label>
               </v-flex>
-              <v-flex xs1 v-if="comment.user._id == currentUser._id">
-                <v-btn text x-small fab style="margin-top:-10px;" @click="deleteComment(comment)">
+              <v-flex xs1 v-if="comment.user._id === currentUser._id">
+                <v-btn
+                  text
+                  x-small
+                  fab
+                  style="margin-top: -10px"
+                  @click="deleteComment(comment)"
+                >
                   <v-icon size="20">mdi-delete</v-icon>
                 </v-btn>
               </v-flex>
             </v-layout>
           </v-flex>
+        </v-layout>
+      </v-flex>
+      <v-flex xs12 id="comments" v-if="loadingComments === true">
+        <v-layout justify-center class="pa-5">
+          <v-progress-circular
+            width="1"
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
         </v-layout>
       </v-flex>
     </v-layout>
@@ -97,8 +115,8 @@ export default {
       this.newComment = "";
     },
     async deleteComment(comment) {
-        this.$store.dispatch(storeActions.kanbanCards.DELETE_COMMENT, comment);
-    }
+      this.$store.dispatch(storeActions.kanbanCards.DELETE_COMMENT, comment);
+    },
   },
   computed: {
     comments() {
@@ -106,6 +124,10 @@ export default {
     },
     selectedCard() {
       return this.$store.state.kanbanCards.selectedCard;
+    },
+    loadingComments() {
+      console.log(this.$store.state.kanbanCards.loadingComments);
+      return this.$store.state.kanbanCards.loadingComments;
     },
     currentUser() {
       return this.$store.state.user.currentUser;
@@ -125,6 +147,11 @@ export default {
   border-color: rgba(0, 0, 0, 0.475) !important;
   border-width: thin;
   background-color: white;
+}
+#comments {
+  overflow: scroll;
+  max-height: 300px;
+  min-height: 80px;
 }
 .commentBorder {
   border-top: 1px solid rgb(235, 235, 235);

@@ -67,7 +67,7 @@ const projects = {
 
       if (state.queuedForLoadingDocument != null) {
         const document = rootState.documents.documents.filter(
-          (p) => p._id == state.queuedForLoadingDocument
+          (p) => p._id === state.queuedForLoadingDocument
         )[0];
         commit(storeActions.SET_SELECTED_DOCUMENT, document);
         commit(projectActions.SET_QUEUED_FOR_LOADING_DOCUMENT, null);
@@ -90,7 +90,7 @@ const projects = {
       // Queued For Loading is the value set from router if queryParam projectId != null
       if (state.queuedForLoading != null) {
         const project = state.projects.filter(
-          (p) => p._id == state.queuedForLoading
+          (p) => p._id === state.queuedForLoading
         )[0];
 
         dispatch(storeActions.LOAD_SELECTED_PROJECT, project);
@@ -103,7 +103,7 @@ const projects = {
         const project = await DBConnector.projects.create(title);
 
         console.log('Created', project);
-        if(project?.status == 'failed') {
+        if(project?.status === 'failed') {
           return resolve(project);
         }
 
@@ -116,11 +116,11 @@ const projects = {
     DELETE_PROJECT({ state, commit }, payload) {
       return new Promise(async (resolve, reject) => {
         try {
-          if (state.selectedProject == payload.id) {
+          if (state.selectedProject === payload.id) {
             commit(storeActions.SET_SELECTED_PROJECT, null);
           }
           for (let i = 0; i < state.projects.length; i++) {
-            if (state.projects[i]._id == payload._id) {
+            if (state.projects[i]._id === payload._id) {
               state.projects.splice(i, 1);
               break;
             }

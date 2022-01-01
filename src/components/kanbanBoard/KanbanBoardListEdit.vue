@@ -36,9 +36,9 @@
         <v-btn
           @click="_handleUpdate"
           :disabled="
-            (title == board.title && selectedColor == originalColor) ||
+            (title === board.title && selectedColor === originalColor) ||
             loading ||
-            title == ''
+            title === ''
           "
           color="warning"
           depressed

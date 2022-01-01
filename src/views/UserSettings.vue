@@ -22,7 +22,7 @@
                   v-for="item in menu"
                   :key="item.id"
                   @click="selectedMenu = item.id"
-                  v-bind:class="{ selected: selectedMenu == item.id }"
+                  v-bind:class="{ selected: selectedMenu === item.id }"
                 >
                   <v-list-item-title >
                     <strong>{{item.title}}</strong>

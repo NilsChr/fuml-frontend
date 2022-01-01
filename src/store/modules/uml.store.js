@@ -18,14 +18,14 @@ const uml = {
 
       const document = rootState.documents.selectedDocument;
       if(!document) return;
-      if(document.type == documentTypes.TEXT) return;
+      if(document.type === documentTypes.TEXT) return;
       //DBConnector.updateDocument(document)
       DBConnector.documents.update(document);
 
       const code = UMLParser(document);
       const encoded = plantumlEncoder.encode(code);
       
-      if (encoded == "0m00") {
+      if (encoded === "0m00") {
         commit("SET_URL", null);
         return;
       }

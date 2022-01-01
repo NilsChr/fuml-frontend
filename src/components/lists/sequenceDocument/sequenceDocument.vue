@@ -31,7 +31,7 @@
                     v-html="participant.title"
                   ></v-list-item-title>
                   <v-text-field
-                    v-if="editTitle && editIndex == i"
+                    v-if="editTitle && editIndex === i"
                     v-model="participant.title"
                     dense
                     hide-details
@@ -97,7 +97,7 @@ export default {
         let errorMessage = "";
 
         const blankTitle =
-          this.selectedDocument.participants[index].title == "";
+          this.selectedDocument.participants[index].title === "";
         if (blankTitle) {
           errorMessage = "Title needs to be set.";
         }
@@ -110,7 +110,7 @@ export default {
 
         const newTitle = this.selectedDocument.participants[index].title;
         const exists = this.selectedDocument.participants.filter(
-          (f, i) => i != index && f.title == newTitle
+          (f, i) => i != index && f.title === newTitle
         );
         if (exists.length > 0) {
           errorMessage = "A participant with this name already exists.";
@@ -154,13 +154,13 @@ export default {
           if (match) {
             let e1 = match[1];
 
-            if (match[1] == prevParticipant) {
+            if (match[1] === prevParticipant) {
               e1 = match[1].replace(prevParticipant, newParticipant);
             }
 
             let e2 = match[2];
 
-            if (match[2] == prevParticipant) {
+            if (match[2] === prevParticipant) {
               e2 = match[2].replace(prevParticipant, newParticipant);
             }
             const comment = match[4] || "";
