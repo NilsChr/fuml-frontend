@@ -48,6 +48,7 @@ const documents = {
 
         const documents = [...state.documents, document];
         commit(storeActions.SET_DOCUMENTS, documents);
+        commit(storeActions.SET_SELECTED_DOCUMENT, document);
         resolve(document);
       });
     },
