@@ -33,7 +33,6 @@
         <kanban-add-new-card :column="zone" />
 
         <v-divider class="mt-2 mb-2"></v-divider>
-        <v-scroll-x-transition group>
           <v-card
             v-for="item in boardCards(zone)"
             :key="item._id"
@@ -91,7 +90,6 @@
               </v-flex>
             </v-layout>
           </v-card>
-        </v-scroll-x-transition>
       </v-card>
     </v-flex>
   </v-layout>

@@ -1,5 +1,6 @@
 import DBConnector from "../../services/database/dbConnector";
 import storeActions from "../storeActions";
+import { kanbanActions } from "./kanbanBoard.store";
 
 export const projectActions = {
   DELETE_PROJECT: "DELETE_PROJECT",
@@ -62,6 +63,8 @@ const projects = {
       const docs = await DBConnector.projects.loadProjectDocuments(payload);
       commit(storeActions.SET_SELECTED_PROJECT, payload);
       commit(storeActions.SET_DOCUMENTS, docs);
+      commit(storeActions.SET_SELECTED_DOCUMENT, null);
+      commit(kanbanActions.SET_SELECTED_BOARD, null);
       commit(projectActions.SET_LOADING, false);
       dispatch(projectActions.LOAD_SELECTED_PROJECT_COLLABORATORS);
 
