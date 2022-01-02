@@ -13,14 +13,16 @@
               dense
               v-model="newPropTitle"
               ref="newProptitle"
+              hide-details
             ></v-text-field>
           </v-flex>
-          <v-flex xs12>
+          <v-flex xs12 class="pt-3 pb-3">
             <v-text-field
               label="type"
               dense
               v-model="newPropType"
               @keydown.enter="addProperty(true)"
+              hide-details
             ></v-text-field>
           </v-flex>
           <v-flex xs12>
@@ -31,7 +33,7 @@
         </v-layout>
       </v-flex>
       <!-- SET RELATIONS -->
-      <v-flex xs12 class="pt-5">
+      <v-flex xs12 class="pt-0">
         <v-layout wrap justify-space-around class="pt-5">
           <v-select
             label="has"
@@ -40,12 +42,15 @@
             item-text="text"
             item-value="value"
             dense
+            hide-details
           ></v-select>
           <v-select
+          class="pt-3 pb-3"
             label="entity"
             v-model="selectedRelationShipEntity"
             :items="entityNames"
             dense
+            hide-details
           ></v-select>
           <v-flex xs12>
             <v-btn
@@ -68,12 +73,12 @@
             v-for="(prop, index) in entity.properties"
             :key="`${index}-prop`"
             dense
-            class="super-dense"
+            class="super-dense ma-0 pa-0"
           >
             <v-list-item-title>
               {{ prop.title }}: {{ prop.type }}
             </v-list-item-title>
-            <v-list-item-action>
+            <v-list-item-action class="ma-0 pa-0">
               <v-btn fab x-small text @click="deleteProperty(index)">
                 <v-icon>mdi-close</v-icon>
               </v-btn>
@@ -91,12 +96,12 @@
             v-for="(prop, index) in entity.relations"
             :key="`${index}-prop`"
             dense
-            class="super-dense"
+            class="super-dense ma-0 pa-0"
           >
             <v-list-item-title>
               {{ relationTypeValue(prop.type) }} {{ prop.entity }}
             </v-list-item-title>
-            <v-list-item-action>
+            <v-list-item-action class="ma-0 pa-0">
               <v-btn fab x-small text @click="deleteRelation(index)">
                 <v-icon>mdi-close</v-icon>
               </v-btn>
@@ -205,6 +210,7 @@ export default {
 }
 
 .super-dense {
-  max-height: 20px;
+  max-height: 22px;
+  min-height: 22px;
 }
 </style>

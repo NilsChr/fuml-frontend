@@ -53,7 +53,7 @@
                 <v-flex xs12>{{ entity.title }}</v-flex>
               </v-layout>
             </v-list-item-content>
-            <v-list-item-action>
+            <v-list-item-action class="ma-0">
               <v-slide-x-transition>
                 <v-btn
                   fab
